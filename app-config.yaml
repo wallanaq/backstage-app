@@ -1,5 +1,5 @@
 app:
-  title: Scaffolded Backstage App
+  title: Backstage App
   baseUrl: http://localhost:3000
 
 organization:
@@ -43,7 +43,7 @@ integrations:
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
 
-proxy:
+#proxy: {}
   ### Example for how to add a proxy endpoint for the frontend.
   ### A typical reason to do this is to handle HTTPS and CORS for internal services.
   # endpoints:
@@ -64,11 +64,18 @@ techdocs:
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
-  providers:
-    # See https://backstage.io/docs/auth/guest/provider
-    guest: {}
+  environment: development
+  session:
+    secret: sSecret
+  providers:  
+    keycloak: 
+      development:
+        metadataUrl: http://localhost:8080/realms/dev/.well-known/openid-configuration
+        clientId: backstage
+        clientSecret: umV0hHX6pK4JnzNGqUHDBMx4ro17iylW
+        prompt: auto
 
-scaffolder:
+#scaffolder: {}
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
@@ -107,7 +114,7 @@ catalog:
   # New adopters are encouraged to enable it as this behavior will be the default in a future release.
   useUrlReadersSearch: true
 
-kubernetes:
+#kubernetes: {}
   # see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
 
 # see https://backstage.io/docs/permissions/getting-started for more on the permission framework
