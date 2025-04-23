@@ -70,15 +70,23 @@ const authProviderModule = createBackendModule({
           factory: createOAuthProviderFactory({
             authenticator: oidcAuthenticator,
             async signInResolver(info, ctx) {
+              const username = info?.result.fullProfile.userinfo.preferred_username as string;
               const userRef: any = stringifyEntityRef({
                 kind: 'User',
-                name: info?.result.fullProfile.userinfo.preferred_username as string,
+                name: username,
                 namespace: DEFAULT_NAMESPACE
               });
+              const groups: string[] = info.result.fullProfile.userinfo.groups as string[];
+              const groupRefs = groups.map(group => stringifyEntityRef({
+                kind: 'Group',
+                name: group,
+                namespace: DEFAULT_NAMESPACE
+              }));
               return ctx.issueToken({
                 claims: {
                   sub: userRef,
-                  ent: [userRef],
+                  // ent: [userRef],
+                  ent: [userRef, ...groupRefs],
                 },
               });
             },

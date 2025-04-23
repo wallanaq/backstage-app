@@ -1,0 +1,64 @@
+################### OU ###################
+dn: ou=users,dc=mycompany,dc=local
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=mycompany,dc=local
+objectClass: organizationalUnit
+ou: groups
+
+################### USERS ###################
+
+dn: uid=alice.spark,ou=users,dc=mycompany,dc=local
+objectClass: inetOrgPerson
+cn: Alice Spark
+sn: Spark
+uid: alice.spark
+mail: alice.spark@mycompany.local
+userPassword: alice123
+
+dn: uid=bruno.ledger,ou=users,dc=mycompany,dc=local
+objectClass: inetOrgPerson
+cn: Bruno Ledger
+sn: Ledger
+uid: bruno.ledger
+mail: bruno.ledger@mycompany.local
+userPassword: bruno123
+
+dn: uid=carla.vault,ou=users,dc=mycompany,dc=local
+objectClass: inetOrgPerson
+cn: Carla Vault
+sn: Vault
+uid: carla.vault
+mail: carla.vault@mycompany.local
+userPassword: carla123
+
+dn: uid=dante.root,ou=users,dc=mycompany,dc=local
+objectClass: inetOrgPerson
+cn: Dante Root
+sn: Root
+uid: dante.root
+mail: dante.root@mycompany.local
+userPassword: dante123
+
+################### GROUPS ###################
+
+dn: cn=tech_dev,ou=groups,dc=mycompany,dc=local
+objectClass: groupOfNames
+cn: tech_dev
+member: uid=alice.spark,ou=users,dc=mycompany,dc=local
+
+dn: cn=tech_dev_account,ou=groups,dc=mycompany,dc=local
+objectClass: groupOfNames
+cn: tech_dev_account
+member: uid=bruno.ledger,ou=users,dc=mycompany,dc=local
+
+dn: cn=tech_dev_banking,ou=groups,dc=mycompany,dc=local
+objectClass: groupOfNames
+cn: tech_dev_banking
+member: uid=carla.vault,ou=users,dc=mycompany,dc=local
+
+dn: cn=tech_infra,ou=groups,dc=mycompany,dc=local
+objectClass: groupOfNames
+cn: tech_infra
+member: uid=dante.root,ou=users,dc=mycompany,dc=local
