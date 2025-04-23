@@ -7,10 +7,6 @@
  */
 
 import { createBackend } from '@backstage/backend-defaults';
-import { createBackendModule } from '@backstage/backend-plugin-api';
-import { DEFAULT_NAMESPACE, stringifyEntityRef } from '@backstage/catalog-model';
-import { oidcAuthenticator } from '@backstage/plugin-auth-backend-module-oidc-provider';
-import { authProvidersExtensionPoint, createOAuthProviderFactory } from '@backstage/plugin-auth-node';
 
 const backend = createBackend();
 
@@ -56,47 +52,7 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
 
-const authProviderModule = createBackendModule({
-  pluginId: 'auth',
-  moduleId: 'keycloak',
-  register(reg) {
-    reg.registerInit({
-      deps: {
-        providers: authProvidersExtensionPoint,
-      },
-      async init({ providers }) {
-        providers.registerProvider({
-          providerId: 'keycloak',
-          factory: createOAuthProviderFactory({
-            authenticator: oidcAuthenticator,
-            async signInResolver(info, ctx) {
-              const username = info?.result.fullProfile.userinfo.preferred_username as string;
-              const userRef: any = stringifyEntityRef({
-                kind: 'User',
-                name: username,
-                namespace: DEFAULT_NAMESPACE
-              });
-              const groups: string[] = info.result.fullProfile.userinfo.groups as string[];
-              const groupRefs = groups.map(group => stringifyEntityRef({
-                kind: 'Group',
-                name: group,
-                namespace: DEFAULT_NAMESPACE
-              }));
-              return ctx.issueToken({
-                claims: {
-                  sub: userRef,
-                  // ent: [userRef],
-                  ent: [userRef, ...groupRefs],
-                },
-              });
-            },
-          }),
-        });
-      },
-    });
-  },
-});
-
-backend.add(authProviderModule);
+// keycloak
+backend.add(import('./plugins/auth/keycloakAuthProviderModule'));
 
 backend.start();
