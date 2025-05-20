@@ -43,11 +43,6 @@ userPassword: dante123
 
 ################### GROUPS ###################
 
-dn: cn=tech_dev,ou=groups,dc=mycompany,dc=local
-objectClass: groupOfNames
-cn: tech_dev
-member: uid=alice.spark,ou=users,dc=mycompany,dc=local
-
 dn: cn=tech_dev_account,ou=groups,dc=mycompany,dc=local
 objectClass: groupOfNames
 cn: tech_dev_account
@@ -61,4 +56,12 @@ member: uid=carla.vault,ou=users,dc=mycompany,dc=local
 dn: cn=tech_infra,ou=groups,dc=mycompany,dc=local
 objectClass: groupOfNames
 cn: tech_infra
+member: uid=dante.root,ou=users,dc=mycompany,dc=local
+
+dn: cn=tech_dev,ou=groups,dc=mycompany,dc=local
+objectClass: groupOfNames
+cn: tech_dev
+member: uid=alice.spark,ou=users,dc=mycompany,dc=local
+member: uid=bruno.ledger,ou=users,dc=mycompany,dc=local
+member: uid=carla.vault,ou=users,dc=mycompany,dc=local
 member: uid=dante.root,ou=users,dc=mycompany,dc=local
