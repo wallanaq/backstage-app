@@ -4,6 +4,7 @@ import { oidcAuthenticator, OidcAuthResult } from '@backstage/plugin-auth-backen
 import { authProvidersExtensionPoint, createOAuthProviderFactory, OAuthAuthenticatorResult, SignInResolver } from '@backstage/plugin-auth-node';
 
 const keycloakSignInResolver: SignInResolver<OAuthAuthenticatorResult<OidcAuthResult>> = async (info, ctx) => {
+
   const username = info?.result.fullProfile.userinfo.preferred_username as string;
 
   const userRef: any = stringifyEntityRef({
@@ -26,11 +27,12 @@ const keycloakSignInResolver: SignInResolver<OAuthAuthenticatorResult<OidcAuthRe
       ent: [userRef, ...groupRefs],
     },
   });
+  
 }
 
-const keycloakAuthProviderModule = createBackendModule({
+export const authModuleSsoAuth = createBackendModule({
   pluginId: 'auth',
-  moduleId: 'keycloak',
+  moduleId: 'sso-auth',
   register(reg) {
     reg.registerInit({
       deps: {
@@ -48,5 +50,3 @@ const keycloakAuthProviderModule = createBackendModule({
     });
   },
 });
-
-export default keycloakAuthProviderModule;

@@ -52,7 +52,7 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
 
-// keycloak
-backend.add(import('./plugins/auth/keycloakAuthProviderModule'));
+// single-sign-on
+backend.add(import('@internal/plugin-auth-backend-module-sso-auth'));
 
 backend.start();
