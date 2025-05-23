@@ -5,15 +5,17 @@ import { authProvidersExtensionPoint, createOAuthProviderFactory, OAuthAuthentic
 
 const keycloakSignInResolver: SignInResolver<OAuthAuthenticatorResult<OidcAuthResult>> = async (info, ctx) => {
 
-  const username = info?.result.fullProfile.userinfo.preferred_username as string;
+  const userinfo = info?.result.fullProfile.userinfo
+  const username = userinfo.preferred_username as string;
+  const groups: string[] = userinfo.groups as string[];
+  const resourceAccess = userinfo.resource_access as UserinfoResourceAccess;
+  const roles = resourceAccess?.backstage?.roles ?? []
 
   const userRef: any = stringifyEntityRef({
     kind: 'User',
     name: username,
     namespace: DEFAULT_NAMESPACE
   });
-
-  const groups: string[] = info.result.fullProfile.userinfo.groups as string[];
 
   const groupRefs = groups.map(group => stringifyEntityRef({
     kind: 'Group',
@@ -25,6 +27,7 @@ const keycloakSignInResolver: SignInResolver<OAuthAuthenticatorResult<OidcAuthRe
     claims: {
       sub: userRef,
       ent: [userRef, ...groupRefs],
+      roles
     },
   });
   
