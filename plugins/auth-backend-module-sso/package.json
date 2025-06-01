@@ -1,9 +1,9 @@
 {
-  "name": "@internal/plugin-auth-backend-module-sso-auth",
+  "name": "@internal/plugin-auth-backend-module-sso",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "private": true,
-  "description": "The sso-auth backend module for the auth plugin.",
+  "description": "The sso backend module for the auth plugin.",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "publishConfig": {

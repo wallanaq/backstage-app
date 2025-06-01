@@ -33,9 +33,9 @@ const keycloakSignInResolver: SignInResolver<OAuthAuthenticatorResult<OidcAuthRe
   
 }
 
-export const authModuleSsoAuth = createBackendModule({
+export const authModuleSso = createBackendModule({
   pluginId: 'auth',
-  moduleId: 'sso-auth',
+  moduleId: 'sso',
   register(reg) {
     reg.registerInit({
       deps: {

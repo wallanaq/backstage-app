@@ -53,6 +53,6 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 backend.add(import('@backstage/plugin-kubernetes-backend'));
 
 // single-sign-on
-backend.add(import('@internal/plugin-auth-backend-module-sso-auth'));
+backend.add(import('@internal/plugin-auth-backend-module-sso'));
 
 backend.start();

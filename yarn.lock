@@ -7140,9 +7140,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@internal/plugin-auth-backend-module-sso-auth@workspace:^, @internal/plugin-auth-backend-module-sso-auth@workspace:plugins/auth-backend-module-sso-auth":
+"@internal/plugin-auth-backend-module-sso@workspace:^, @internal/plugin-auth-backend-module-sso@workspace:plugins/auth-backend-module-sso":
   version: 0.0.0-use.local
-  resolution: "@internal/plugin-auth-backend-module-sso-auth@workspace:plugins/auth-backend-module-sso-auth"
+  resolution: "@internal/plugin-auth-backend-module-sso@workspace:plugins/auth-backend-module-sso"
   dependencies:
     "@backstage/backend-plugin-api": "npm:^1.3.0"
     "@backstage/backend-test-utils": "npm:^1.4.0"
@@ -15027,7 +15027,7 @@ __metadata:
     "@backstage/plugin-search-backend-module-techdocs": "npm:^0.4.1"
     "@backstage/plugin-search-backend-node": "npm:^1.3.10"
     "@backstage/plugin-techdocs-backend": "npm:^2.0.1"
-    "@internal/plugin-auth-backend-module-sso-auth": "workspace:^"
+    "@internal/plugin-auth-backend-module-sso": "workspace:^"
     app: "link:../app"
     better-sqlite3: "npm:^9.0.0"
     node-gyp: "npm:^10.0.0"
