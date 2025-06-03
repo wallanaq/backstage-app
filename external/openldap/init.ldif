@@ -58,9 +58,9 @@ objectClass: groupOfNames
 cn: tech_infra
 member: uid=dante.root,ou=users,dc=mycompany,dc=local
 
-dn: cn=tech_dev,ou=groups,dc=mycompany,dc=local
+dn: cn=tech,ou=groups,dc=mycompany,dc=local
 objectClass: groupOfNames
-cn: tech_dev
+cn: tech
 member: uid=alice.spark,ou=users,dc=mycompany,dc=local
 member: uid=bruno.ledger,ou=users,dc=mycompany,dc=local
 member: uid=carla.vault,ou=users,dc=mycompany,dc=local
