@@ -1,0 +1,45 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: alice.spark
+spec:
+  profile:
+    displayName: Alice Spark
+    email: alice.spark@mycompany.local
+  memberOf: [tech]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: bruno.ledger
+  namespace: default
+spec:
+  profile:
+    displayName: Bruno Ledger
+    email: bruno.ledger@mycompany.local
+  memberOf: [tech, tech_dev_account]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: carla.vault
+  namespace: default
+spec:
+  profile:
+    displayName: Carla Vault
+    email: carla.vault@mycompany.local
+  memberOf: [tech, tech_dev_banking]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: dante.root
+  namespace: default
+spec:
+  profile:
+    displayName: Dante Root
+    email: dante.root@mycompany.local
+  memberOf: [tech, tech_infra]

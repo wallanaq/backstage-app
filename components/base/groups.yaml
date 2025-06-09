@@ -1,0 +1,66 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tech_dev_account
+  namespace: default
+spec:
+  type: team
+  parent: tech
+  profile:
+    displayName: Tech Dev Account Team
+  members: [bruno.ledger]
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tech_dev_banking
+  namespace: default
+spec:
+  type: team
+  parent: tech
+  profile:
+    displayName: Tech Dev Banking Team
+  members: [carla.vault]
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tech_infra
+  namespace: default
+spec:
+  type: team
+  parent: tech
+  profile:
+    displayName: Tech Infra Team
+  members: [dante.root]
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tech
+  namespace: default
+spec:
+  type: team
+  profile:
+    displayName: Tech Team
+  children: [tech_dev_account, tech_dev_banking, tech_infra]
+  members: [alice.spark, bruno.ledger, carla.vault, dante.root]
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: platform
+  namespace: default
+spec:
+  type: team
+  profile:
+    displayName: Platform Team
+  children: []
+  members: [alice.spark]
