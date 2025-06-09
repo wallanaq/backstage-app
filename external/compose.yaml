@@ -2,21 +2,23 @@ services:
 
   postgres:
     image: postgres:16-alpine
-    container_name: idp_db
+    container_name: idp-db
     restart: unless-stopped
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_USER: backstage
       POSTGRES_PASSWORD: backstage
       POSTGRES_DB: backstage
-    ports:
-      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - backstage-postgres-data:/var/lib/postgresql/data
 
   keycloak:
     image: quay.io/keycloak/keycloak:22.0.5
+    container_name: idp-sso
     command: start-dev --import-realm
-    container_name: idp_sso
+    depends_on:
+      - openldap
     ports:
       - 8080:8080
     environment:
@@ -27,28 +29,63 @@ services:
 
   openldap:
     image: osixia/openldap:1.5.0
-    container_name: idp_ldap
+    container_name: idp-ldap
     command: --copy-service
-    ports:
-      - "389:389"
-      - "636:636"
     environment:
       LDAP_ORGANISATION: "My Company"
       LDAP_DOMAIN: "mycompany.local"
       LDAP_ADMIN_PASSWORD: "admin"
       LDAP_CONFIG_PASSWORD: "config"
     volumes:
-      - ldap_data:/var/lib/ldap
-      - ldap_config:/etc/ldap/slapd.d
+      - ldap-data:/var/lib/ldap
+      - ldap-config:/etc/ldap/slapd.d
       - ./openldap/init.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/init.ldif
 
+  gitea-db:
+    image: postgres:16-alpine
+    container_name: idp-git-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gitea
+      POSTGRES_PASSWORD: gitea
+      POSTGRES_DB: gitea
+    volumes:
+      - gitea-postgres-data:/var/lib/postgresql/data
+
+  gitea:
+    image: gitea/gitea:1.23.8
+    container_name: idp-git
+    restart: always
+    depends_on:
+      - gitea-db
+    ports:
+      - "3003:3000"
+      - "3022:22"
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=gitea-db:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=gitea
+      - GITEA__server__DOMAIN=localhost
+      - GITEA__server__ROOT_URL=http://localhost:3000/
+      - GITEA__security__INSTALL_LOCK=true
+    volumes:
+      - gitea-data:/data
+
 volumes:
-  ldap_data:
-    name: idp_ldap_data
-  ldap_config:
-    name: idp_ldap_config
-  postgres_data:
-    name: idp_postgres_data
+  ldap-data:
+    name: idp-ldap-data
+  ldap-config:
+    name: idp-ldap-config
+  backstage-postgres-data:
+    name: idp-backstage-postgres-data
+  gitea-postgres-data:
+    name: idp-gitea-postgres-data
+  gitea-data:
+    name: idp-gitea-data
 
 networks:
   default:

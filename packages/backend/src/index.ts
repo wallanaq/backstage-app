@@ -55,4 +55,7 @@ backend.add(import('@backstage/plugin-kubernetes-backend'));
 // single-sign-on
 backend.add(import('@internal/plugin-auth-backend-module-sso'));
 
+// gitea
+backend.add(import('@backstage/plugin-scaffolder-backend-module-gitea'));
+
 backend.start();

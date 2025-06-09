@@ -1,0 +1,91 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: springboot-app
+  title: Spring Boot Application
+  description: Simple Spring Boot Application
+spec:
+  owner: group:platform
+  type: service
+
+  parameters:
+    - title: Fill in some steps
+      required:
+        - name
+        - description
+        - owner
+        - system
+      properties:
+        name:
+          type: string
+          title: Application name
+        description:
+          type: string
+          title: Description
+        system:
+          type: string
+          title: System
+          ui:field: EntityPicker
+          ui:options: 
+            catalogFilter:
+              - kind: System
+        owner:
+          type: string
+          title: Owner
+          ui:field: OwnerPicker
+          ui:options: 
+            catalogFilter:
+              - kind: Group
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - localhost:3003
+            allowedOwners:
+              - demo
+              - banking
+        repoVisibility:
+          title: Visibility of the repository
+          type: string
+          default: 'public'
+          enum:
+            - 'public'
+            - 'private'
+          enumNames:
+            - 'public'
+            - 'private'
+
+  steps:
+    - id: fetch
+      name: Fetch Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          owner: ${{ parameters.owner }}
+          description: ${{ parameters.description }}
+          system: ${{ parameters.system }}
+
+    - id: publish
+      name: Publish
+      action: publish:gitea
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        repoVisibility: ${{ parameters.repoVisibility }}
+        defaultBranch: main
+        description: ${{ parameters.description }}
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: catalog-info.yaml
+
+  output:
+    links:
+      - title: Repo
+        url: '{{ steps["publish"].output.remoteUrl }}'
