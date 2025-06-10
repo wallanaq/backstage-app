@@ -1,6 +1,6 @@
 services:
 
-  postgres:
+  backstage-db:
     image: postgres:16-alpine
     container_name: idp-db
     restart: unless-stopped
@@ -13,19 +13,35 @@ services:
     volumes:
       - backstage-postgres-data:/var/lib/postgresql/data
 
+  keycloak-db:
+    image: postgres:16-alpine
+    container_name: idp-sso-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
+    volumes:
+      - keycloak-postgres-data:/var/lib/postgresql/data
+
   keycloak:
     image: quay.io/keycloak/keycloak:22.0.5
     container_name: idp-sso
     command: start-dev --import-realm
     depends_on:
+      - keycloak-db
       - openldap
     ports:
       - 8080:8080
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
     volumes:
-     - ./keycloak:/opt/keycloak/data/import
+     - ./.docker/keycloak:/opt/keycloak/data/import
 
   openldap:
     image: osixia/openldap:1.5.0
@@ -39,7 +55,7 @@ services:
     volumes:
       - ldap-data:/var/lib/ldap
       - ldap-config:/etc/ldap/slapd.d
-      - ./openldap/init.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/init.ldif
+      - ./.docker/openldap/init.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/init.ldif
 
   gitea-db:
     image: postgres:16-alpine
@@ -82,6 +98,8 @@ volumes:
     name: idp-ldap-config
   backstage-postgres-data:
     name: idp-backstage-postgres-data
+  keycloak-postgres-data:
+    name: idp-keycloak-postgres-data
   gitea-postgres-data:
     name: idp-gitea-postgres-data
   gitea-data:
