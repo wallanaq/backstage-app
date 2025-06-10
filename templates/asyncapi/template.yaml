@@ -1,15 +1,15 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: springboot-app
-  title: Spring Boot Application
-  description: Simple Spring Boot Application
+  name: asyncapi-kafka
+  title: AsyncAPI (kafka protocol)
+  description: AsyncAPI with Kafka protocol
 spec:
   owner: group:platform
-  type: service
+  type: api
 
   parameters:
-    - title: Fill in some steps
+    - title: Informações da API
       required:
         - name
         - description
@@ -18,10 +18,10 @@ spec:
       properties:
         name:
           type: string
-          title: Application name
+          title: API name
         description:
           type: string
-          title: Description
+          title: API description
         system:
           type: string
           title: System
@@ -46,16 +46,6 @@ spec:
             allowedOwners:
               - demo
               - banking
-        repoVisibility:
-          title: Visibility of the repository
-          type: string
-          default: 'public'
-          enum:
-            - 'public'
-            - 'private'
-          enumNames:
-            - 'public'
-            - 'private'
 
   steps:
     - id: fetch
@@ -74,7 +64,6 @@ spec:
       action: publish:gitea
       input:
         repoUrl: ${{ parameters.repoUrl }}
-        repoVisibility: ${{ parameters.repoVisibility }}
         defaultBranch: main
         description: ${{ parameters.description }}
 
@@ -83,9 +72,4 @@ spec:
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
-        catalogInfoPath: specs/catalog/catalog-info.yaml
-
-  output:
-    links:
-      - title: Repo
-        url: '{{ steps["publish"].output.remoteUrl }}'
+        catalogInfoPath: specs/asyncapi/catalog-info-api.yaml

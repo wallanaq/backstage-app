@@ -1,0 +1,18 @@
+asyncapi: 3.0.0
+info:
+  title: ${{ values.name }}
+  description: ${{ values.description }}
+  version: '1.0.0'
+channels:
+  hello:
+    address: 'hello'
+    messages:
+      sayHelloMessage:
+        payload:
+          type: string
+          pattern: '^hello .+$'
+operations:
+  receiveHello:
+    action: 'receive'
+    channel:
+      $ref: '#/channels/hello'
