@@ -1,0 +1,103 @@
+/* Card around the table */
+
+.card {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--bui-bg-neutral-1);
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-4);
+  font-family: var(--bui-font-regular);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 76px;
+  padding: 0 20px;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--bui-fg-primary);
+}
+
+.total {
+  padding: 3px 7px;
+  border-radius: var(--bui-radius-2);
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-secondary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.search {
+  width: 270px;
+}
+
+/* BUI table, restyled to the DevPortal look */
+
+.card :global(.bui-TableHeader) {
+  background: var(--bui-bg-neutral-2);
+  border-top: 1px solid var(--bui-border-1);
+  border-bottom: 1px solid var(--bui-border-1);
+}
+
+.card :global(.bui-TableHead) {
+  height: 44px;
+  padding: 0 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bui-fg-secondary);
+}
+
+.card :global(.bui-TableRow) {
+  border-bottom: 1px solid var(--bui-border-1);
+}
+
+.card :global(.bui-TableRow:last-child) {
+  border-bottom: 0;
+}
+
+.card :global(.bui-TableRow:hover) {
+  background: var(--bui-bg-neutral-2);
+}
+
+.card :global(.bui-TableCell) {
+  padding: 24px 20px;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.card :global(.bui-TablePagination) {
+  min-height: 60px;
+  padding: 0 20px;
+  border-top: 1px solid var(--bui-border-1);
+  font-size: 12px;
+  color: var(--bui-fg-secondary);
+}
+
+/* Denser rows, used by the APIs list */
+
+.card[data-density='compact'] :global(.bui-TableHead) {
+  font-size: 11px;
+}
+
+.card[data-density='compact'] :global(.bui-TableCell) {
+  padding: 16px 20px;
+  font-size: 12px;
+}
+
+.empty {
+  padding: 48px 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--bui-fg-secondary);
+}

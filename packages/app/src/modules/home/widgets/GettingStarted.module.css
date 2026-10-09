@@ -1,0 +1,96 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.intro,
+.about,
+.custom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--bui-radius-3);
+  background: var(--dp-accent-subtle);
+  color: var(--bui-accent-bg);
+}
+
+.logo svg {
+  width: 24px;
+  height: 24px;
+}
+
+.welcome {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--bui-fg-primary);
+}
+
+.text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--bui-fg-secondary);
+}
+
+.resources {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resource {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 0;
+  color: var(--bui-accent-bg);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.resource:hover .resourceLabel {
+  text-decoration: underline;
+}
+
+.resource svg {
+  width: 17px;
+  height: 17px;
+}
+
+.resourceLabel {
+  flex: 1;
+}
+
+.resource .arrow {
+  width: 14px;
+  height: 14px;
+  color: var(--bui-fg-secondary);
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--bui-border-1);
+}
+
+.customTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bui-fg-primary);
+}

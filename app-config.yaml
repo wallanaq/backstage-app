@@ -6,22 +6,19 @@ app:
   packages: all
 
   extensions:
-    # Default landing page configuration.
-    # The catalog is mounted at /catalog by default but is overridden here to
-    # serve as the root page. To switch to the Home page, comment out the
-    # catalog path override and uncomment the home path override.
-    - page:catalog:
+    # The home page is the landing page and the catalog lives at /catalog.
+    # The widgets are laid out by the DevPortal home layout (packages/app/src/
+    # modules/home), so their grid positions (`defaultConfig`) are not used;
+    # what is configured below is the content of each widget.
+    - page:home:
         config:
           path: /
-    # - page:home:
-    #     config:
-    #       path: /
 
     # Visit tracking records which pages users navigate to and is disabled by default.
     # Enable it to populate the Most Visited and Recently Visited widgets on the Home page.
     # Visit data is stored via UserSettings storage if available, otherwise browser localStorage.
-    # - api:home/visits: true
-    # - app-root-element:home/visit-listener: true
+    - api:home/visits: true
+    - app-root-element:home/visit-listener: true
     - home-page-widget:home/toolkit:
         config:
           tools:
@@ -32,13 +29,13 @@ app:
               label: GitHub
               icon: github
             - url: https://github.com/backstage/backstage/blob/master/CONTRIBUTING.md
-              label: Contributing
+              label: Contribuir
               icon: docs
             - url: https://backstage.io/plugins
-              label: Plugins Directory
+              label: Plugins
               icon: kind:component
             - url: https://github.com/backstage/backstage/issues/new/choose
-              label: Submit New Issue
+              label: Reportar problema
               icon: github
     - home-page-widget:home/world-clock:
         config:
@@ -51,50 +48,6 @@ app:
               timeZone: Europe/Stockholm
             - label: TYO
               timeZone: Asia/Tokyo
-    - page:home:
-        config:
-          defaultConfig:
-            - component: HomePageSearchBar
-              column: 0
-              row: 0
-              width: 12
-              height: 2
-              deletable: false
-            - component: GettingStarted
-              column: 0
-              row: 1
-              width: 4
-              height: 11
-            - component: HomePageStarredEntities
-              column: 4
-              row: 2
-              width: 4
-              height: 4
-            - component: HomePageRandomJoke
-              column: 8
-              row: 2
-              width: 4
-              height: 4
-            - component: HomePageToolkit
-              column: 4
-              row: 6
-              width: 4
-              height: 3
-            - component: HomePageWorldClock
-              column: 8
-              row: 6
-              width: 4
-              height: 3
-            - component: HomePageMostVisited
-              column: 4
-              row: 9
-              width: 4
-              height: 4
-            - component: HomePageRecentlyVisited
-              column: 8
-              row: 9
-              width: 4
-              height: 4
 
 organization:
   name: My Company
@@ -143,7 +96,7 @@ integrations:
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
 
-proxy:
+proxy: {}
   ### Example for how to add a proxy endpoint for the frontend.
   ### A typical reason to do this is to handle HTTPS and CORS for internal services.
   # endpoints:
@@ -180,7 +133,7 @@ auth:
     #   - 'http://localhost:*'
     #   - 'https://*.example.com/*'
 
-scaffolder:
+scaffolder: {}
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
@@ -200,6 +153,16 @@ catalog:
       rules:
         - allow: [Template]
 
+    # Local example templates (for the templates page) and the teams that own them
+    - type: file
+      target: ../../examples/templates/templates.yaml
+      rules:
+        - allow: [Template]
+    - type: file
+      target: ../../examples/templates/teams.yaml
+      rules:
+        - allow: [Group]
+
     # Local example organizational data
     - type: file
       target: ../../examples/org.yaml
@@ -216,7 +179,7 @@ catalog:
     #   rules:
     #     - allow: [User, Group]
 
-kubernetes:
+# kubernetes: 
   # see https://backstage.io/docs/features/kubernetes/configuration for kubernetes configuration options
 
 # see https://backstage.io/docs/permissions/getting-started for more on the permission framework

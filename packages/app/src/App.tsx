@@ -1,8 +1,24 @@
 import { createApp } from '@backstage/frontend-defaults';
-import catalogPlugin from '@backstage/plugin-catalog/alpha';
+import { devPortalApiDocsPlugin } from './modules/api-docs';
+import { devPortalCatalogPlugin } from './modules/catalog';
 import { navModule } from './modules/nav';
-import { homeModule } from './modules/home';
+import { devPortalNotificationsPlugin } from './modules/notifications';
+import { devPortalScaffolderPlugin } from './modules/scaffolder';
+import { devPortalSearchPlugin } from './modules/search';
+import { devPortalUserSettingsPlugin } from './modules/settings';
+import { devPortalTechDocsPlugin } from './modules/techdocs';
+import { devPortalHomePlugin } from './modules/home';
 
 export default createApp({
-  features: [catalogPlugin, navModule, homeModule],
+  features: [
+    devPortalCatalogPlugin,
+    devPortalApiDocsPlugin,
+    devPortalScaffolderPlugin,
+    devPortalSearchPlugin,
+    devPortalNotificationsPlugin,
+    devPortalTechDocsPlugin,
+    devPortalUserSettingsPlugin,
+    navModule,
+    devPortalHomePlugin,
+  ],
 });

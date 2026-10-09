@@ -1,0 +1,78 @@
+/*
+ * DevPortal identity on top of the Backstage UI (BUI) tokens.
+ *
+ * Source of truth: the "DevPortal" Figma file. BUI tokens (--bui-*) are
+ * overridden for light mode only; dark mode keeps the BUI defaults. Values
+ * that BUI has no token for live under the --dp-* prefix.
+ *
+ * The selector avoids matching dark mode: this file is unlayered, so it would
+ * otherwise win over BUI's layered `[data-theme-mode='dark']` tokens.
+ */
+
+:root:not([data-theme-mode='dark']),
+[data-theme-mode='light'] {
+  --bui-font-regular: 'Inter Variable', system-ui, -apple-system, 'Segoe UI',
+    sans-serif;
+
+  /* 6px chips and icon buttons; --bui-radius-3 (8px) and -4 (12px) already
+     match the buttons/inputs and cards of the design. */
+  --bui-radius-2: 0.375rem;
+
+  /* Surfaces */
+  --bui-bg-app: #f6f7f9;
+  --bui-bg-neutral-1: #ffffff;
+  --bui-bg-neutral-2: #fafbfc;
+  --bui-bg-neutral-3: #f0f3f7;
+  --bui-bg-neutral-4: #e8ecf1;
+
+  /* Text */
+  --bui-fg-primary: #202631;
+  --bui-fg-secondary: #697384;
+
+  /* Borders */
+  --bui-border-1: #e3e7ed;
+  --bui-border-2: #c9d0da;
+  --bui-ring: #365f9b;
+
+  /* Accent */
+  --bui-accent-bg: #365f9b;
+  --bui-accent-bg-hover: #2c4e82;
+  --bui-accent-bg-disabled: #9db0cf;
+  --bui-accent-fg: #ffffff;
+  --bui-accent-fg-disabled: #e8eef8;
+
+  /* Deprecated "solid" tokens that BUI components still read */
+  --bui-bg-solid: #365f9b;
+  --bui-bg-solid-hover: #2c4e82;
+  --bui-bg-solid-pressed: #234068;
+  --bui-bg-solid-disabled: #9db0cf;
+
+  /* DevPortal-only tokens */
+  --dp-sidebar-width: 232px;
+  --dp-sidebar-bg: #f0f2f5;
+  --dp-accent-subtle: #e8eef8;
+  /* Figma uses #929aa7 (2.8:1 on white); darkened to keep some hierarchy
+     against --bui-fg-secondary while improving legibility. */
+  --dp-fg-tertiary: #767f8e;
+  --dp-status-experimental-bg: #f5f1e8;
+  --dp-status-experimental-fg: #74664a;
+  --dp-status-production-bg: #edf3ef;
+  --dp-status-production-fg: #536c60;
+  --dp-highlight-bg: #fff1b8;
+  --dp-status-deprecated-bg: #f5edec;
+  --dp-status-deprecated-fg: #8b625d;
+}
+
+[data-theme-mode='dark'] {
+  --dp-sidebar-width: 232px;
+  --dp-sidebar-bg: var(--bui-bg-neutral-1);
+  --dp-accent-subtle: var(--bui-bg-neutral-3);
+  --dp-fg-tertiary: var(--bui-fg-secondary);
+  --dp-status-experimental-bg: #302008;
+  --dp-status-experimental-fg: #fdba74;
+  --dp-status-production-bg: #042713;
+  --dp-status-production-fg: #86efac;
+  --dp-highlight-bg: #4a3a00;
+  --dp-status-deprecated-bg: #350708;
+  --dp-status-deprecated-fg: #fca5a5;
+}

@@ -1,0 +1,104 @@
+.welcome {
+  padding: 26px 40px;
+  background: var(--bui-bg-neutral-1);
+  font-family: var(--bui-font-regular);
+}
+
+.greeting {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--bui-fg-primary);
+}
+
+.greetingText {
+  margin: 0;
+  font-size: 13px;
+  color: var(--bui-fg-secondary);
+}
+
+/* Category tabs */
+
+.tabs {
+  display: flex;
+  gap: 32px;
+  padding: 0 40px;
+  background: var(--bui-bg-neutral-1);
+  border-bottom: 1px solid var(--bui-border-1);
+  font-family: var(--bui-font-regular);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  padding: 0 2px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--bui-fg-secondary);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--bui-fg-primary);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--bui-ring);
+  outline-offset: -2px;
+}
+
+.tabActive,
+.tabActive:hover {
+  border-bottom-color: var(--bui-accent-bg);
+  color: var(--bui-accent-bg);
+  font-weight: 600;
+}
+
+/* Page body */
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 32px 40px;
+  font-family: var(--bui-font-regular);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--bui-fg-primary);
+}
+
+.description {
+  margin: 0;
+  font-size: 13px;
+  color: var(--bui-fg-secondary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}

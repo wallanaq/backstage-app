@@ -1,0 +1,85 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 64px;
+  padding: 0 24px;
+  border-top: 1px solid var(--bui-border-1);
+  font-family: var(--bui-font-regular);
+  font-size: 12px;
+  color: var(--bui-fg-secondary);
+}
+
+.rows {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.select select {
+  height: 32px;
+  padding: 0 28px 0 10px;
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-2);
+  background: var(--bui-bg-neutral-1);
+  color: var(--bui-fg-primary);
+  font: inherit;
+  appearance: none;
+  cursor: pointer;
+}
+
+.select select:focus-visible {
+  outline: 2px solid var(--bui-ring);
+  outline-offset: 2px;
+}
+
+.select svg {
+  position: absolute;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.pages {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--bui-radius-2);
+  background: transparent;
+  color: var(--bui-fg-secondary);
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-primary);
+}
+
+.button:disabled {
+  color: var(--dp-fg-tertiary);
+  opacity: 0.6;
+  cursor: default;
+}
+
+.button svg {
+  width: 18px;
+  height: 18px;
+}

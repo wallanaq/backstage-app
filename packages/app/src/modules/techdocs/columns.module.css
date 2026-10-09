@@ -1,0 +1,56 @@
+.document {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.identity {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.docLink {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bui-accent-bg);
+  text-decoration: none;
+}
+
+.docLink:hover {
+  text-decoration: underline;
+}
+
+.description {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--bui-fg-secondary);
+}
+
+.owner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12px;
+}
+
+.owner svg {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  color: var(--bui-accent-bg);
+}
+
+.kind {
+  font-size: 12px;
+  color: var(--bui-fg-primary);
+}
+
+.type {
+  font-size: 12px;
+  color: var(--bui-fg-secondary);
+}

@@ -1,0 +1,23 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+}
+
+.question {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--bui-fg-primary);
+}
+
+.answer {
+  margin: 0;
+  padding: 14px;
+  border-radius: var(--bui-radius-3);
+  background: var(--bui-bg-neutral-2);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--bui-fg-secondary);
+}

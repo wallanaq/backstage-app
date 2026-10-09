@@ -1,0 +1,7 @@
+.mark {
+  padding: 2px 3px;
+  border-radius: 3px;
+  background: var(--dp-highlight-bg);
+  color: var(--bui-fg-primary);
+  font-weight: 600;
+}

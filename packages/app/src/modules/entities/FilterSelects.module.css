@@ -1,0 +1,23 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  font-family: var(--bui-font-regular);
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bui-fg-secondary);
+}
+
+.select :global(.bui-SelectTrigger) {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-3);
+  background: var(--bui-bg-neutral-1);
+  font-size: 13px;
+  color: var(--bui-fg-primary);
+}

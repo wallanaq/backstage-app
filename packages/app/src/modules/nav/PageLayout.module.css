@@ -1,0 +1,189 @@
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 64px;
+  padding: 0 40px;
+  background: var(--bui-bg-neutral-1);
+  border-bottom: 1px solid var(--bui-border-1);
+  font-family: var(--bui-font-regular);
+}
+
+@media print {
+  .topBar,
+  .tabs {
+    display: none;
+  }
+}
+
+/* Breadcrumbs */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  font-size: 13px;
+}
+
+.crumb {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.home {
+  display: inline-flex;
+  color: var(--bui-fg-secondary);
+}
+
+.home svg {
+  width: 16px;
+  height: 16px;
+}
+
+.separator {
+  color: var(--dp-fg-tertiary);
+}
+
+.crumbLink {
+  color: var(--bui-fg-secondary);
+  text-decoration: none;
+}
+
+.crumbLink:hover {
+  color: var(--bui-fg-primary);
+}
+
+.current {
+  font-weight: 500;
+  color: var(--bui-fg-primary);
+}
+
+/* Right side */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.docsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--bui-fg-secondary);
+  text-decoration: none;
+}
+
+.docsLink:hover {
+  color: var(--bui-fg-primary);
+}
+
+.docsIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--bui-radius-2);
+  color: var(--bui-fg-secondary);
+}
+
+.iconButton:hover {
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-primary);
+}
+
+.iconButton {
+  position: relative;
+}
+
+.iconButtonActive,
+.iconButtonActive:hover {
+  background: var(--dp-accent-subtle);
+  color: var(--bui-accent-bg);
+}
+
+.badge {
+  position: absolute;
+  top: 6px;
+  right: 7px;
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid var(--bui-bg-neutral-1);
+  border-radius: 100px;
+  background: var(--bui-negative-bg);
+}
+
+.iconButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Tabs for pages that declare sub pages */
+
+.tabs {
+  display: flex;
+  gap: 32px;
+  padding: 0 40px;
+  background: var(--bui-bg-neutral-1);
+  border-bottom: 1px solid var(--bui-border-1);
+  font-family: var(--bui-font-regular);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  padding: 0 2px;
+  border-bottom: 2px solid transparent;
+  color: var(--bui-fg-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.tabActive {
+  border-bottom-color: var(--bui-accent-bg);
+  color: var(--bui-accent-bg);
+  font-weight: 600;
+}
+
+/* Title block of pages with tabs (e.g. "Criar um novo componente") */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px 40px;
+  background: var(--bui-bg-neutral-1);
+  font-family: var(--bui-font-regular);
+}
+
+.bordered {
+  border-bottom: 1px solid var(--bui-border-1);
+}
+
+.headerTitle {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--bui-fg-primary);
+}
+
+.headerDescription {
+  margin: 0;
+  font-size: 13px;
+  color: var(--bui-fg-secondary);
+}

@@ -1,0 +1,55 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--bui-bg-neutral-1);
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-4);
+  font-family: var(--bui-font-regular);
+}
+
+.header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  height: 60px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--bui-border-1);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--bui-fg-secondary);
+}
+
+.icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bui-fg-primary);
+}
+
+.badge {
+  padding: 3px 7px;
+  border-radius: var(--bui-radius-2);
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-secondary);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+}

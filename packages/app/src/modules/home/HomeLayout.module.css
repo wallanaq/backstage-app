@@ -1,0 +1,124 @@
+.header {
+  background: var(--bui-bg-neutral-1);
+  font-family: var(--bui-font-regular);
+}
+
+.welcome {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 26px 40px;
+}
+
+.greeting {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--bui-fg-primary);
+}
+
+.description {
+  margin: 0;
+  font-size: 13px;
+  color: var(--bui-fg-secondary);
+}
+
+.searchBand {
+  padding: 0 40px 28px;
+  border-bottom: 1px solid var(--bui-border-1);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-3);
+  background: var(--bui-bg-neutral-2);
+  color: var(--dp-fg-tertiary);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.search:hover {
+  border-color: var(--bui-border-2);
+}
+
+.search:focus-visible {
+  outline: 2px solid var(--bui-ring);
+  outline-offset: 1px;
+}
+
+.searchIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--bui-fg-secondary);
+}
+
+.searchLabel {
+  flex: 1;
+}
+
+.shortcut {
+  padding: 4px 8px;
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-2);
+  background: var(--bui-bg-neutral-1);
+  color: var(--bui-fg-secondary);
+  font: inherit;
+  font-size: 11px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px 40px 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr) 354px;
+  grid-template-rows:
+    minmax(246px, auto)
+    minmax(182px, auto)
+    minmax(264px, auto);
+  grid-template-areas:
+    'start starred joke'
+    'start toolkit clock'
+    'start visited recent';
+  gap: 24px;
+}
+
+.cell {
+  min-width: 0;
+}
+
+.others {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas: none;
+  }
+
+  .cell {
+    grid-area: auto !important;
+  }
+}

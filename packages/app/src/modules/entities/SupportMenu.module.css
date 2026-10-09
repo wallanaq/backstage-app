@@ -1,0 +1,8 @@
+/* The Figma button is a white, outlined one. */
+.button {
+  background: var(--bui-bg-neutral-1);
+  border: 1px solid var(--bui-border-1);
+  color: var(--bui-fg-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}

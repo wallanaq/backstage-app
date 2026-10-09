@@ -1,0 +1,20 @@
+.note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* Aligned with the results card: filters column (188px) + gap (24px). */
+  margin: 0;
+  padding-left: 212px;
+  font-family: var(--bui-font-regular);
+  font-size: 11px;
+  color: var(--dp-fg-tertiary);
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}
+
+.flush {
+  padding-left: 0;
+}

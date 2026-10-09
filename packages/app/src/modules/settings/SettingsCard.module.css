@@ -1,0 +1,44 @@
+.card {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--bui-bg-neutral-1);
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-4);
+  font-family: var(--bui-font-regular);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 64px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--bui-border-1);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--bui-fg-secondary);
+}
+
+.icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--bui-fg-primary);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
