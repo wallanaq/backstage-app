@@ -1,0 +1,15 @@
+# Exposes the read-write service of the Postgres cluster on port 5432 of istio-gateway.
+apiVersion: gateway.networking.k8s.io/v1
+kind: TCPRoute
+metadata:
+  name: postgres
+  namespace: postgres
+spec:
+  parentRefs:
+    - name: istio-gateway
+      namespace: istio-system
+      sectionName: postgres
+  rules:
+    - backendRefs:
+        - name: postgres-rw
+          port: 5432

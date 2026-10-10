@@ -1,0 +1,55 @@
+# The shared Postgres of the lab. Other tools (Keycloak, ...) get their own role and
+# database here instead of running their own Postgres.
+#
+#   in the cluster:  postgres-rw.postgres.svc.cluster.local:5432
+#   from the host:   postgres.k8s.orb.local:5432 (TCPRoute on istio-gateway)
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: postgres
+---
+# Lab credentials are plain on purpose. The label makes the operator reload the managed
+# role when the Secret changes; without it a role whose Secret did not exist when the
+# Cluster was applied stays pending forever.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-backstage
+  namespace: postgres
+  labels:
+    cnpg.io/reload: 'true'
+type: kubernetes.io/basic-auth
+stringData:
+  username: backstage
+  password: changeme
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: postgres
+spec:
+  instances: 1
+  enableSuperuserAccess: true
+  storage:
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: '1'
+      memory: 1Gi
+  postgresql:
+    parameters:
+      # Backstage keeps a connection pool per plugin database.
+      max_connections: '200'
+  managed:
+    roles:
+      # Backstage creates one database per plugin (backstage_plugin_*).
+      - name: backstage
+        ensure: present
+        login: true
+        createdb: true
+        passwordSecret:
+          name: postgres-backstage

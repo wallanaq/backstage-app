@@ -1,0 +1,60 @@
+# The shared Gateway of the lab. Applications attach an HTTPRoute (hostnames under
+# *.k8s.orb.local) or a TCPRoute (a dedicated port) to it from any namespace.
+#
+# Istio creates the Deployment and the LoadBalancer Service of the Gateway by itself;
+# OrbStack publishes that Service, so *.k8s.orb.local resolves on the host.
+# It lives next to istiod (istio-system); the ConfigMap below must be in the same namespace.
+---
+# Resource limits of the generated Gateway Deployment (merged into it by Istio).
+# https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-gateway-config
+  namespace: istio-system
+data:
+  deployment: |
+    spec:
+      template:
+        spec:
+          containers:
+            - name: istio-proxy
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 128Mi
+                limits:
+                  cpu: '1'
+                  memory: 512Mi
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: istio-gateway
+  namespace: istio-system
+spec:
+  gatewayClassName: istio
+  infrastructure:
+    parametersRef:
+      group: ''
+      kind: ConfigMap
+      name: istio-gateway-config
+  listeners:
+    - name: http
+      port: 80
+      protocol: HTTP
+      hostname: '*.k8s.orb.local'
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: HTTPRoute
+    # Postgres. TCP has no host name, so the port identifies the service.
+    - name: postgres
+      port: 5432
+      protocol: TCP
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: TCPRoute

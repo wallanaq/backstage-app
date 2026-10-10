@@ -1,0 +1,15 @@
+# istio-cni node agent, ambient profile.
+profile: ambient
+
+# OrbStack runs k3s: the CNI config and plugins are not in /etc/cni/net.d and /opt/cni/bin.
+# With the defaults the agent waits forever for a config file to chain to.
+cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
+cniBinDir: /var/lib/rancher/k3s/data/cni
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi

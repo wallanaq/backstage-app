@@ -1,0 +1,8 @@
+# ztunnel, the per-node proxy of the ambient mode.
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: '1'
+    memory: 512Mi
