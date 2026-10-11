@@ -49,6 +49,19 @@ spec:
           from: All
         kinds:
           - kind: HTTPRoute
+    # The same port 80 for *.localhost. Safari upgrades http:// to https:// for *.k8s.orb.local, and
+    # the HTTPS port of that domain is OrbStack's own proxy, which answers 502 for every host behind
+    # this Gateway. *.localhost resolves to the loopback on macOS and is not upgraded, and OrbStack
+    # publishes the ports of LoadBalancer services on localhost.
+    - name: localhost
+      port: 80
+      protocol: HTTP
+      hostname: '*.localhost'
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: HTTPRoute
     # Postgres. TCP has no host name, so the port identifies the service.
     - name: postgres
       port: 5432

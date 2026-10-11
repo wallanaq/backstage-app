@@ -134,7 +134,7 @@ auth:
     # Keycloak user is matched with the e-mail of the User entity.
     oidc:
       development:
-        metadataUrl: ${KEYCLOAK_BASE_URL:-http://keycloak.k8s.orb.local}/realms/${KEYCLOAK_REALM:-backstage}/.well-known/openid-configuration
+        metadataUrl: ${KEYCLOAK_BASE_URL:-http://keycloak.localhost}/realms/${KEYCLOAK_REALM:-backstage}/.well-known/openid-configuration
         clientId: ${KEYCLOAK_CLIENT_ID:-backstage}
         clientSecret: ${KEYCLOAK_CLIENT_SECRET:-changeme}
         prompt: auto
@@ -167,7 +167,7 @@ catalog:
   providers:
     keycloakOrg:
       default:
-        baseUrl: ${KEYCLOAK_BASE_URL:-http://keycloak.k8s.orb.local}
+        baseUrl: ${KEYCLOAK_BASE_URL:-http://keycloak.localhost}
         realm: ${KEYCLOAK_REALM:-backstage}
         loginRealm: ${KEYCLOAK_REALM:-backstage}
         clientId: ${KEYCLOAK_CATALOG_CLIENT_ID:-backstage-catalog}

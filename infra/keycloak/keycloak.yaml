@@ -1,6 +1,6 @@
 # Keycloak of the lab: identity provider of Backstage (and of the tools to come).
 #
-#   from the host and the browser:  http://keycloak.k8s.orb.local (HTTPRoute on istio-gateway)
+#   from the host and the browser:  http://keycloak.localhost (HTTPRoute on istio-gateway)
 #   in the cluster:                  keycloak.keycloak.svc.cluster.local:8080
 #
 # The realm "backstage" comes from the ConfigMap keycloak-realm, which the Makefile builds from
@@ -48,7 +48,7 @@ spec:
             - start
             - --import-realm
             - --http-enabled=true
-            - --hostname=http://keycloak.k8s.orb.local
+            - --hostname=http://keycloak.localhost
             - --proxy-headers=xforwarded
             - --cache=local
             - --health-enabled=true
@@ -139,8 +139,8 @@ spec:
   parentRefs:
     - name: istio-gateway
       namespace: istio-system
-      sectionName: http
   hostnames:
+    - keycloak.localhost
     - keycloak.k8s.orb.local
   rules:
     - backendRefs:

@@ -73,7 +73,7 @@ Addresses:
 | HTTP applications       | `http://<name>.k8s.orb.local`, with an `HTTPRoute` attached to `istio-gateway` |
 | Postgres from the host  | `postgres.k8s.orb.local:5432` (`TCPRoute` on the Gateway port 5432)            |
 | Postgres in the cluster | `postgres-rw.postgres.svc.cluster.local:5432`                                  |
-| Keycloak                | `http://keycloak.k8s.orb.local` (admin console: `admin` / `admin`)             |
+| Keycloak                | `http://keycloak.localhost` (admin console: `admin` / `admin`)                 |
 
 Other tools should create their own role and database in this Postgres instead of running another
 one (Keycloak did, see `infra/postgres/cluster.yaml`). The targets are safe to run again. Notes:
@@ -93,16 +93,15 @@ one (Keycloak did, see `infra/postgres/cluster.yaml`). The targets are safe to r
 - Keycloak imports the realm only when it does not exist yet. After changing `realm-backstage.json`,
   delete the realm `backstage` in the admin console (or drop the database `keycloak`) and run
   `make keycloak` again.
-- Keycloak is plain HTTP: `http://keycloak.k8s.orb.local`. The HTTPS port of `*.k8s.orb.local` is
-  answered by OrbStack's own proxy, which fails with `502 Bad Gateway ... OrbStack proxy error: EOF` for
-  every host behind the gateway (also with a listener and a certificate on 443). A browser that upgrades
-  `http://` to `https://` ("Always use secure connections" in Chrome, "HTTPS first" elsewhere) therefore
-  shows that 502: turn it off for this host.
-- OrbStack also publishes an IPv6 address for `*.k8s.orb.local`, and on this setup big responses
-  (more than a few KB) over IPv6 stall, so a client that prefers IPv6 can hang on the Keycloak login
-  page. Check with `curl -6 http://keycloak.k8s.orb.local/resources/` against `curl -4`; a container
-  address (`<name>.orb.local`) does not have the problem. Headless browsers can be pinned to IPv4
-  with `--host-resolver-rules="MAP keycloak.k8s.orb.local <node ip>"`.
+- Keycloak is served at `http://keycloak.localhost` (plain HTTP), not under `*.k8s.orb.local`, for two
+  reasons found on this setup. Safari upgrades `http://` to `https://` for `*.k8s.orb.local`, and the
+  HTTPS port of that domain is OrbStack's own proxy, which answers `502 Bad Gateway ... OrbStack proxy
+error: EOF` for every host behind the gateway (also with a listener and a certificate on 443). And
+  over IPv6 the same domain stalls on responses of more than a few KB (a plain container does not).
+  `*.localhost` resolves to the loopback on macOS, is not upgraded, and OrbStack publishes the ports of
+  LoadBalancer services on localhost: the Gateway has a second listener for it (`infra/istio/gateway.yaml`).
+  Keycloak also answers on `keycloak.k8s.orb.local`, but its links always point to `keycloak.localhost`.
+- To serve another application the same way, give its `HTTPRoute` a `<name>.localhost` host name.
 
 ### Keycloak realm
 

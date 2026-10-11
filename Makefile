@@ -85,5 +85,5 @@ keycloak: postgres ## Install Keycloak (shared Postgres) and import the realm "b
 		--dry-run=client -o yaml | $(KUBECTL) apply -f -
 	sed 's#quay.io/keycloak/keycloak:[^ ]*#quay.io/keycloak/keycloak:$(KEYCLOAK_VERSION)#' infra/keycloak/keycloak.yaml | $(KUBECTL) apply -f -
 	$(KUBECTL) rollout status deployment/keycloak --namespace $(KEYCLOAK_NAMESPACE) --timeout=$(ROLLOUT_TIMEOUT)
-	@echo "Keycloak: http://keycloak.k8s.orb.local (admin console: admin / admin, realm: backstage)"
+	@echo "Keycloak: http://keycloak.localhost (admin console: admin / admin, realm: backstage)"
 	@echo "An existing realm is not changed by a new realm file: delete it in the admin console first."

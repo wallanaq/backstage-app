@@ -93,9 +93,11 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   sent as `broadcast`.
 - Sign-in is a redirect, not a popup (`enableExperimentalRedirectFlow: true`). On failure the auth
   backend returns to the app with `?error=<message>`, which `SignInPage` shows and removes from the URL.
-- `https://*.k8s.orb.local` is answered by OrbStack's proxy and returns `502 ... EOF` for hosts behind
-  the gateway (a listener on 443 with a certificate did not help); Keycloak is HTTP only. A browser
-  that upgrades to HTTPS cannot open it.
+- Keycloak is served at `http://keycloak.localhost`, not `*.k8s.orb.local`: Safari upgrades http to https
+  there, and OrbStack's HTTPS proxy of `*.k8s.orb.local` returns `502 ... EOF` for hosts behind the
+  gateway (a listener on 443 with a certificate did not help); over IPv6 the same domain also stalls on
+  big responses. `*.localhost` (extra Gateway listener) avoids all three. Use it for any app the browser
+  must open.
 - The OIDC provider needs `auth.session.secret`, otherwise `/oidc/start` fails with "authentication
   requires session support". The sign-in page is `sign-in-page:app` replaced from `modules/auth`.
 - `app-config.yaml`: home is `/`, catalog is `/catalog`, visit tracking is on. Yarn pins
@@ -109,9 +111,7 @@ local `istioctl` must be `ISTIO_VERSION`), CloudNativePG is its release manifest
 (`infra/postgres/operator`), Keycloak is plain manifests. `make istio`, `make postgres`, `make keycloak` (see README). Gotchas: OrbStack
 is k3s (CNI paths in `infra/istio/operator.yaml`); `TCPRoute` needs `PILOT_ENABLE_ALPHA_GATEWAY_API`;
 CNPG managed roles need their Secret labeled `cnpg.io/reload: "true"`; Keycloak imports its realm only
-when it does not exist (`realm-backstage.json` is the only source). Over IPv6 the `*.k8s.orb.local`
-gateway stalls on responses of more than a few KB (a plain container does not), which hangs the Keycloak
-login page in a browser that prefers IPv6. Always pass the cluster by
+when it does not exist (`realm-backstage.json` is the only source). Always pass the cluster by
 context (`orbstack`). `yarn start` needs the cluster Postgres running. Remove test resources you create.
 
 ## Not done yet
@@ -131,8 +131,12 @@ Run `yarn tsc`, `yarn workspace app lint`, `CI=true yarn workspace app test --wa
 `APP_CONFIG_app_baseUrl=http://localhost:7008`), then stop it afterwards. The backend caches
 `index.html`: restart it after every build. Headless Chromium works for screenshots
 (`npx playwright install chromium`, then `playwright-core` from `node_modules` in a script kept
-outside the repo; sign in with the Keycloak button as `platform-admin`, and launch Chromium with
-`--host-resolver-rules="MAP keycloak.k8s.orb.local <ip of the node>"` to avoid the IPv6 stall). Say clearly what was not seen in a browser.
+outside the repo; sign in with the Keycloak button as `platform-admin`). Say clearly what was not seen in
+a browser (Safari in particular: Chromium does not upgrade to https).
+
+`yarn workspace backend start` is a watcher: killing only the process that listens on 7008 leaves its
+`yarn` and `backstage-cli` parents running (and they hold database connections and run the Keycloak
+import). Start it in its own process group and kill the whole group, then check `ps` for leftovers.
 
 ## Commits
 
