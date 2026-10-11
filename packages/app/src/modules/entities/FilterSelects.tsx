@@ -129,6 +129,7 @@ function MultiSelect({
         size="medium"
         className={styles.select}
         selectionMode="multiple"
+        placeholder="Todos"
         options={values.map(value => ({ id: value, label: format(value) }))}
         value={selected}
         onChange={keys => setSelected([...keys].map(String))}
