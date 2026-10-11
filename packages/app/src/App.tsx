@@ -2,7 +2,7 @@ import { createApp } from '@backstage/frontend-defaults';
 import { devPortalApiDocsPlugin } from './modules/api-docs';
 import { authModule } from './modules/auth';
 import { devPortalCatalogPlugin } from './modules/catalog';
-import { devPortalCatalogGraphPlugin } from './modules/entity';
+import { devPortalCatalogGraphPlugin } from './modules/catalog-graph';
 import { navModule } from './modules/nav';
 import { devPortalNotificationsPlugin } from './modules/notifications';
 import { devPortalScaffolderPlugin } from './modules/scaffolder';

@@ -1,0 +1,57 @@
+.node {
+  outline: none;
+}
+
+.box {
+  fill: var(--bui-bg-neutral-1);
+  stroke: var(--bui-border-1);
+  stroke-width: 1;
+  transition: stroke 0.1s ease-in-out, fill 0.1s ease-in-out;
+}
+
+.focused .box {
+  fill: var(--dp-accent-subtle);
+  stroke: var(--bui-accent-bg);
+}
+
+.node[data-clickable] {
+  cursor: pointer;
+}
+
+.node[data-clickable]:hover .box {
+  stroke: var(--bui-border-2);
+  fill: var(--bui-bg-neutral-2);
+}
+
+.focused[data-clickable]:hover .box {
+  stroke: var(--bui-accent-bg);
+  fill: var(--dp-accent-subtle);
+}
+
+.node:focus-visible .box {
+  stroke: var(--bui-ring);
+  stroke-width: 2;
+}
+
+.icon {
+  fill: var(--bui-fg-secondary);
+  color: var(--bui-fg-secondary);
+}
+
+.focused .icon {
+  fill: var(--bui-accent-bg);
+  color: var(--bui-accent-bg);
+}
+
+.kind {
+  fill: var(--bui-fg-secondary);
+  font-family: var(--bui-font-regular);
+  font-size: 10px;
+}
+
+.title {
+  fill: var(--bui-accent-bg);
+  font-family: var(--bui-font-regular);
+  font-size: 12px;
+  font-weight: 600;
+}

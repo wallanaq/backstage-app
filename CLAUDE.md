@@ -13,7 +13,8 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   sidebar subtree, it is already built). The file has no variables: take values from the design context.
 - Screens already built (node ids): catalog `4-568`, APIs `8-875`, templates `12-751`,
   home `31-753`, documentation `39-645`, notifications `43-255`, settings `59-3`, search `64-700`,
-  entity detail `69-1864` (a Component; every other kind reuses it, see `modules/entity/`).
+  entity detail `69-1864` (a Component; every other kind reuses it, see `modules/entity/`). The catalog graph
+  (`/catalog-graph`, `modules/catalog-graph/`) has no Figma node: it is designed with the same tokens.
 - If the Figma has no design for a state (e.g. notification rows), design it with the same
   tokens and patterns, and say so to the user.
 
@@ -35,6 +36,10 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   Cards of other plugins (org, api-docs, labels) stay original and are
   only restyled by the CSS of the grid (`EntityContentLayout.module.css`; the Ownership tiles of
   `org` are matched by structure because MUI class names are generated). Its extensions are spread into `devPortalCatalogPlugin`.
+- `modules/catalog-graph/`: the catalog graph page (reached from the "Relações" card, not in the menu) and the
+  swapped entity card of that plugin. The state is only the URL (`graphState.ts`, the same query format as the
+  plugin's page so its links keep working); nodes and labels are our own SVG renderers (`renderNode`,
+  `renderLabel`) and the edges are styled by CSS over the plugin's paths.
 - `modules/home/`: custom home layout and widgets (fixed 3-column CSS grid; the plugin's
   `defaultConfig` grid positions are not used, widget content config in `app-config.yaml` is).
 
@@ -86,6 +91,8 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   the repo). Do not set both on the sample entities. `providesApis`/`consumesApis` are plural.
 - The catalog list page is pinned to components; only `component` and `api` kinds have a list
   page to link from the breadcrumb (`kindListPage`).
+- Custom nodes of the catalog graph are measured with `getBBox` by the plugin's graph: an icon `<svg>` inside a
+  node needs `width`/`height` attributes (not only CSS), otherwise the box of every node becomes huge.
 - The notifications client types `created/read/saved` as `Date` but returns ISO strings.
 - Users sign in with Keycloak (`user:default/<username>`, e.g. `platform-admin`, `banking-user`,
   password `changeme`); there is no guest. Sign-in needs the user in the catalog: the Keycloak import

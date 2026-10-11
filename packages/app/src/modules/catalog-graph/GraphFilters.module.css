@@ -1,0 +1,64 @@
+.column {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 20px;
+  width: 188px;
+  font-family: var(--bui-font-regular);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bui-fg-secondary);
+}
+
+.select :global(.bui-SelectTrigger) {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-3);
+  background: var(--bui-bg-neutral-1);
+  font-size: 13px;
+  color: var(--bui-fg-primary);
+}
+
+.column :global(.bui-CheckboxGroup),
+.column :global(.bui-Checkbox) {
+  font-family: var(--bui-font-regular);
+  font-size: 13px;
+}
+
+.column :global(.bui-Accordion) {
+  background: var(--bui-bg-neutral-1);
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-3);
+}
+
+@media (max-width: 900px) {
+  .column {
+    width: 100%;
+  }
+}
+
+/* The accordion of the relations: the size of the other labels. */
+.column :global(.bui-AccordionTriggerButton) {
+  padding: 10px 12px;
+}
+
+.column :global(.bui-AccordionTriggerTitle) {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--bui-fg-primary);
+}
+
+.column :global(.bui-AccordionTriggerSubtitle) {
+  font-size: 12px;
+  color: var(--bui-fg-secondary);
+}

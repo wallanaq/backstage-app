@@ -1,0 +1,14 @@
+.label {
+  /* A halo in the color of the card keeps the lines from crossing the text. */
+  stroke: var(--bui-bg-neutral-1);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+  fill: var(--bui-fg-secondary);
+  font-family: var(--bui-font-regular);
+  font-size: 10px;
+}
+
+.second {
+  fill: var(--dp-fg-tertiary);
+}

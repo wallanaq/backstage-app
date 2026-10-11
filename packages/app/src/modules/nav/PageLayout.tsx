@@ -19,6 +19,7 @@ const TITLES: Record<string, string> = {
   Home: 'Início',
   Docs: 'Documentação',
   Catalog: 'Catálogo',
+  'Catalog Graph': 'Grafo do catálogo',
   Create: 'Criar',
   Search: 'Busca',
   Settings: 'Configurações',
@@ -29,7 +30,7 @@ const translate = (label: string) => TITLES[label] ?? label;
 
 // Pages that live under the catalog in the DevPortal design.
 const CATALOG_CRUMB = { label: 'Catalog', href: '/catalog' };
-const UNDER_CATALOG = ['/api-docs'];
+const UNDER_CATALOG = ['/api-docs', '/catalog-graph'];
 
 // The tabs shown for a page (by route) and their order, by sub page path.
 // Other sub pages are not listed in the tabs, but can still be opened by URL.

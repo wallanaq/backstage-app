@@ -1,6 +1,5 @@
 import { coreExtensionData } from '@backstage/frontend-plugin-api';
 import catalogPlugin from '@backstage/plugin-catalog/alpha';
-import catalogGraphPlugin from '@backstage/plugin-catalog-graph/alpha';
 import {
   EntityContentLayoutBlueprint,
   EntityContextMenuItemBlueprint,
@@ -11,7 +10,6 @@ import { DevPortalEntityContentLayout } from './EntityContentLayout';
 import { DevPortalEntityHeader } from './EntityHeader';
 import { LinksCard } from './LinksCard';
 import { EntityMenuItem, MenuItemsProvider } from './MenuItems';
-import { RelationsCard } from './RelationsCard';
 import { RelationTableCard, RelationTableCardProps } from './RelationTableCard';
 
 interface RelationCardSpec extends RelationTableCardProps {
@@ -152,17 +150,3 @@ export const entityPageExtensions = [
 
   ...relationTableCards(),
 ];
-
-/** The catalog graph plugin with its entity card swapped for the diagram of the DevPortal. */
-export const devPortalCatalogGraphPlugin = catalogGraphPlugin.withOverrides({
-  extensions: [
-    catalogGraphPlugin
-      .getExtension('entity-card:catalog-graph/relations')
-      .override({
-        factory: originalFactory =>
-          originalFactory({
-            params: { loader: async () => <RelationsCard /> },
-          }),
-      }),
-  ],
-});
