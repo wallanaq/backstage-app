@@ -91,6 +91,8 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   the repo). Do not set both on the sample entities. `providesApis`/`consumesApis` are plural.
 - The catalog list page is pinned to components; only `component` and `api` kinds have a list
   page to link from the breadcrumb (`kindListPage`).
+- The Docs tab of an entity without `backstage.io/techdocs-ref` shows `modules/techdocs/MissingDocs.tsx`, our override of
+  the `empty-state:techdocs/entity-content` extension; with the annotation the reader is still the plugin's.
 - Custom nodes of the catalog graph are measured with `getBBox` by the plugin's graph: an icon `<svg>` inside a
   node needs `width`/`height` attributes (not only CSS), otherwise the box of every node becomes huge.
 - The notifications client types `created/read/saved` as `Date` but returns ISO strings.
@@ -132,7 +134,7 @@ context (`orbstack`). `yarn start` needs the cluster Postgres running. Remove te
 Dark mode for the new screens (BUI defaults + `--dp-*` fallbacks only), i18n, the "pin sidebar"
 setting (needs a collapsed-sidebar design), MUI theme alignment, shared UI package, and the menu
 items that exist only in the Figma (Backstage AI, Administração, Grupos, Tech Radar). On the entity
-page: the Docs tab (TechDocs reader), the rendered OpenAPI/AsyncAPI/GraphQL widgets (only fonts
+page: the TechDocs reader of the Docs tab, the rendered OpenAPI/AsyncAPI/GraphQL widgets (only fonts
 and spacing are adjusted) and the `...` menu items still look like the plugins and are in English.
 
 ## Verifying work
