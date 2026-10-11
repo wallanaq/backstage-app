@@ -1,7 +1,11 @@
 import catalogPlugin from '@backstage/plugin-catalog/alpha';
+import { entityPageExtensions } from '../entity';
 import { DevPortalCatalogPage } from './CatalogPage';
 
-/** The catalog plugin with its index page swapped for the DevPortal one. */
+/**
+ * The catalog plugin with its index page and its entity page swapped for the
+ * DevPortal ones.
+ */
 export const devPortalCatalogPlugin = catalogPlugin.withOverrides({
   extensions: [
     catalogPlugin.getExtension('page:catalog').override({
@@ -21,5 +25,6 @@ export const devPortalCatalogPlugin = catalogPlugin.withOverrides({
         });
       },
     }),
+    ...entityPageExtensions,
   ],
 });

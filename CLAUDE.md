@@ -12,7 +12,8 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   (`get_screenshot`, `get_metadata`, then `get_design_context` on the subtree you build; skip the
   sidebar subtree, it is already built). The file has no variables: take values from the design context.
 - Screens already built (node ids): catalog `4-568`, APIs `8-875`, templates `12-751`,
-  home `31-753`, documentation `39-645`, notifications `43-255`, settings `59-3`, search `64-700`.
+  home `31-753`, documentation `39-645`, notifications `43-255`, settings `59-3`, search `64-700`,
+  entity detail `69-1864` (a Component; every other kind reuses it, see `modules/entity/`).
 - If the Figma has no design for a state (e.g. notification rows), design it with the same
   tokens and patterns, and say so to the user.
 
@@ -27,6 +28,13 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   listed in `App.tsx` `features`. Reader/wizard/detail pages of the plugin stay original.
 - `modules/entities/`: shared building blocks for list pages (list card with BUI table,
   `UserFilters`, `FilterSelects`, `cells`, `SupportMenu`, `PageNote`). Reuse them before writing new ones.
+- `modules/entity/`: the entity detail page (`/catalog/:namespace/:kind/:name`), one page for every
+  kind. Header (`EntityHeaderLayoutBlueprint`), 2-column card grid (`EntityContentLayoutBlueprint`),
+  and own cards swapped into the catalog and catalog-graph plugins (`Sobre`, `Links`, `Relações`
+  diagram, relation tables, API definition card and the API tab, wired from `modules/api-docs`).
+  Cards of other plugins (org, api-docs, labels) stay original and are
+  only restyled by the CSS of the grid (`EntityContentLayout.module.css`; the Ownership tiles of
+  `org` are matched by structure because MUI class names are generated). Its extensions are spread into `devPortalCatalogPlugin`.
 - `modules/home/`: custom home layout and widgets (fixed 3-column CSS grid; the plugin's
   `defaultConfig` grid positions are not used, widget content config in `app-config.yaml` is).
 
@@ -69,6 +77,15 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
 - `NavContentNavItems` are shared across renders: call `navItems.clone()` before `take`.
 - `extension.override({ disabled: true })` removes the extension (and its URL). To hide a
   menu item or tab keep the page and filter it (`HIDDEN`, `VISIBLE_TABS`).
+- The entity header layout only receives `tabs` and `activeTabId`, not the items of the `...`
+  menu: `page:catalog/entity` is overridden to pass them through `MenuItemsProvider`, and with
+  `noHeader: true` because the header draws its own top bar (it needs custom crumbs).
+- The layout of the entity overview only gets `{ element, type }` per card; the extension id is
+  read from `element.props.node.spec.id` to order the cards (`ORDER` in `EntityContentLayout.tsx`).
+- `backstage.io/source-location` makes TechDocs resolve `dir:.` against that URL (it downloads
+  the repo). Do not set both on the sample entities. `providesApis`/`consumesApis` are plural.
+- The catalog list page is pinned to components; only `component` and `api` kinds have a list
+  page to link from the breadcrumb (`kindListPage`).
 - The notifications client types `created/read/saved` as `Date` but returns ISO strings.
 - The guest user signs in as `user:development/guest`, not `user:default/guest`; notifications
   for tests are sent as `broadcast`.
@@ -87,15 +104,20 @@ context (`orbstack`). `yarn start` needs the cluster Postgres running. Remove te
 
 Dark mode for the new screens (BUI defaults + `--dp-*` fallbacks only), i18n, the "pin sidebar"
 setting (needs a collapsed-sidebar design), MUI theme alignment, shared UI package, and the menu
-items that exist only in the Figma (Backstage AI, Administração, Grupos, Tech Radar).
+items that exist only in the Figma (Backstage AI, Administração, Grupos, Tech Radar). On the entity
+page: the Docs tab (TechDocs reader), the rendered OpenAPI/AsyncAPI/GraphQL widgets (only fonts
+and spacing are adjusted) and the `...` menu items still look like the plugins and are in English.
 
 ## Verifying work
 
 Run `yarn tsc`, `yarn workspace app lint`, `CI=true yarn workspace app test --watchAll=false` and
-`yarn workspace app build` after UI changes. These do not prove the layout; say clearly what was not
-seen in a browser. Never stop or restart the user's `yarn start`; to look at the app run a separate
-instance (for example a backend on port 7008 with `APP_CONFIG_backend_listen_port=7008` and
-`APP_CONFIG_backend_baseUrl=http://localhost:7008`) and stop it afterwards.
+`yarn workspace app build` after UI changes. These do not prove the layout. Never stop or restart the user's
+`yarn start`; to look at the app build it and run a separate instance (a backend on port 7008 with
+`APP_CONFIG_backend_listen_port=7008`, `APP_CONFIG_backend_baseUrl=http://localhost:7008` and
+`APP_CONFIG_app_baseUrl=http://localhost:7008`), then stop it afterwards. The backend caches
+`index.html`: restart it after every build. Headless Chromium works for screenshots
+(`npx playwright install chromium`, then `playwright-core` from `node_modules` in a script kept
+outside the repo; sign in with the Guest button). Say clearly what was not seen in a browser.
 
 ## Commits
 

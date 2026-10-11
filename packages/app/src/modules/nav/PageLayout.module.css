@@ -53,6 +53,10 @@
   text-decoration: none;
 }
 
+.crumbText {
+  color: var(--bui-fg-secondary);
+}
+
 .crumbLink:hover {
   color: var(--bui-fg-primary);
 }

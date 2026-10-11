@@ -1,0 +1,104 @@
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--bui-border-1);
+  background: var(--bui-bg-neutral-2);
+}
+
+.tab {
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--bui-radius-2);
+  background: transparent;
+  color: var(--bui-fg-secondary);
+  font-family: var(--bui-font-regular);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-primary);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--bui-ring);
+  outline-offset: 1px;
+}
+
+.active,
+.active:hover {
+  background: var(--dp-accent-subtle);
+  color: var(--bui-accent-bg);
+  font-weight: 600;
+}
+
+.panel {
+  padding: 24px;
+  font-family: var(--bui-font-regular);
+}
+
+/* Rendered OpenAPI (Swagger UI): Inter, tokens and smaller titles. */
+.panel :global(.swagger-ui),
+.panel
+  :global(.swagger-ui)
+  :is(
+    p,
+    td,
+    th,
+    li,
+    label,
+    button,
+    input,
+    select,
+    textarea,
+    .opblock-summary-description
+  ) {
+  font-family: var(--bui-font-regular);
+}
+
+.panel :global(.swagger-ui .info) {
+  margin: 0 0 24px;
+}
+
+.panel :global(.swagger-ui .info .title) {
+  font-family: var(--bui-font-regular);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--bui-fg-primary);
+}
+
+.panel :global(.swagger-ui .opblock-tag) {
+  font-family: var(--bui-font-regular);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bui-fg-primary);
+  border-bottom-color: var(--bui-border-1);
+}
+
+.panel :global(.swagger-ui .opblock) {
+  border-radius: var(--bui-radius-3);
+  box-shadow: none;
+}
+
+/* Raw text: the code block of the plugin, flat and with the app's border. */
+.panel :global(pre) {
+  margin: 0;
+  border-radius: var(--bui-radius-3);
+  font-size: 12px;
+}
+
+/* Copy button of the code block (a BUI icon button): quiet, with a border. */
+.panel :global(.bui-ButtonIcon) {
+  background: var(--bui-bg-neutral-1);
+  border: 1px solid var(--bui-border-1);
+  color: var(--bui-fg-secondary);
+}
+
+.panel :global(.bui-ButtonIcon:hover) {
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-primary);
+}

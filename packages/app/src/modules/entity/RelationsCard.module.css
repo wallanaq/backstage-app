@@ -1,0 +1,209 @@
+/*
+ * The diagram is a grid: the current entity, a column for the wires and a
+ * column for the related entities. Every related entity gets a row of 84px:
+ * the 56px card and 28px of room for the label of the next relation. The wire
+ * of a row runs at 28px from the top of the row; a vertical trunk joins them
+ * and a short line joins the trunk to the current entity.
+ */
+
+.diagram {
+  --row: 84px;
+  --card: 56px;
+  --line: 28px;
+  --trunk: 30px;
+  --wire: var(--bui-border-2);
+
+  display: grid;
+  grid-template-columns: fit-content(190px) minmax(60px, 1fr) minmax(0, 272px);
+  flex: 1;
+  align-content: start;
+  grid-auto-rows: var(--row);
+  padding: 20px 24px 8px;
+  background: var(--bui-bg-neutral-2);
+}
+
+.root {
+  min-width: 150px;
+  grid-column: 1;
+  grid-row: 1 / span var(--rows);
+  align-self: center;
+  padding-bottom: calc(var(--row) - var(--card));
+}
+
+.trunk {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1 / span var(--rows);
+}
+
+.trunk::before {
+  content: '';
+  position: absolute;
+  left: var(--trunk);
+  top: var(--line);
+  bottom: calc(var(--row) - var(--line));
+  width: 1px;
+  background: var(--wire);
+}
+
+/* From the current entity to the trunk, at the middle of the trunk. */
+.trunk::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: calc(var(--line) + (var(--rows) - 1) * var(--row) / 2);
+  width: var(--trunk);
+  height: 1px;
+  background: var(--wire);
+}
+
+.row {
+  display: contents;
+}
+
+.wire {
+  position: relative;
+  grid-column: 2;
+  grid-row: var(--i);
+}
+
+/* From the trunk to the related entity, with the arrow head. */
+.wire::before {
+  content: '';
+  position: absolute;
+  left: var(--trunk);
+  right: 0;
+  top: var(--line);
+  height: 1px;
+  background: var(--wire);
+}
+
+.wire::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: calc(var(--line) - 4px);
+  border-top: 4.5px solid transparent;
+  border-bottom: 4.5px solid transparent;
+  border-left: 7px solid var(--wire);
+}
+
+.row > :last-child {
+  grid-column: 3;
+  grid-row: var(--i);
+}
+
+.label {
+  position: absolute;
+  left: calc(var(--trunk) + (100% - var(--trunk)) / 2);
+  top: calc(var(--line) - 32px);
+  transform: translateX(-50%);
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--bui-fg-secondary);
+}
+
+/* Entities */
+
+.node {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: var(--card);
+  min-width: 0;
+  padding: 0 12px;
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-3);
+  background: var(--bui-bg-neutral-1);
+  text-decoration: none;
+}
+
+.current {
+  border-color: var(--bui-accent-bg);
+  background: var(--dp-accent-subtle);
+}
+
+.related:hover {
+  border-color: var(--bui-border-2);
+  background: var(--bui-bg-neutral-2);
+}
+
+.related:focus-visible,
+.more:focus-visible,
+.graphLink:focus-visible {
+  outline: 2px solid var(--bui-ring);
+  outline-offset: 2px;
+}
+
+.nodeIcon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--bui-accent-bg);
+}
+
+.nodeText {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.nodeKind {
+  font-size: 10px;
+  color: var(--bui-fg-secondary);
+}
+
+.nodeName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--bui-accent-bg);
+}
+
+.more {
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bui-accent-bg);
+}
+
+.graphLink {
+  padding: 4px 8px;
+  border-radius: var(--bui-radius-2);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bui-accent-bg);
+  text-decoration: none;
+}
+
+.graphLink:hover {
+  background: var(--dp-accent-subtle);
+}
+
+/* No relations */
+
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 24px;
+  background: var(--bui-bg-neutral-2);
+}
+
+.empty .node {
+  width: 150px;
+}
+
+.emptyMessage {
+  margin: 0;
+  font-size: 12px;
+  color: var(--bui-fg-secondary);
+}

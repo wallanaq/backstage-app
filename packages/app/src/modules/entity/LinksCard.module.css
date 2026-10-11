@@ -1,0 +1,48 @@
+/* The links fill three columns from top to bottom, like the design. */
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  column-count: 3;
+  column-gap: 14px;
+}
+
+.item {
+  break-inside: avoid;
+  min-height: 32px;
+  margin-bottom: 6px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  border-radius: var(--bui-radius-2);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--bui-accent-bg);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--bui-ring);
+  outline-offset: 2px;
+}
+
+.icon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 1100px) {
+  .list {
+    column-count: 2;
+  }
+}

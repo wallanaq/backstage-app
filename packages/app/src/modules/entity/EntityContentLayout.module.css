@@ -1,0 +1,254 @@
+.warnings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.warnings:empty {
+  display: none;
+}
+
+/* Two equal columns; the cards of a row have the same height. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+  font-family: var(--bui-font-regular);
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.cell {
+  display: flex;
+  min-width: 0;
+}
+
+.cell > * {
+  flex: 1;
+}
+
+.cell[data-wide] {
+  grid-column: 1 / -1;
+}
+
+/*
+ * Cards from other plugins are BUI cards (EntityInfoCard); give them the
+ * look of the DevPortal cards: 12px radius, border, a 60px header with a
+ * 16px title and 24px of padding.
+ */
+.cell > :global(.bui-Card) {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bui-bg-neutral-1);
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-4);
+  box-shadow: none;
+}
+
+.cell :global(.bui-CardHeader) {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--bui-border-1);
+}
+
+.cell :global(.bui-CardHeader) > * {
+  flex: 1;
+}
+
+.cell :global(.bui-CardHeader) h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--bui-fg-primary);
+}
+
+.cell :global(.bui-CardBody) {
+  padding: 24px;
+}
+
+.cell :global(.bui-CardFooter) {
+  padding: 12px 24px;
+  border-top: 1px solid var(--bui-border-1);
+}
+
+/* Tables of the cards that still use MUI (api-docs, org). */
+.cell :global(.MuiTableCell-head) {
+  padding: 12px 8px;
+  background: var(--bui-bg-neutral-2);
+  font-family: var(--bui-font-regular);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--bui-fg-secondary);
+}
+
+.cell :global(.MuiTableCell-body) {
+  padding: 16px 8px;
+  font-family: var(--bui-font-regular);
+  font-size: 13px;
+  color: var(--bui-fg-primary);
+}
+
+.cell :global(.MuiTableCell-root:first-child) {
+  padding-left: 24px;
+}
+
+/* Buttons in the header of the cards of `org` (refresh, edit) are MUI icon buttons. */
+.cell :global(.bui-CardHeader) :global(.MuiIconButton-root) {
+  padding: 6px;
+  border-radius: var(--bui-radius-2);
+  color: var(--bui-fg-secondary);
+}
+
+.cell :global(.bui-CardHeader) :global(.MuiIconButton-root:hover) {
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-primary);
+}
+
+.cell :global(.bui-CardHeader) :global(.MuiIconButton-root) svg {
+  width: 16px;
+  height: 16px;
+}
+
+/*
+ * Ownership card: one tile per kind of owned entity. The tiles are MUI boxes
+ * painted with the page themes of Backstage (gradients); make them quiet
+ * tiles that highlight on hover. Class names are generated, so the selectors
+ * follow the structure: grid item > link > tile > count, title, kind.
+ */
+.cell :global(.MuiGrid-item) > :global(.MuiLink-root) {
+  display: block;
+  height: 100%;
+  border-radius: var(--bui-radius-3);
+  text-decoration: none;
+}
+
+.cell :global(.MuiGrid-item) > :global(.MuiLink-root:focus-visible) {
+  outline: 2px solid var(--bui-ring);
+  outline-offset: 2px;
+}
+
+.cell :global(.MuiGrid-item) > :global(.MuiLink-root) > :global(.MuiBox-root) {
+  gap: 4px;
+  height: 100%;
+  padding: 16px 12px;
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-3);
+  background: var(--bui-bg-neutral-2);
+  box-shadow: none;
+  color: var(--bui-fg-primary);
+  font-family: var(--bui-font-regular);
+}
+
+.cell
+  :global(.MuiGrid-item)
+  > :global(.MuiLink-root:hover)
+  > :global(.MuiBox-root) {
+  border-color: var(--bui-accent-bg);
+  background: var(--dp-accent-subtle);
+  box-shadow: none;
+}
+
+/* The count */
+.cell
+  :global(.MuiGrid-item)
+  > :global(.MuiLink-root)
+  > :global(.MuiBox-root)
+  > h6:first-child {
+  font-family: var(--bui-font-regular);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* The type (SERVICES) and the kind (Component) */
+.cell
+  :global(.MuiGrid-item)
+  > :global(.MuiLink-root)
+  > :global(.MuiBox-root)
+  h6:not(:first-child),
+.cell
+  :global(.MuiGrid-item)
+  > :global(.MuiLink-root)
+  > :global(.MuiBox-root)
+  :global(.MuiBox-root)
+  h6 {
+  font-family: var(--bui-font-regular);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  color: var(--bui-fg-secondary);
+}
+
+/* The member cards of a group are BUI cards inside the card. */
+.cell > :global(.bui-Card) :global(.bui-Card) {
+  height: auto;
+  min-height: 88px;
+  overflow: hidden;
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-3);
+  background: var(--bui-bg-neutral-2);
+  box-shadow: none;
+}
+
+.cell > :global(.bui-Card) :global(.bui-Card:hover) {
+  border-color: var(--bui-accent-bg);
+}
+
+.cell > :global(.bui-Card) :global(.bui-Card) h4 {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.cell > :global(.bui-Card) :global(.bui-Card) a {
+  font-size: 12px;
+}
+
+/* Profile cards of `org` (group, user): a list of icon, value and label. */
+.cell > :global(.bui-Card) :global(.MuiListItem-root) {
+  padding: 8px 0;
+}
+
+.cell > :global(.bui-Card) :global(.MuiListItemIcon-root) {
+  min-width: 40px;
+  color: var(--bui-fg-secondary);
+}
+
+.cell > :global(.bui-Card) :global(.MuiListItemIcon-root) svg {
+  width: 18px;
+  height: 18px;
+}
+
+.cell > :global(.bui-Card) :global(.MuiListItemText-root) {
+  margin: 0;
+}
+
+.cell > :global(.bui-Card) :global(.MuiListItemText-primary) {
+  font-family: var(--bui-font-regular);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--bui-fg-primary);
+}
+
+.cell > :global(.bui-Card) :global(.MuiListItemText-primary) a {
+  color: var(--bui-accent-bg);
+  text-decoration: none;
+}
+
+.cell > :global(.bui-Card) :global(.MuiListItemText-secondary) {
+  margin-top: 2px;
+  font-family: var(--bui-font-regular);
+  font-size: 11px;
+  color: var(--bui-fg-secondary);
+}

@@ -19,8 +19,11 @@ import styles from './cells.module.css';
 
 export function EntityLink({
   entityRef,
+  className,
 }: {
   entityRef: CompoundEntityRef | Entity;
+  /** Replaces the default link look (accent, semibold). */
+  className?: string;
 }) {
   const entityRoute = useRouteRef(entityRouteRef);
   const { primaryTitle } = useEntityPresentation(entityRef);
@@ -35,7 +38,7 @@ export function EntityLink({
 
   return (
     <Link
-      className={styles.link}
+      className={className ?? styles.link}
       to={entityRoute({
         kind: ref.kind.toLocaleLowerCase('en-US'),
         namespace: ref.namespace.toLocaleLowerCase('en-US'),

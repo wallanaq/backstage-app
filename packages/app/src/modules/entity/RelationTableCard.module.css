@@ -1,0 +1,69 @@
+.name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.owners {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ownerLink {
+  color: var(--bui-accent-bg);
+  text-decoration: none;
+}
+
+.ownerLink:hover {
+  text-decoration: underline;
+}
+
+.nameIcon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--bui-fg-secondary);
+}
+
+/* BUI table, restyled to the DevPortal look */
+
+.table :global(.bui-TableHeader) {
+  background: var(--bui-bg-neutral-2);
+  border-bottom: 1px solid var(--bui-border-1);
+}
+
+.table :global(.bui-TableHead) {
+  height: 40px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--bui-fg-secondary);
+}
+
+.table :global(.bui-TableRow) {
+  border-bottom: 0;
+}
+
+.table :global(.bui-TableRow:hover) {
+  background: var(--bui-bg-neutral-2);
+}
+
+.table :global(.bui-TableCell) {
+  padding: 24px 8px;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+/* The first and last columns line up with the 24px of the card header. */
+.table :global(.bui-TableHead:first-child),
+.table :global(.bui-TableCell:first-child) {
+  padding-left: 24px;
+}
+
+.table :global(.bui-TableHead:last-child),
+.table :global(.bui-TableCell:last-child) {
+  padding-right: 24px;
+}

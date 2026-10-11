@@ -97,11 +97,44 @@ function NotificationsButton() {
   );
 }
 
-function TopBar({ headerActions }: Pick<PageLayoutProps, 'headerActions'>) {
+export interface Crumb {
+  label: string;
+  /** Crumbs without a destination are shown as plain text. */
+  href?: string;
+}
+
+function CrumbLabel({ item, isLast }: { item: Crumb; isLast: boolean }) {
+  const label = translate(item.label);
+
+  if (isLast) {
+    return (
+      <span className={styles.current} aria-current="page">
+        {label}
+      </span>
+    );
+  }
+  return item.href ? (
+    <NavLink to={item.href} className={styles.crumbLink}>
+      {label}
+    </NavLink>
+  ) : (
+    <span className={styles.crumbText}>{label}</span>
+  );
+}
+
+/**
+ * The bar with the breadcrumbs, the docs link and the bell. The crumbs come
+ * from the page layout, unless the page draws its own bar and passes them.
+ */
+export function TopBar({
+  headerActions,
+  crumbs,
+}: Pick<PageLayoutProps, 'headerActions'> & { crumbs?: Crumb[] }) {
   const { items: registered } = useBreadcrumbEntries();
-  const items = UNDER_CATALOG.includes(registered[0]?.href ?? '')
+  const fromLayout = UNDER_CATALOG.includes(registered[0]?.href ?? '')
     ? [CATALOG_CRUMB, ...registered]
     : registered;
+  const items = crumbs ?? fromLayout;
 
   return (
     <div className={styles.topBar}>
@@ -116,15 +149,7 @@ function TopBar({ headerActions }: Pick<PageLayoutProps, 'headerActions'>) {
               <span className={styles.separator} aria-hidden>
                 /
               </span>
-              {isLast ? (
-                <span className={styles.current} aria-current="page">
-                  {translate(item.label)}
-                </span>
-              ) : (
-                <NavLink to={item.href} className={styles.crumbLink}>
-                  {translate(item.label)}
-                </NavLink>
-              )}
+              <CrumbLabel item={item} isLast={isLast} />
             </span>
           );
         })}

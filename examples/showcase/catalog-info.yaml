@@ -1,0 +1,142 @@
+# Sample entities for the entity detail page: one of each kind, related to each
+# other like the "artist-lookup" screen of the design.
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: artists
+  description: Everything about the artists of the platform
+spec:
+  owner: team-a
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: artist-engagement-portal
+  description: Portal where artists follow their audience
+spec:
+  owner: team-a
+  domain: artists
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: team-a
+  description: Team that owns the artist services
+spec:
+  type: team
+  profile:
+    displayName: Team A
+    email: team-a@example.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: jane-doe
+spec:
+  profile:
+    displayName: Jane Doe
+    email: jane.doe@example.com
+  memberOf: [team-a]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: artists-db
+  description: Database with the artist profiles
+spec:
+  type: database
+  owner: team-a
+  system: artist-engagement-portal
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: artist-api
+  description: Search of artists
+spec:
+  type: openapi
+  lifecycle: production
+  owner: team-a
+  system: artist-engagement-portal
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Artist API
+      version: 1.0.0
+    paths:
+      /artists:
+        get:
+          summary: List the artists
+          responses:
+            '200':
+              description: The artists
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: artist-lookup
+  description: Artist Lookup
+  tags:
+    - java
+    - data
+  annotations:
+    # Do not add `backstage.io/source-location` here: TechDocs would resolve `dir:.`
+    # against that URL and download the repository instead of using these files.
+    backstage.io/techdocs-ref: dir:.
+  links:
+    - url: https://example.com/user
+      title: Usuário de exemplo
+      icon: user
+    - url: https://example.com/dashboard
+      title: Dashboard
+      icon: dashboard
+    - url: https://example.com/alerts
+      title: Alertas
+      icon: alert
+    - url: https://example.com/group
+      title: Grupo de exemplo
+      icon: group
+    - url: https://example.com/help
+      title: Suporte
+      icon: help
+    - url: https://example.com/custom
+      title: Link com ícone personalizado
+    - url: https://example.com
+      title: Website
+      icon: web
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-a
+  system: artist-engagement-portal
+  dependsOn:
+    - resource:artists-db
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: artist-search
+  description: Search service that answers the artist API
+spec:
+  type: service
+  lifecycle: production
+  owner: team-a
+  system: artist-engagement-portal
+  providesApis:
+    - artist-api
+  dependsOn:
+    - component:artist-lookup
+    - resource:artists-db
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: artist-search-indexer
+  description: Keeps the search index up to date
+spec:
+  type: service
+  lifecycle: deprecated
+  owner: team-a
+  subcomponentOf: artist-search

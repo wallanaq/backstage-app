@@ -125,6 +125,8 @@ Notes on `app-config.yaml`:
 - `examples/template/`: the original example template
 - `examples/templates/`: sample templates for the templates screen, the teams that own them, and
   **"Gerar notificações de teste"**, a template that sends 6 broadcast notifications
+- `examples/showcase/`: one entity of every kind (domain, system, group, user, resource, API and three
+  components, with links, tags and docs) for the entity detail page; `artist-lookup` is the one in the design
 
 ## Useful commands
 

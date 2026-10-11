@@ -1,0 +1,5 @@
+site_name: artist-lookup
+nav:
+  - Home: index.md
+plugins:
+  - techdocs-core

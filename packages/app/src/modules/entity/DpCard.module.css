@@ -1,0 +1,146 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--bui-bg-neutral-1);
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-4);
+  font-family: var(--bui-font-regular);
+}
+
+.header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  height: 60px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--bui-border-1);
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--bui-fg-secondary);
+}
+
+.icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--bui-fg-primary);
+}
+
+.count {
+  padding: 3px 7px;
+  border-radius: var(--bui-radius-2);
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-secondary);
+  font-size: 11px;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--bui-radius-2);
+  background: transparent;
+  color: var(--bui-fg-secondary);
+  cursor: pointer;
+}
+
+.action:hover {
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-primary);
+}
+
+.action:focus-visible {
+  outline: 2px solid var(--bui-ring);
+  outline-offset: 1px;
+}
+
+.action svg {
+  width: 16px;
+  height: 16px;
+}
+
+.body {
+  flex: 1;
+  padding: 24px;
+}
+
+.flush {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 24px;
+  border-top: 1px solid var(--bui-border-1);
+  font-size: 11px;
+  color: var(--bui-fg-secondary);
+}
+
+/* Nothing to list */
+
+.empty {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+}
+
+.emptyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 100px;
+  background: var(--bui-bg-neutral-3);
+  color: var(--bui-fg-secondary);
+}
+
+.emptyIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.emptyMessage {
+  margin: 0;
+  max-width: 100%;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--bui-fg-secondary);
+}
