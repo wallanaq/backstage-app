@@ -4,7 +4,7 @@ import { identityApiRef, useApi } from '@backstage/core-plugin-api';
 export interface Profile {
   /** Display name, falls back to the user entity name. */
   name: string;
-  /** "Conta de visitante" for the guest user, the email otherwise. */
+  /** The email of the user. */
   subtitle: string;
 }
 
@@ -25,8 +25,7 @@ export function useProfile(): Profile | undefined {
           identity.userEntityRef.split('/').pop() ?? identity.userEntityRef;
         setProfile({
           name: info.displayName ?? shortRef,
-          subtitle:
-            shortRef === 'guest' ? 'Conta de visitante' : info.email ?? '',
+          subtitle: info.email ?? '',
         });
       })
       .catch(() => {

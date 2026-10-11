@@ -87,11 +87,17 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
 - The catalog list page is pinned to components; only `component` and `api` kinds have a list
   page to link from the breadcrumb (`kindListPage`).
 - The notifications client types `created/read/saved` as `Date` but returns ISO strings.
-- The guest user signs in as `user:development/guest`, not `user:default/guest`; notifications
-  for tests are sent as `broadcast`.
+- Users sign in with Keycloak (`user:default/<username>`, e.g. `platform-admin`, `banking-user`,
+  password `changeme`); there is no guest. Sign-in needs the user in the catalog: the Keycloak import
+  runs every minute, so a new user can sign in only after the next run. Notifications for tests are
+  sent as `broadcast`.
+- Sign-in is a redirect, not a popup (`enableExperimentalRedirectFlow: true`). On failure the auth
+  backend returns to the app with `?error=<message>`, which `SignInPage` shows and removes from the URL.
 - `https://*.k8s.orb.local` is answered by OrbStack's proxy and returns `502 ... EOF` for hosts behind
   the gateway (a listener on 443 with a certificate did not help); Keycloak is HTTP only. A browser
   that upgrades to HTTPS cannot open it.
+- The OIDC provider needs `auth.session.secret`, otherwise `/oidc/start` fails with "authentication
+  requires session support". The sign-in page is `sign-in-page:app` replaced from `modules/auth`.
 - `app-config.yaml`: home is `/`, catalog is `/catalog`, visit tracking is on. Yarn pins
   `@yarnpkg/core` to 4.9.1 in `resolutions` (4.9.2 was published broken); drop it once fixed.
 
@@ -125,7 +131,8 @@ Run `yarn tsc`, `yarn workspace app lint`, `CI=true yarn workspace app test --wa
 `APP_CONFIG_app_baseUrl=http://localhost:7008`), then stop it afterwards. The backend caches
 `index.html`: restart it after every build. Headless Chromium works for screenshots
 (`npx playwright install chromium`, then `playwright-core` from `node_modules` in a script kept
-outside the repo; sign in with the Guest button). Say clearly what was not seen in a browser.
+outside the repo; sign in with the Keycloak button as `platform-admin`, and launch Chromium with
+`--host-resolver-rules="MAP keycloak.k8s.orb.local <ip of the node>"` to avoid the IPv6 stall). Say clearly what was not seen in a browser.
 
 ## Commits
 

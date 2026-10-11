@@ -1,0 +1,91 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px 16px;
+  background: var(--bui-bg-app);
+  font-family: var(--bui-font-regular);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  background: var(--bui-bg-neutral-1);
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-4);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+  color: var(--bui-fg-primary);
+}
+
+.symbol {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 30px;
+  height: 32px;
+}
+
+.symbol > span {
+  width: 6px;
+  border-radius: 2px;
+  background: var(--bui-accent-bg);
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--bui-fg-primary);
+}
+
+.description {
+  margin: 0 0 28px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--bui-fg-secondary);
+}
+
+.button {
+  width: 100%;
+  height: 40px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status {
+  min-height: 18px;
+  margin: 16px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--bui-fg-secondary);
+}
+
+.status[role='alert'] {
+  color: var(--bui-fg-danger);
+}
+
+/* Message of the error, as the backend sent it. */
+.detail {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--bui-fg-secondary);
+  overflow-wrap: anywhere;
+}

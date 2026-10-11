@@ -1,5 +1,6 @@
 import { createApp } from '@backstage/frontend-defaults';
 import { devPortalApiDocsPlugin } from './modules/api-docs';
+import { authModule } from './modules/auth';
 import { devPortalCatalogPlugin } from './modules/catalog';
 import { devPortalCatalogGraphPlugin } from './modules/entity';
 import { navModule } from './modules/nav';
@@ -20,6 +21,7 @@ export default createApp({
     devPortalNotificationsPlugin,
     devPortalTechDocsPlugin,
     devPortalUserSettingsPlugin,
+    authModule,
     navModule,
     devPortalHomePlugin,
   ],

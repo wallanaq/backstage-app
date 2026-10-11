@@ -16,7 +16,7 @@ identity (see [DevPortal UI](#devportal-ui)).
 | PostgreSQL (CloudNativePG)                                                              | Running: `make postgres`; shared instance, Backstage uses it today and other tools can reuse it                     |
 | Kubernetes                                                                              | Backend plugin installed, **not configured** (`kubernetes` is commented out in `app-config.yaml`)                   |
 | GitOps / Argo CD                                                                        | Planned                                                                                                             |
-| Keycloak (OIDC sign-in, users and groups)                                               | Running: `make keycloak`; realm `backstage` imported from the repo                                                  |
+| Keycloak (OIDC sign-in, users and groups)                                               | Running: `make keycloak`; realm `backstage` imported from the repo, sign-in and catalog import use it               |
 | Permissions / RBAC                                                                      | Plugin installed with the allow-all policy                                                                          |
 | Other integrations                                                                      | To be added as they are validated                                                                                   |
 
@@ -128,11 +128,14 @@ yarn start
 
 - Frontend: <http://localhost:3000>
 - Backend: <http://localhost:7007>
-- Sign in as **Guest**.
+- Sign in with **Keycloak**: `platform-admin` or `banking-user`, password `changeme` (see
+  [Keycloak realm](#keycloak-realm)). The Keycloak session is not ended when you sign out of Backstage,
+  so the next sign-in can be silent. The sign-in redirects the browser to Keycloak (no popup):
+  `enableExperimentalRedirectFlow` in `app-config.yaml`, an experimental Backstage option.
 
 The database is the shared Postgres (see [Infrastructure](#infrastructure)), so catalog data, starred
-entities, notifications and user settings survive restarts. Without the cluster running the backend
-cannot start.
+entities, notifications and user settings survive restarts. Without the cluster running (Postgres and
+Keycloak) the backend cannot start or sign anyone in.
 
 To run only one side: `yarn workspace app start` or `yarn workspace backend start`.
 
@@ -145,10 +148,13 @@ To run only one side: `yarn workspace app start` or `yarn workspace backend star
 
 Environment variables:
 
-| Variable                                                               | When                                                                           |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `GITHUB_TOKEN`                                                         | Only for GitHub-backed features such as the `publish:github` scaffolder action |
-| `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD` | Database (the defaults point at the lab Postgres)                              |
+| Variable                                                                              | When                                                                           |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `GITHUB_TOKEN`                                                                        | Only for GitHub-backed features such as the `publish:github` scaffolder action |
+| `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`                | Database (the defaults point at the lab Postgres)                              |
+| `KEYCLOAK_BASE_URL`, `KEYCLOAK_REALM`, `KEYCLOAK_CLIENT_ID`, `KEYCLOAK_CLIENT_SECRET` | Sign-in (the defaults point at the lab Keycloak)                               |
+| `KEYCLOAK_CATALOG_CLIENT_ID`, `KEYCLOAK_CATALOG_CLIENT_SECRET`                        | Catalog import of users and groups (same)                                      |
+| `AUTH_SESSION_SECRET`                                                                 | Secret of the login session (the default is only for the lab)                  |
 
 Notes on `app-config.yaml`:
 
@@ -188,7 +194,8 @@ yarn build-image   # docker build, tag "backstage"
 ```
 
 The image uses only `app-config.yaml` (a local lab has no production profile), so the defaults
-point at the lab cluster and the `POSTGRES_*` variables override them. See `packages/backend/Dockerfile`.
+point at the lab cluster and the `POSTGRES_*`, `KEYCLOAK_*` and `AUTH_SESSION_SECRET` variables
+override them. See `packages/backend/Dockerfile`.
 
 ## Project layout
 
@@ -197,7 +204,7 @@ Makefile               Infrastructure targets (istio, postgres, keycloak)
 infra/                 Manifests and settings, one folder per component
 packages/app/          Frontend (new frontend system)
   src/theme/           DevPortal tokens
-  src/modules/         One folder per restyled plugin + nav, entities (shared UI), home
+  src/modules/         One folder per restyled plugin + nav, entities (shared UI), home, auth (sign-in)
 packages/backend/      Backend (plugins are added in src/index.ts)
 plugins/               Local plugins (none yet)
 examples/              Catalog data and templates
@@ -219,7 +226,7 @@ and the "pin sidebar" setting.
 
 - [ ] Kubernetes: configure clusters and show workloads on entity pages
 - [ ] GitOps with Argo CD: applications and sync status in the catalog
-- [ ] Keycloak: OIDC sign-in, users and groups from the realm
+- [x] Keycloak: OIDC sign-in, users and groups from the realm
 - [ ] Shared UI package so new plugins start with the DevPortal identity
 - [ ] Translations (pt-BR for the official plugins)
 
