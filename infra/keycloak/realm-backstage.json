@@ -1,0 +1,89 @@
+{
+  "realm": "backstage",
+  "displayName": "Backstage",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "verifyEmail": false,
+  "resetPasswordAllowed": false,
+  "groups": [
+    { "name": "platform", "path": "/platform" },
+    { "name": "banking", "path": "/banking" }
+  ],
+  "clients": [
+    {
+      "clientId": "backstage",
+      "name": "Backstage",
+      "description": "Sign-in of the Backstage portal (OIDC, authorization code).",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "changeme",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:7007/api/auth/oidc/handler/frame",
+        "http://localhost:7008/api/auth/oidc/handler/frame"
+      ],
+      "webOrigins": [
+        "http://localhost:3000",
+        "http://localhost:7007",
+        "http://localhost:7008"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "+"
+      }
+    },
+    {
+      "clientId": "backstage-catalog",
+      "name": "Backstage catalog sync",
+      "description": "Service account the Backstage catalog uses to import users and groups.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "changeme",
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true
+    }
+  ],
+  "users": [
+    {
+      "username": "service-account-backstage-catalog",
+      "enabled": true,
+      "serviceAccountClientId": "backstage-catalog",
+      "clientRoles": {
+        "realm-management": ["query-users", "query-groups", "view-users"]
+      }
+    },
+    {
+      "username": "platform-admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Platform",
+      "lastName": "Admin",
+      "email": "platform-admin@example.com",
+      "credentials": [
+        { "type": "password", "value": "changeme", "temporary": false }
+      ],
+      "groups": ["/platform"]
+    },
+    {
+      "username": "banking-user",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Banking",
+      "lastName": "User",
+      "email": "banking-user@example.com",
+      "credentials": [
+        { "type": "password", "value": "changeme", "temporary": false }
+      ],
+      "groups": ["/banking"]
+    }
+  ]
+}

@@ -89,6 +89,9 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
 - The notifications client types `created/read/saved` as `Date` but returns ISO strings.
 - The guest user signs in as `user:development/guest`, not `user:default/guest`; notifications
   for tests are sent as `broadcast`.
+- `https://*.k8s.orb.local` is answered by OrbStack's proxy and returns `502 ... EOF` for hosts behind
+  the gateway (a listener on 443 with a certificate did not help); Keycloak is HTTP only. A browser
+  that upgrades to HTTPS cannot open it.
 - `app-config.yaml`: home is `/`, catalog is `/catalog`, visit tracking is on. Yarn pins
   `@yarnpkg/core` to 4.9.1 in `resolutions` (4.9.2 was published broken); drop it once fixed.
 
@@ -97,9 +100,12 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
 `Makefile` + `infra/<component>/` (one folder per component, variables with `?=`, explicit CPU and
 memory limits on every workload). No Helm: Istio is `istioctl install -f infra/istio/operator.yaml` (the
 local `istioctl` must be `ISTIO_VERSION`), CloudNativePG is its release manifest through Kustomize
-(`infra/postgres/operator`). `make istio` then `make postgres` (see README). Gotchas: OrbStack
+(`infra/postgres/operator`), Keycloak is plain manifests. `make istio`, `make postgres`, `make keycloak` (see README). Gotchas: OrbStack
 is k3s (CNI paths in `infra/istio/operator.yaml`); `TCPRoute` needs `PILOT_ENABLE_ALPHA_GATEWAY_API`;
-CNPG managed roles need their Secret labeled `cnpg.io/reload: "true"`. Always pass the cluster by
+CNPG managed roles need their Secret labeled `cnpg.io/reload: "true"`; Keycloak imports its realm only
+when it does not exist (`realm-backstage.json` is the only source). Over IPv6 the `*.k8s.orb.local`
+gateway stalls on responses of more than a few KB (a plain container does not), which hangs the Keycloak
+login page in a browser that prefers IPv6. Always pass the cluster by
 context (`orbstack`). `yarn start` needs the cluster Postgres running. Remove test resources you create.
 
 ## Not done yet

@@ -16,7 +16,7 @@ identity (see [DevPortal UI](#devportal-ui)).
 | PostgreSQL (CloudNativePG)                                                              | Running: `make postgres`; shared instance, Backstage uses it today and other tools can reuse it                     |
 | Kubernetes                                                                              | Backend plugin installed, **not configured** (`kubernetes` is commented out in `app-config.yaml`)                   |
 | GitOps / Argo CD                                                                        | Planned                                                                                                             |
-| Keycloak (OIDC sign-in, groups)                                                         | Planned; today the app signs in with the guest provider                                                             |
+| Keycloak (OIDC sign-in, users and groups)                                               | Running: `make keycloak`; realm `backstage` imported from the repo                                                  |
 | Permissions / RBAC                                                                      | Plugin installed with the allow-all policy                                                                          |
 | Other integrations                                                                      | To be added as they are validated                                                                                   |
 
@@ -57,13 +57,14 @@ running). Everything is in the `Makefile` and `infra/<component>/`; `make help` 
 the variables you can override.
 
 ```sh
-make postgres   # runs "istio" first
+make keycloak   # runs "postgres" first, which runs "istio" first
 ```
 
-| Target          | What it does                                                                                                                                                                                 |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `make istio`    | Gateway API CRDs (experimental bundle, for `TCPRoute`), Istio in **ambient mode** with `istioctl` (`infra/istio/operator.yaml`) and the shared Gateway **`istio-gateway`** in `istio-system` |
-| `make postgres` | CloudNativePG operator (release manifest through Kustomize) and the shared `postgres` cluster (1 instance, 5Gi), with the managed role `backstage` (`backstage` / `changeme`)                |
+| Target          | What it does                                                                                                                                                                                                |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `make istio`    | Gateway API CRDs (experimental bundle, for `TCPRoute`), Istio in **ambient mode** with `istioctl` (`infra/istio/operator.yaml`) and the shared Gateway **`istio-gateway`** in `istio-system`                |
+| `make postgres` | CloudNativePG operator (release manifest through Kustomize) and the shared `postgres` cluster (1 instance, 5Gi), with the managed roles `backstage` and `keycloak` (`changeme`) and the database `keycloak` |
+| `make keycloak` | Keycloak 26.8 (plain Deployment, shared Postgres) behind `istio-gateway`, with the realm `backstage` imported from `infra/keycloak/realm-backstage.json`                                                    |
 
 Addresses:
 
@@ -72,9 +73,10 @@ Addresses:
 | HTTP applications       | `http://<name>.k8s.orb.local`, with an `HTTPRoute` attached to `istio-gateway` |
 | Postgres from the host  | `postgres.k8s.orb.local:5432` (`TCPRoute` on the Gateway port 5432)            |
 | Postgres in the cluster | `postgres-rw.postgres.svc.cluster.local:5432`                                  |
+| Keycloak                | `http://keycloak.k8s.orb.local` (admin console: `admin` / `admin`)             |
 
-Other tools (Keycloak, ...) should create their own role and database in this Postgres instead of
-running another one. Both targets are safe to run again. Notes:
+Other tools should create their own role and database in this Postgres instead of running another
+one (Keycloak did, see `infra/postgres/cluster.yaml`). The targets are safe to run again. Notes:
 
 - There is no Helm. `make istio` runs `istioctl install -f infra/istio/operator.yaml` and fails when the
   local `istioctl` is not `ISTIO_VERSION`; `make postgres` applies the release manifest of CloudNativePG
@@ -88,6 +90,35 @@ running another one. Both targets are safe to run again. Notes:
   The CRDs are kept (`helm.sh/resource-policy: keep`), so the Postgres data is not touched.
 - Workloads are not enrolled in the ambient mesh yet (no `istio.io/dataplane-mode` label).
 - Credentials are plain text on purpose (lab only) and there is no TLS.
+- Keycloak imports the realm only when it does not exist yet. After changing `realm-backstage.json`,
+  delete the realm `backstage` in the admin console (or drop the database `keycloak`) and run
+  `make keycloak` again.
+- Keycloak is plain HTTP: `http://keycloak.k8s.orb.local`. The HTTPS port of `*.k8s.orb.local` is
+  answered by OrbStack's own proxy, which fails with `502 Bad Gateway ... OrbStack proxy error: EOF` for
+  every host behind the gateway (also with a listener and a certificate on 443). A browser that upgrades
+  `http://` to `https://` ("Always use secure connections" in Chrome, "HTTPS first" elsewhere) therefore
+  shows that 502: turn it off for this host.
+- OrbStack also publishes an IPv6 address for `*.k8s.orb.local`, and on this setup big responses
+  (more than a few KB) over IPv6 stall, so a client that prefers IPv6 can hang on the Keycloak login
+  page. Check with `curl -6 http://keycloak.k8s.orb.local/resources/` against `curl -4`; a container
+  address (`<name>.orb.local`) does not have the problem. Headless browsers can be pinned to IPv4
+  with `--host-resolver-rules="MAP keycloak.k8s.orb.local <node ip>"`.
+
+### Keycloak realm
+
+The realm `backstage` (one source: `infra/keycloak/realm-backstage.json`) has:
+
+| What                       | Details                                                                                                           |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Client `backstage`         | Backstage sign-in (authorization code); redirect URIs for the backend on 7007 and 7008; secret `changeme`         |
+| Client `backstage-catalog` | Service account (roles `query-users`, `query-groups`, `view-users`) used by the catalog import; secret `changeme` |
+| User `platform-admin`      | Platform admin, group `platform`, password `changeme`                                                             |
+| User `banking-user`        | User of the business product "banking", group `banking`, password `changeme`                                      |
+
+Users and groups of the realm are imported into the catalog every minute (`catalog.providers.keycloakOrg`),
+so a user created in Keycloak shows up in Backstage after the next run. The sign-in matches the e-mail of
+the Keycloak user with the e-mail of the catalog `User` entity, so a new user can only sign in once it
+has been imported (and must have an e-mail).
 
 ## Run locally
 
@@ -162,7 +193,7 @@ point at the lab cluster and the `POSTGRES_*` variables override them. See `pack
 ## Project layout
 
 ```
-Makefile               Infrastructure targets (istio, postgres)
+Makefile               Infrastructure targets (istio, postgres, keycloak)
 infra/                 Manifests and settings, one folder per component
 packages/app/          Frontend (new frontend system)
   src/theme/           DevPortal tokens

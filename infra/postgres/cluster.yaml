@@ -23,6 +23,19 @@ stringData:
   username: backstage
   password: changeme
 ---
+# Keycloak's role (same plain credentials as above, copied to the keycloak namespace by infra/keycloak).
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-keycloak
+  namespace: postgres
+  labels:
+    cnpg.io/reload: 'true'
+type: kubernetes.io/basic-auth
+stringData:
+  username: keycloak
+  password: changeme
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -53,3 +66,21 @@ spec:
         createdb: true
         passwordSecret:
           name: postgres-backstage
+      # Keycloak keeps everything in one database, created below.
+      - name: keycloak
+        ensure: present
+        login: true
+        passwordSecret:
+          name: postgres-keycloak
+---
+# Declarative database of Keycloak (CNPG Database resource).
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: keycloak
+  namespace: postgres
+spec:
+  name: keycloak
+  owner: keycloak
+  cluster:
+    name: postgres

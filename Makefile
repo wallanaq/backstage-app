@@ -6,6 +6,7 @@
 #                      "istio-gateway" (HTTP on *.k8s.orb.local, TCP on 5432)
 #   2. make postgres   CloudNativePG and the shared Postgres cluster
 #                      (runs "istio" first)
+#   3. make keycloak   Keycloak with the realm "backstage" (runs "postgres" first)
 #
 # Every variable can be overridden: make istio ISTIO_VERSION=1.31.2
 # Manifests and settings live in infra/<component>/. Needs kubectl, istioctl and make.
@@ -29,10 +30,14 @@ GATEWAY_API_URL ?= https://github.com/kubernetes-sigs/gateway-api/releases/downl
 # CloudNativePG: the version is in infra/postgres/operator/kustomization.yaml.
 CNPG_NAMESPACE ?= cnpg-system
 
+# Keycloak. The image tag in infra/keycloak/keycloak.yaml must match.
+KEYCLOAK_VERSION ?= 26.8.0
+KEYCLOAK_NAMESPACE ?= keycloak
+
 ROLLOUT_TIMEOUT ?= 5m
 
 .DEFAULT_GOAL := help
-.PHONY: help istio postgres
+.PHONY: help istio postgres keycloak
 
 help: ## List the targets and the variables that can be overridden
 	@echo "Targets:"
@@ -41,7 +46,7 @@ help: ## List the targets and the variables that can be overridden
 	@echo "Variables (current values):"
 	@echo "  KUBE_CONTEXT=$(KUBE_CONTEXT)"
 	@echo "  ISTIO_VERSION=$(ISTIO_VERSION)  GATEWAY_API_VERSION=$(GATEWAY_API_VERSION)"
-	@echo "  ROLLOUT_TIMEOUT=$(ROLLOUT_TIMEOUT)"
+	@echo "  KEYCLOAK_VERSION=$(KEYCLOAK_VERSION)  ROLLOUT_TIMEOUT=$(ROLLOUT_TIMEOUT)"
 
 istio: ## Install Istio (ambient), the Gateway API CRDs and the Gateway istio-gateway
 	@v="$$(istioctl version --remote=false 2>/dev/null | sed -n 's/^client version: //p')"; \
@@ -71,3 +76,14 @@ postgres: istio ## Install CloudNativePG and the shared Postgres cluster (expose
 	$(KUBECTL) wait --for=condition=Ready --timeout=300s cluster/postgres --namespace postgres
 	$(KUBECTL) apply -f infra/postgres/tcproute.yaml
 	@echo "Postgres: postgres-rw.postgres.svc.cluster.local:5432 (cluster), postgres.k8s.orb.local:5432 (host)"
+
+keycloak: postgres ## Install Keycloak (shared Postgres) and import the realm "backstage"
+	@echo ">> Keycloak $(KEYCLOAK_VERSION)"
+	$(KUBECTL) create namespace $(KEYCLOAK_NAMESPACE) --dry-run=client -o yaml | $(KUBECTL) apply -f -
+	$(KUBECTL) create configmap keycloak-realm --namespace $(KEYCLOAK_NAMESPACE) \
+		--from-file=realm-backstage.json=infra/keycloak/realm-backstage.json \
+		--dry-run=client -o yaml | $(KUBECTL) apply -f -
+	sed 's#quay.io/keycloak/keycloak:[^ ]*#quay.io/keycloak/keycloak:$(KEYCLOAK_VERSION)#' infra/keycloak/keycloak.yaml | $(KUBECTL) apply -f -
+	$(KUBECTL) rollout status deployment/keycloak --namespace $(KEYCLOAK_NAMESPACE) --timeout=$(ROLLOUT_TIMEOUT)
+	@echo "Keycloak: http://keycloak.k8s.orb.local (admin console: admin / admin, realm: backstage)"
+	@echo "An existing realm is not changed by a new realm file: delete it in the admin console first."
