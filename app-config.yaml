@@ -73,14 +73,15 @@ backend:
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
   # The shared Postgres of the lab (make postgres). It is reached through the TCPRoute of
-  # istio-gateway; override the host and credentials with the POSTGRES_* variables.
+  # istio-gateway. The password is not here: it comes from .env.yarn (see .env.yarn.example); the
+  # other POSTGRES_* variables override the host, the port and the user.
   database:
     client: pg
     connection:
       host: ${POSTGRES_HOST:-postgres.k8s.orb.local}
       port: ${POSTGRES_PORT:-5432}
       user: ${POSTGRES_USER:-backstage}
-      password: ${POSTGRES_PASSWORD:-changeme}
+      password: ${POSTGRES_PASSWORD}
   # see https://backstage.io/docs/ai/mcp-actions#actions-configuration for more details
   actions:
     pluginSources:
@@ -125,9 +126,9 @@ enableExperimentalRedirectFlow: true
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
-  # The OIDC provider keeps the login state of the popup in a session, which needs a secret.
+  # The OIDC provider keeps the login state in a session, which needs a secret (from .env.yarn).
   session:
-    secret: ${AUTH_SESSION_SECRET:-lab-session-secret-change-me}
+    secret: ${AUTH_SESSION_SECRET}
   providers:
     # Keycloak (make keycloak): realm "backstage", client "backstage". The user must already be in
     # the catalog (imported by catalog.providers.keycloakOrg below) to sign in; the e-mail of the
@@ -136,7 +137,7 @@ auth:
       development:
         metadataUrl: ${KEYCLOAK_BASE_URL:-http://keycloak.localhost}/realms/${KEYCLOAK_REALM:-backstage}/.well-known/openid-configuration
         clientId: ${KEYCLOAK_CLIENT_ID:-backstage}
-        clientSecret: ${KEYCLOAK_CLIENT_SECRET:-changeme}
+        clientSecret: ${KEYCLOAK_CLIENT_SECRET}
         prompt: auto
         signIn:
           resolvers:
@@ -171,7 +172,7 @@ catalog:
         realm: ${KEYCLOAK_REALM:-backstage}
         loginRealm: ${KEYCLOAK_REALM:-backstage}
         clientId: ${KEYCLOAK_CATALOG_CLIENT_ID:-backstage-catalog}
-        clientSecret: ${KEYCLOAK_CATALOG_CLIENT_SECRET:-changeme}
+        clientSecret: ${KEYCLOAK_CATALOG_CLIENT_SECRET}
         schedule:
           frequency: { minutes: 1 }
           timeout: { minutes: 3 }

@@ -50,6 +50,19 @@ If `yarn install` fails with `ENOENT .../.yarn/patches/got-npm-11.8.2-...patch`,
 `@yarnpkg/core` entry in `resolutions` (root `package.json`) is still there: version 4.9.2 of that
 package was published broken. It can be removed once a fixed version is released.
 
+## Secrets
+
+`app-config.yaml` has no secret values. They live in `.env.yarn`, which Yarn injects into the scripts it
+runs (`yarn start`, `yarn workspace backend start`) and git ignores. Create it from the template:
+
+```sh
+cp .env.yarn.example .env.yarn   # then fill in the values
+```
+
+The values for the local lab are the ones the infrastructure creates (`changeme` for Postgres in
+`infra/postgres/cluster.yaml` and for the Keycloak clients in `infra/keycloak/realm-backstage.json`); for the
+session secret use any long random text (`openssl rand -hex 32`). Without the file the backend does not start.
+
 ## Infrastructure
 
 The backend needs the Postgres of the lab, so bring the infrastructure up first (OrbStack Kubernetes
@@ -155,15 +168,17 @@ To run only one side: `yarn workspace app start` or `yarn workspace backend star
 | `app-config.yaml`       | Local development                              |
 | `app-config.local.yaml` | Your own overrides; git ignores `*.local.yaml` |
 
-Environment variables:
+Environment variables (in `.env.yarn`, see [Secrets](#secrets)):
 
-| Variable                                                                              | When                                                                           |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `GITHUB_TOKEN`                                                                        | Only for GitHub-backed features such as the `publish:github` scaffolder action |
-| `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`                | Database (the defaults point at the lab Postgres)                              |
-| `KEYCLOAK_BASE_URL`, `KEYCLOAK_REALM`, `KEYCLOAK_CLIENT_ID`, `KEYCLOAK_CLIENT_SECRET` | Sign-in (the defaults point at the lab Keycloak)                               |
-| `KEYCLOAK_CATALOG_CLIENT_ID`, `KEYCLOAK_CATALOG_CLIENT_SECRET`                        | Catalog import of users and groups (same)                                      |
-| `AUTH_SESSION_SECRET`                                                                 | Secret of the login session (the default is only for the lab)                  |
+| Variable                                                                                  | What                                                                           |
+| ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `POSTGRES_PASSWORD`                                                                       | Password of the Postgres role (required)                                       |
+| `AUTH_SESSION_SECRET`                                                                     | Secret of the login session (required)                                         |
+| `KEYCLOAK_CLIENT_SECRET`                                                                  | Secret of the Keycloak client `backstage` (required)                           |
+| `KEYCLOAK_CATALOG_CLIENT_SECRET`                                                          | Secret of the Keycloak client `backstage-catalog` (required)                   |
+| `GITHUB_TOKEN`                                                                            | Only for GitHub-backed features such as the `publish:github` scaffolder action |
+| `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`                                         | Database (the defaults point at the lab Postgres)                              |
+| `KEYCLOAK_BASE_URL`, `KEYCLOAK_REALM`, `KEYCLOAK_CLIENT_ID`, `KEYCLOAK_CATALOG_CLIENT_ID` | Sign-in and import (the defaults point at the lab Keycloak)                    |
 
 Notes on `app-config.yaml`:
 
@@ -202,9 +217,8 @@ yarn build:backend
 yarn build-image   # docker build, tag "backstage"
 ```
 
-The image uses only `app-config.yaml` (a local lab has no production profile), so the defaults
-point at the lab cluster and the `POSTGRES_*`, `KEYCLOAK_*` and `AUTH_SESSION_SECRET` variables
-override them. See `packages/backend/Dockerfile`.
+The image uses only `app-config.yaml` (a local lab has no production profile): the defaults point at the
+lab cluster, and the four required secrets have to be passed as environment variables to the container. See `packages/backend/Dockerfile`.
 
 ## Project layout
 

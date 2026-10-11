@@ -28,6 +28,8 @@ node_modules/
 
 # dotenv environment variables file
 .env
+# Yarn injects it into the scripts (secrets of the local lab); .env.yarn.example is the template
+.env.yarn
 .env.test
 
 # Build output

@@ -100,6 +100,10 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   must open.
 - The OIDC provider needs `auth.session.secret`, otherwise `/oidc/start` fails with "authentication
   requires session support". The sign-in page is `sign-in-page:app` replaced from `modules/auth`.
+- Secrets are not in `app-config.yaml` (no `:-default` for them): they are in `.env.yarn` (git ignores it),
+  which Yarn injects into `yarn start` and `yarn workspace backend start`; `.env.yarn.example` is the template.
+  When you add a secret, add it to the template (empty) and keep a default only for non-sensitive values.
+  `backstage-cli config:print --lax` shows `x` for a variable that is not set.
 - `app-config.yaml`: home is `/`, catalog is `/catalog`, visit tracking is on. Yarn pins
   `@yarnpkg/core` to 4.9.1 in `resolutions` (4.9.2 was published broken); drop it once fixed.
 
