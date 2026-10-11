@@ -37,7 +37,7 @@ export function SearchPagination({ count }: { count: number }) {
   return (
     <footer className={styles.root}>
       <label className={styles.rows}>
-        Resultados por página:
+        Results per page:
         <span className={styles.select}>
           <select
             value={limit}
@@ -60,7 +60,7 @@ export function SearchPagination({ count }: { count: number }) {
         <button
           type="button"
           className={styles.button}
-          aria-label="Página anterior"
+          aria-label="Previous page"
           disabled={!fetchPreviousPage}
           onClick={() => {
             fetchPreviousPage?.();
@@ -72,7 +72,7 @@ export function SearchPagination({ count }: { count: number }) {
         <button
           type="button"
           className={styles.button}
-          aria-label="Próxima página"
+          aria-label="Next page"
           disabled={!fetchNextPage}
           onClick={() => {
             fetchNextPage?.();

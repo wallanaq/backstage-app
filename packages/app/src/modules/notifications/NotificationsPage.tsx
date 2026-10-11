@@ -56,14 +56,12 @@ function EmptyState({ view }: { view: ViewId }) {
       </span>
       <div className={styles.emptyText}>
         <h3 className={styles.emptyTitle}>
-          {unread
-            ? 'Nenhuma notificação não lida'
-            : 'Nenhuma notificação encontrada'}
+          {unread ? 'No unread notifications' : 'No notifications found'}
         </h3>
         <p className={styles.emptyHint}>
           {unread
-            ? 'Quando houver novas notificações, elas aparecerão aqui.'
-            : 'Ajuste os filtros para ver outras notificações.'}
+            ? 'When there are new notifications, they will show up here.'
+            : 'Adjust the filters to see other notifications.'}
         </p>
       </div>
     </div>
@@ -136,7 +134,7 @@ export function DevPortalNotificationsPage() {
   if (error) {
     list = (
       <p className={styles.message}>
-        Não foi possível carregar as notificações: {error.message}
+        Could not load the notifications: {error.message}
       </p>
     );
   } else if (!loading && notifications.length === 0) {
@@ -160,46 +158,46 @@ export function DevPortalNotificationsPage() {
     <>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.title}>Notificações</h1>
+          <h1 className={styles.title}>Notifications</h1>
           <p className={styles.description}>
-            Acompanhe as atualizações dos seus serviços e da plataforma.
+            Follow the updates of your services and of the platform.
           </p>
         </div>
         <SupportMenu variant="button" />
       </header>
 
       <div className={styles.body}>
-        <aside className={styles.filters} aria-label="Filtros">
-          <h2 className={styles.filtersTitle}>Filtros</h2>
+        <aside className={styles.filters} aria-label="Filters">
+          <h2 className={styles.filtersTitle}>Filters</h2>
           <FilterSelect
-            label="Exibir"
+            label="Show"
             value={filters.view}
             options={[...VIEWS]}
             onChange={view => change({ view: view as ViewId })}
           />
           <FilterSelect
-            label="Criadas em"
+            label="Created"
             value={filters.period}
             options={[...PERIODS]}
             onChange={period => change({ period: period as PeriodId })}
           />
           <FilterSelect
-            label="Ordenar por"
+            label="Sort by"
             value={filters.sort}
             options={[...SORTS]}
             onChange={sort => change({ sort: sort as SortId })}
           />
           <FilterSelect
-            label="Severidade mínima"
+            label="Minimum severity"
             value={filters.severity}
             options={[...SEVERITIES]}
             onChange={severity => change({ severity: severity as Severity })}
           />
           <FilterSelect
-            label="Tópico"
+            label="Topic"
             value={filters.topic}
             options={[
-              { id: ANY_TOPIC, label: 'Qualquer tópico' },
+              { id: ANY_TOPIC, label: 'Any topic' },
               ...topics.map(topic => ({ id: topic, label: topic })),
             ]}
             onChange={topic => change({ topic })}
@@ -219,13 +217,13 @@ export function DevPortalNotificationsPage() {
                   className={styles.markAll}
                   onClick={markAllRead}
                 >
-                  Marcar todas como lidas
+                  Mark all as read
                 </button>
               )}
               <div className={styles.search}>
                 <SearchField
-                  aria-label="Buscar notificações"
-                  placeholder="Buscar notificações..."
+                  aria-label="Search notifications"
+                  placeholder="Search notifications..."
                   value={search}
                   onChange={setSearch}
                 />
@@ -239,7 +237,7 @@ export function DevPortalNotificationsPage() {
             offset={offset}
             limit={limit}
             total={totalCount}
-            noun="notificações"
+            noun="notifications"
             onOffsetChange={setOffset}
             onLimitChange={value => {
               setLimit(value);

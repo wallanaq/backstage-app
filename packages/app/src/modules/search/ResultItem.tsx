@@ -16,11 +16,11 @@ const text = (value: unknown) =>
 function metadataOf(type: string, document: Document) {
   const items: [string, string | undefined][] = [
     ['Kind', text(document.kind)],
-    ['Tipo', text(document.componentType) ?? text(document.type)],
-    ['Responsável', text(document.owner)],
-    ['Ciclo de vida', text(document.lifecycle)],
+    ['Type', text(document.componentType) ?? text(document.type)],
+    ['Owner', text(document.owner)],
+    ['Lifecycle', text(document.lifecycle)],
     ...(type === 'techdocs'
-      ? ([['Entidade', text(document.name)]] as [string, string][])
+      ? ([['Entity', text(document.name)]] as [string, string][])
       : []),
   ];
   return items.flatMap(([label, value]) =>
@@ -43,7 +43,7 @@ export function ResultItem({ result }: { result: SearchResult }) {
   const { type, highlight } = result;
   const document = result.document as unknown as Document;
   const location = text(document.location);
-  const title = text(document.title) ?? 'Sem título';
+  const title = text(document.title) ?? 'Untitled';
 
   const heading = (
     <>

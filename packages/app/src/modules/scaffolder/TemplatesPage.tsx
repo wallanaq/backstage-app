@@ -65,7 +65,7 @@ export function DevPortalTemplatesPage() {
 
   // Everything except the group, so that the group counts follow the filters.
   const matching = useMemo(() => {
-    const query = search.trim().toLocaleLowerCase('pt-BR');
+    const query = search.trim().toLocaleLowerCase('en-US');
     return templates.filter(
       t =>
         (!query || searchText(t).includes(query)) &&
@@ -113,15 +113,15 @@ export function DevPortalTemplatesPage() {
 
   let content: ReactNode;
   if (loading) {
-    content = <p className={styles.message}>Carregando templates...</p>;
+    content = <p className={styles.message}>Loading templates...</p>;
   } else if (error) {
     content = (
       <p className={styles.message}>
-        Não foi possível carregar os templates: {error.message}
+        Could not load the templates: {error.message}
       </p>
     );
   } else if (visibleCount === 0) {
-    content = <p className={styles.message}>Nenhum template encontrado.</p>;
+    content = <p className={styles.message}>No templates found.</p>;
   } else {
     content = visibleGroups.map(({ group, templates: items }) =>
       renderGroup(group, items),
@@ -133,16 +133,16 @@ export function DevPortalTemplatesPage() {
       <div className={styles.body}>
         <FilterColumn>
           <FilterSelect
-            label="Tipo"
+            label="Type"
             options={[{ id: 'template', label: 'Template' }]}
             value="template"
             onChange={() => {}}
           />
 
-          <FilterSection title="Pessoal">
+          <FilterSection title="Personal">
             <FilterItem
               icon={<StarIcon />}
-              label="Favoritos"
+              label="Favorites"
               count={starredCount}
               active={onlyStarred}
               onClick={() => setOnlyStarred(value => !value)}
@@ -151,10 +151,10 @@ export function DevPortalTemplatesPage() {
 
           <FilterDivider />
 
-          <FilterSection title="Grupos">
+          <FilterSection title="Groups">
             <FilterItem
               icon={<LayersIcon />}
-              label="Todos"
+              label="All"
               count={matching.length}
               active={groupId === ALL}
               onClick={() => setGroupId(ALL)}
@@ -174,11 +174,11 @@ export function DevPortalTemplatesPage() {
           <FilterDivider />
 
           <FilterSelect
-            label="Responsável"
+            label="Owner"
             value={owner}
             onChange={setOwner}
             options={[
-              { id: ALL, label: 'Todos' },
+              { id: ALL, label: 'All' },
               ...options.owners.map(ref => ({
                 id: ref,
                 label: ref.split('/').pop() ?? ref,
@@ -186,11 +186,11 @@ export function DevPortalTemplatesPage() {
             ]}
           />
           <FilterSelect
-            label="Tecnologia"
+            label="Technology"
             value={technology}
             onChange={setTechnology}
             options={[
-              { id: ALL, label: 'Todas' },
+              { id: ALL, label: 'All' },
               ...options.technologies.map(id => ({ id, label: id })),
             ]}
           />
@@ -199,7 +199,7 @@ export function DevPortalTemplatesPage() {
             value={tag}
             onChange={setTag}
             options={[
-              { id: ALL, label: 'Todas' },
+              { id: ALL, label: 'All' },
               ...options.tags.map(id => ({ id, label: id })),
             ]}
           />
@@ -208,13 +208,13 @@ export function DevPortalTemplatesPage() {
         <div className={styles.results}>
           <div className={styles.bar}>
             <h2 className={styles.heading}>
-              Todos os templates
+              All templates
               <span className={styles.count}>{visibleCount}</span>
             </h2>
             <div className={styles.search}>
               <SearchField
-                aria-label="Buscar templates"
-                placeholder="Buscar por nome, tecnologia ou tag..."
+                aria-label="Search templates"
+                placeholder="Search by name, technology or tag..."
                 value={search}
                 onChange={setSearch}
               />
@@ -224,8 +224,8 @@ export function DevPortalTemplatesPage() {
           {content}
 
           <PageNote flush>
-            Os templates são definidos em arquivos template.yaml e mantidos
-            pelas equipes responsáveis.
+            Templates are defined in template.yaml files and maintained by the
+            owning teams.
           </PageNote>
         </div>
       </div>

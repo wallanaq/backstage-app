@@ -46,19 +46,19 @@ export const GROUPS: TemplateGroup[] = [
   {
     id: 'backend',
     label: 'Backend',
-    description: 'Serviços e APIs prontos para evoluir.',
+    description: 'Services and APIs ready to evolve.',
     types: ['service', 'backend', 'api'],
   },
   {
     id: 'frontend',
     label: 'Frontend',
-    description: 'Aplicações web com uma base consistente.',
+    description: 'Web applications with a consistent base.',
     types: ['website', 'frontend', 'webapp'],
   },
   {
     id: 'libraries',
-    label: 'Bibliotecas',
-    description: 'Código reutilizável para compartilhar entre projetos.',
+    label: 'Libraries',
+    description: 'Reusable code to share across projects.',
     types: ['library'],
   },
 ];
@@ -66,8 +66,8 @@ export const GROUPS: TemplateGroup[] = [
 /** Templates whose type is not listed in {@link GROUPS}. */
 export const OTHER_GROUP: TemplateGroup = {
   id: 'other',
-  label: 'Outros',
-  description: 'Outros templates disponíveis.',
+  label: 'Others',
+  description: 'Other available templates.',
   types: [],
 };
 
@@ -123,5 +123,5 @@ export function searchText(template: TemplateView): string {
   ]
     .filter(Boolean)
     .join(' ')
-    .toLocaleLowerCase('pt-BR');
+    .toLocaleLowerCase('en-US');
 }

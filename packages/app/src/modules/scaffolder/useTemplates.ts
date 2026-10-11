@@ -27,7 +27,7 @@ export function useTemplates(): TemplatesState {
           loading: false,
           templates: items
             .map(toTemplateView)
-            .sort((a, b) => a.title.localeCompare(b.title, 'pt-BR')),
+            .sort((a, b) => a.title.localeCompare(b.title, 'en-US')),
         });
       })
       .catch(error => {

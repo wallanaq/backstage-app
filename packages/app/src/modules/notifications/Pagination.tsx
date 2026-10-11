@@ -11,7 +11,7 @@ export interface PaginationProps {
   offset: number;
   limit: number;
   total: number;
-  /** "notificações", used in "Mostrando 1–5 de 8 notificações". */
+  /** "notifications", used in "Showing 1–5 of 8 notifications". */
   noun: string;
   onOffsetChange: (offset: number) => void;
   onLimitChange: (limit: number) => void;
@@ -52,14 +52,14 @@ export function Pagination({
   return (
     <footer className={styles.root}>
       <span className={styles.label}>
-        Mostrando {from}–{to} de {total} {noun}
+        Showing {from}–{to} of {total} {noun}
       </span>
       <div className={styles.controls}>
         <label className={styles.rows}>
-          Linhas por página:
+          Rows per page:
           <span className={styles.select}>
             <select
-              aria-label="Linhas por página"
+              aria-label="Rows per page"
               value={limit}
               onChange={event => onLimitChange(Number(event.target.value))}
             >
@@ -73,15 +73,15 @@ export function Pagination({
           </span>
         </label>
         <span className={styles.divider} />
-        {button('Primeira página', <FirstPageIcon />, atStart, 0)}
+        {button('First page', <FirstPageIcon />, atStart, 0)}
         {button(
-          'Página anterior',
+          'Previous page',
           <PreviousIcon />,
           atStart,
           Math.max(0, offset - limit),
         )}
-        {button('Próxima página', <NextIcon />, atEnd, offset + limit)}
-        {button('Última página', <LastPageIcon />, atEnd, lastOffset)}
+        {button('Next page', <NextIcon />, atEnd, offset + limit)}
+        {button('Last page', <LastPageIcon />, atEnd, lastOffset)}
       </div>
     </footer>
   );

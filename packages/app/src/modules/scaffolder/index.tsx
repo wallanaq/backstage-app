@@ -39,11 +39,11 @@ export const devPortalScaffolderPlugin = scaffolderPlugin.withOverrides({
     }),
     extension('sub-page:scaffolder/tasks').override({
       factory: originalFactory =>
-        originalFactory({ params: { title: 'Tarefas' } }),
+        originalFactory({ params: { title: 'Tasks' } }),
     }),
     extension('sub-page:scaffolder/editor').override({
       factory: originalFactory =>
-        originalFactory({ params: { title: 'Editor de templates' } }),
+        originalFactory({ params: { title: 'Template editor' } }),
     }),
   ],
 });

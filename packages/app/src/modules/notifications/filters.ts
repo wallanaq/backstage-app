@@ -8,31 +8,31 @@ export interface Option<T extends string = string> {
 }
 
 export const VIEWS = [
-  { id: 'unread', label: 'Não lidas' },
-  { id: 'read', label: 'Lidas' },
-  { id: 'saved', label: 'Salvas' },
-  { id: 'all', label: 'Todas' },
+  { id: 'unread', label: 'Unread' },
+  { id: 'read', label: 'Read' },
+  { id: 'saved', label: 'Saved' },
+  { id: 'all', label: 'All' },
 ] as const satisfies readonly Option[];
 
 export const PERIODS = [
-  { id: 'any', label: 'Qualquer período' },
-  { id: 'day', label: 'Últimas 24 horas' },
-  { id: 'week', label: 'Últimos 7 dias' },
-  { id: 'month', label: 'Últimos 30 dias' },
+  { id: 'any', label: 'Any time' },
+  { id: 'day', label: 'Last 24 hours' },
+  { id: 'week', label: 'Last 7 days' },
+  { id: 'month', label: 'Last 30 days' },
 ] as const satisfies readonly Option[];
 
 export const SORTS = [
-  { id: 'newest', label: 'Mais recentes' },
-  { id: 'oldest', label: 'Mais antigas' },
-  { id: 'topic', label: 'Tópico' },
-  { id: 'origin', label: 'Origem' },
+  { id: 'newest', label: 'Newest' },
+  { id: 'oldest', label: 'Oldest' },
+  { id: 'topic', label: 'Topic' },
+  { id: 'origin', label: 'Origin' },
 ] as const satisfies readonly Option[];
 
 export const SEVERITIES = [
-  { id: 'low', label: 'Baixa' },
+  { id: 'low', label: 'Low' },
   { id: 'normal', label: 'Normal' },
-  { id: 'high', label: 'Alta' },
-  { id: 'critical', label: 'Crítica' },
+  { id: 'high', label: 'High' },
+  { id: 'critical', label: 'Critical' },
 ] as const satisfies readonly Option<Severity>[];
 
 export type ViewId = (typeof VIEWS)[number]['id'];
@@ -92,8 +92,8 @@ export function toQuery(
 }
 
 export const TITLES: Record<ViewId, string> = {
-  unread: 'Notificações não lidas',
-  read: 'Notificações lidas',
-  saved: 'Notificações salvas',
-  all: 'Todas as notificações',
+  unread: 'Unread notifications',
+  read: 'Read notifications',
+  saved: 'Saved notifications',
+  all: 'All notifications',
 };

@@ -37,7 +37,7 @@ export interface TemplateCardProps {
   template: TemplateView;
   /** Icon of the technology/group, shown in the square on the left. */
   icon: ReactNode;
-  /** Where "Escolher" leads to. */
+  /** Where "Choose" leads to. */
   href: string;
 }
 
@@ -63,7 +63,9 @@ export function TemplateCard({ template, icon, href }: TemplateCardProps) {
           type="button"
           className={styles.star}
           aria-pressed={isStarredEntity}
-          aria-label={isStarredEntity ? 'Remover dos favoritos' : 'Favoritar'}
+          aria-label={
+            isStarredEntity ? 'Remove from favorites' : 'Add to favorites'
+          }
           onClick={toggleStarredEntity}
         >
           {isStarredEntity ? (
@@ -90,7 +92,7 @@ export function TemplateCard({ template, icon, href }: TemplateCardProps) {
         <div className={styles.ownerBlock}>
           {template.owner && (
             <>
-              <span className={styles.ownerLabel}>Responsável</span>
+              <span className={styles.ownerLabel}>Owner</span>
               <Owner owner={template.owner} />
             </>
           )}
@@ -100,7 +102,7 @@ export function TemplateCard({ template, icon, href }: TemplateCardProps) {
           href={href}
           iconStart={<ArrowForwardIcon />}
         >
-          Escolher
+          Choose
         </ButtonLink>
       </footer>
     </article>

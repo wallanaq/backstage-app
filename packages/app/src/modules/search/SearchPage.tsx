@@ -28,13 +28,13 @@ import styles from './SearchPage.module.css';
 const ALL = 'all';
 
 const TYPES = [
-  { id: '', label: 'Todos', icon: <FilterIcon /> },
+  { id: '', label: 'All', icon: <FilterIcon /> },
   {
     id: 'software-catalog',
-    label: 'Catálogo de software',
+    label: 'Software catalog',
     icon: <LayersIcon />,
   },
-  { id: 'techdocs', label: 'Documentação', icon: <BookIcon /> },
+  { id: 'techdocs', label: 'Documentation', icon: <BookIcon /> },
 ];
 
 function useFacetValues(facet: string) {
@@ -100,8 +100,8 @@ function SearchField() {
       <input
         className={styles.input}
         type="search"
-        aria-label="Buscar no portal"
-        placeholder="Buscar no portal"
+        aria-label="Search the portal"
+        placeholder="Search the portal"
         value={value}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
@@ -117,7 +117,7 @@ function SearchField() {
           }}
         >
           <CloseIcon />
-          Limpar
+          Clear
         </button>
       )}
     </div>
@@ -157,7 +157,7 @@ function Filters() {
           aria-expanded={typesOpen}
           onClick={() => setTypesOpen(open => !open)}
         >
-          Tipo de resultado
+          Result type
           <ChevronUpIcon
             className={typesOpen ? styles.chevron : styles.chevronClosed}
           />
@@ -177,17 +177,17 @@ function Filters() {
       <FilterDivider />
 
       <FilterSelect
-        label="Categoria (kind)"
+        label="Category (kind)"
         value={kind}
         options={[
-          { id: ALL, label: 'Todos' },
+          { id: ALL, label: 'All' },
           ...kinds.map(value => ({ id: value, label: value })),
         ]}
         onChange={value => setFilter('kind', value === ALL ? undefined : value)}
       />
 
       <fieldset className={styles.lifecycles}>
-        <legend className={styles.legend}>Ciclo de vida (lifecycle)</legend>
+        <legend className={styles.legend}>Lifecycle</legend>
         {lifecycles.map(lifecycle => (
           <label key={lifecycle} className={styles.checkbox}>
             <input
@@ -211,18 +211,16 @@ function Results() {
   let content;
   if (result.error) {
     content = (
-      <p className={styles.message}>
-        Não foi possível buscar: {result.error.message}
-      </p>
+      <p className={styles.message}>Could not search: {result.error.message}</p>
     );
   } else if (!term) {
     content = (
       <p className={styles.message}>
-        Digite algo para buscar no catálogo e na documentação.
+        Type something to search the catalog and the documentation.
       </p>
     );
   } else if (!result.loading && results.length === 0) {
-    content = <p className={styles.message}>Nenhum resultado para “{term}”.</p>;
+    content = <p className={styles.message}>No results for “{term}”.</p>;
   } else {
     content = (
       <div
@@ -240,7 +238,7 @@ function Results() {
     <section className={styles.card} aria-live="polite">
       <header className={styles.bar}>
         <h2 className={styles.heading}>
-          {term ? `Resultados para “${term}”` : 'Resultados'}
+          {term ? `Results for “${term}”` : 'Results'}
         </h2>
       </header>
       {content}
@@ -257,10 +255,9 @@ function SearchBody() {
       <header className={styles.header}>
         <div className={styles.welcome}>
           <div>
-            <h1 className={styles.title}>Busca</h1>
+            <h1 className={styles.title}>Search</h1>
             <p className={styles.description}>
-              Encontre entidades do catálogo e conteúdo de documentação no
-              Backstage.
+              Find catalog entities and documentation content in Backstage.
             </p>
           </div>
           <SupportMenu variant="button" />

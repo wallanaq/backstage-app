@@ -8,8 +8,8 @@ import { Notification } from './useNotificationList';
 import styles from './NotificationRow.module.css';
 
 const SEVERITY_LABELS: Record<string, string> = {
-  critical: 'Crítica',
-  high: 'Alta',
+  critical: 'Critical',
+  high: 'High',
 };
 
 const UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
@@ -21,7 +21,7 @@ const UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
 ];
 
 /**
- * "há 3 horas", "ontem"... The API returns the dates of a notification as ISO
+ * "3 hours ago", "yesterday"... The API returns the dates of a notification as ISO
  * strings, although the client types them as `Date`.
  */
 function timeAgo(date: Date | string, now = Date.now()): string {
@@ -30,7 +30,7 @@ function timeAgo(date: Date | string, now = Date.now()): string {
     return '';
   }
   const seconds = Math.round((time - now) / 1000);
-  const formatter = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
+  const formatter = new Intl.RelativeTimeFormat('en-US', { numeric: 'auto' });
   const [unit, size] =
     UNITS.find(([, length]) => Math.abs(seconds) >= length) ??
     (['minute', 60] as const);
@@ -72,7 +72,7 @@ export function NotificationRow({
 
       <div className={styles.content}>
         <div className={styles.titleLine}>
-          {unread && <span className={styles.dot} aria-label="Não lida" />}
+          {unread && <span className={styles.dot} aria-label="Unread" />}
           {title}
           {SEVERITY_LABELS[severity] && (
             <span className={styles.severity} data-severity={severity}>
@@ -94,8 +94,8 @@ export function NotificationRow({
         <button
           type="button"
           className={styles.action}
-          aria-label={unread ? 'Marcar como lida' : 'Marcar como não lida'}
-          title={unread ? 'Marcar como lida' : 'Marcar como não lida'}
+          aria-label={unread ? 'Mark as read' : 'Mark as unread'}
+          title={unread ? 'Mark as read' : 'Mark as unread'}
           onClick={() => onToggleRead(notification)}
         >
           {unread ? <CheckIcon /> : <UndoIcon />}
@@ -104,8 +104,8 @@ export function NotificationRow({
           type="button"
           className={styles.action}
           aria-pressed={saved}
-          aria-label={saved ? 'Remover dos salvos' : 'Salvar'}
-          title={saved ? 'Remover dos salvos' : 'Salvar'}
+          aria-label={saved ? 'Remove from saved' : 'Save'}
+          title={saved ? 'Remove from saved' : 'Save'}
           onClick={() => onToggleSaved(notification)}
         >
           {saved ? (
