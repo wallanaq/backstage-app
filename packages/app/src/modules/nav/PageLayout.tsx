@@ -9,7 +9,6 @@ import {
 import { SwappableComponentBlueprint } from '@backstage/plugin-app-react';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
 import NotificationsIcon from '@material-ui/icons/NotificationsNone';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import { SupportMenu } from '../entities/SupportMenu';
 import { useUnreadCount } from '../notifications/useUnreadCount';
 import styles from './PageLayout.module.css';
@@ -124,7 +123,7 @@ function CrumbLabel({ item, isLast }: { item: Crumb; isLast: boolean }) {
 }
 
 /**
- * The bar with the breadcrumbs, the docs link and the bell. The crumbs come
+ * The bar with the breadcrumbs and the bell. The crumbs come
  * from the page layout, unless the page draws its own bar and passes them.
  */
 export function TopBar({
@@ -157,15 +156,6 @@ export function TopBar({
       </nav>
       <div className={styles.actions}>
         {headerActions}
-        <a
-          className={styles.docsLink}
-          href="https://backstage.io/docs"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Documentação do Backstage
-          <OpenInNewIcon className={styles.docsIcon} />
-        </a>
         <NotificationsButton />
       </div>
     </div>
