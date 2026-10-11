@@ -6,7 +6,7 @@ kind: Template
 metadata:
   name: java-backend
   title: Java Backend
-  description: Microserviço REST com Spring Boot, autenticação, testes e observabilidade configurados.
+  description: REST microservice with Spring Boot, authentication, tests and observability set up.
   tags:
     - rest
     - maven
@@ -18,21 +18,21 @@ spec:
   owner: group:default/team-backend
   type: service
   parameters:
-    - title: Informações do componente
+    - title: Component information
       required:
         - name
       properties:
         name:
-          title: Nome
+          title: Name
           type: string
-          description: Nome único do componente
+          description: Unique name of the component
           ui:autofocus: true
   steps:
     - id: log
-      name: Registrar entrada
+      name: Log input
       action: debug:log
       input:
-        message: Criando ${{ parameters.name }} a partir de Java Backend
+        message: Creating ${{ parameters.name }} from Java Backend
 
 ---
 apiVersion: scaffolder.backstage.io/v1beta3
@@ -40,7 +40,7 @@ kind: Template
 metadata:
   name: nodejs-backend
   title: Node.js Backend
-  description: API modular com NestJS, validação de dados, OpenAPI e pipeline de integração contínua.
+  description: Modular API with NestJS, data validation, OpenAPI and a continuous integration pipeline.
   tags:
     - rest
     - openapi
@@ -52,21 +52,21 @@ spec:
   owner: group:default/team-backend
   type: service
   parameters:
-    - title: Informações do componente
+    - title: Component information
       required:
         - name
       properties:
         name:
-          title: Nome
+          title: Name
           type: string
-          description: Nome único do componente
+          description: Unique name of the component
           ui:autofocus: true
   steps:
     - id: log
-      name: Registrar entrada
+      name: Log input
       action: debug:log
       input:
-        message: Criando ${{ parameters.name }} a partir de Node.js Backend
+        message: Creating ${{ parameters.name }} from Node.js Backend
 
 ---
 apiVersion: scaffolder.backstage.io/v1beta3
@@ -74,7 +74,7 @@ kind: Template
 metadata:
   name: react-frontend
   title: React Frontend
-  description: Aplicação React com roteamento, design system, testes e linting prontos para usar.
+  description: React application with routing, design system, tests and linting ready to use.
   tags:
     - spa
     - vitest
@@ -86,21 +86,21 @@ spec:
   owner: group:default/team-frontend
   type: website
   parameters:
-    - title: Informações do componente
+    - title: Component information
       required:
         - name
       properties:
         name:
-          title: Nome
+          title: Name
           type: string
-          description: Nome único do componente
+          description: Unique name of the component
           ui:autofocus: true
   steps:
     - id: log
-      name: Registrar entrada
+      name: Log input
       action: debug:log
       input:
-        message: Criando ${{ parameters.name }} a partir de React Frontend
+        message: Creating ${{ parameters.name }} from React Frontend
 
 ---
 apiVersion: scaffolder.backstage.io/v1beta3
@@ -108,7 +108,7 @@ kind: Template
 metadata:
   name: nextjs-frontend
   title: Next.js Frontend
-  description: Aplicação com App Router, renderização no servidor e estrutura otimizada para SEO.
+  description: Application with App Router, server-side rendering and a structure optimized for SEO.
   tags:
     - ssr
     - app-router
@@ -120,21 +120,21 @@ spec:
   owner: group:default/team-frontend
   type: website
   parameters:
-    - title: Informações do componente
+    - title: Component information
       required:
         - name
       properties:
         name:
-          title: Nome
+          title: Name
           type: string
-          description: Nome único do componente
+          description: Unique name of the component
           ui:autofocus: true
   steps:
     - id: log
-      name: Registrar entrada
+      name: Log input
       action: debug:log
       input:
-        message: Criando ${{ parameters.name }} a partir de Next.js Frontend
+        message: Creating ${{ parameters.name }} from Next.js Frontend
 
 ---
 apiVersion: scaffolder.backstage.io/v1beta3
@@ -142,7 +142,7 @@ kind: Template
 metadata:
   name: go-library
   title: Go Library
-  description: Biblioteca Go com módulos, testes unitários, documentação e versionamento semântico.
+  description: Go library with modules, unit tests, documentation and semantic versioning.
   tags:
     - library
     - go-modules
@@ -154,108 +154,108 @@ spec:
   owner: group:default/team-platform
   type: library
   parameters:
-    - title: Informações do componente
+    - title: Component information
       required:
         - name
       properties:
         name:
-          title: Nome
+          title: Name
           type: string
-          description: Nome único do componente
+          description: Unique name of the component
           ui:autofocus: true
   steps:
     - id: log
-      name: Registrar entrada
+      name: Log input
       action: debug:log
       input:
-        message: Criando ${{ parameters.name }} a partir de Go Library
+        message: Creating ${{ parameters.name }} from Go Library
 ---
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: notification-samples
-  title: Gerar notificações de teste
-  description: Envia notificações de exemplo (diferentes severidades, tópicos e links) para todos os usuários.
+  title: Generate test notifications
+  description: Sends sample notifications (different severities, topics and links) to all users.
   tags:
-    - teste
-    - notificacoes
+    - test
+    - notifications
   annotations:
-    devportal.io/stack: Backstage · Notificações
+    devportal.io/stack: Backstage · Notifications
     devportal.io/version: v0.1.0
 spec:
   owner: group:default/team-platform
   type: other
   parameters:
-    - title: Confirmação
+    - title: Confirmation
       properties:
         confirm:
-          title: Enviar as notificações de teste
+          title: Send the test notifications
           type: boolean
           default: true
-          description: Cria 6 notificações de broadcast, visíveis para todos os usuários.
+          description: Creates 6 broadcast notifications, visible to all users.
   steps:
     - id: notify-critical
-      name: "Falha no deploy de playback-order"
+      name: "Deploy of playback-order failed"
       action: notification:send
       input:
         recipients: broadcast
-        title: "Falha no deploy de playback-order"
-        info: "O pipeline de produção falhou na etapa de migração do banco. A versão anterior continua no ar."
+        title: "Deploy of playback-order failed"
+        info: "The production pipeline failed at the database migration step. The previous version is still running."
         link: "/catalog/default/component/playback-order"
         severity: critical
         topic: "Deploy"
         scope: devportal-test-critical
     - id: notify-high
-      name: "Certificado TLS expira em 7 dias"
+      name: "TLS certificate expires in 7 days"
       action: notification:send
       input:
         recipients: broadcast
-        title: "Certificado TLS expira em 7 dias"
-        info: "O certificado do domínio api.example.com precisa ser renovado antes do vencimento."
+        title: "TLS certificate expires in 7 days"
+        info: "The certificate of the api.example.com domain must be renewed before it expires."
         link: "https://backstage.io/docs"
         severity: high
-        topic: "Segurança"
+        topic: "Security"
         scope: devportal-test-high
     - id: notify-normal
-      name: "Novo template disponível: Go Library"
+      name: "New template available: Go Library"
       action: notification:send
       input:
         recipients: broadcast
-        title: "Novo template disponível: Go Library"
-        info: "A equipe de plataforma publicou um template para bibliotecas Go com CI e versionamento semântico."
+        title: "New template available: Go Library"
+        info: "The platform team published a template for Go libraries with CI and semantic versioning."
         link: "/create/templates/default/go-library"
         severity: normal
         topic: "Templates"
         scope: devportal-test-normal
     - id: notify-docs
-      name: "Documentação de podcast-api atualizada"
+      name: "podcast-api documentation updated"
       action: notification:send
       input:
         recipients: broadcast
-        title: "Documentação de podcast-api atualizada"
-        info: "A página de arquitetura foi revisada e agora inclui o diagrama de dependências."
+        title: "podcast-api documentation updated"
+        info: "The architecture page was reviewed and now includes the dependency diagram."
         link: "/docs"
         severity: low
-        topic: "Documentação"
+        topic: "Documentation"
         scope: devportal-test-docs
     - id: notify-plain
-      name: "Bem-vindo ao DevPortal"
+      name: "Welcome to DevPortal"
       action: notification:send
       input:
         recipients: broadcast
-        title: "Bem-vindo ao DevPortal"
-        info: "Explore o catálogo, as APIs e os templates. Esta notificação não tem link."
+        title: "Welcome to DevPortal"
+        info: "Explore the catalog, the APIs and the templates. This notification has no link."
         severity: normal
-        topic: "Geral"
+        topic: "General"
         scope: devportal-test-plain
     - id: notify-review
-      name: "Revisão pendente em hello-world"
+      name: "Pending review on hello-world"
       action: notification:send
       input:
         recipients: broadcast
-        title: "Revisão pendente em hello-world"
-        info: "Há 3 comentários aguardando resposta na revisão do componente."
+        title: "Pending review on hello-world"
+        info: "There are 3 comments waiting for a reply on the component review."
         link: "/catalog/default/component/hello-world"
         severity: low
-        topic: "Revisões"
+        topic: "Reviews"
         scope: devportal-test-review

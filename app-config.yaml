@@ -29,13 +29,13 @@ app:
               label: GitHub
               icon: github
             - url: https://github.com/backstage/backstage/blob/master/CONTRIBUTING.md
-              label: Contribuir
+              label: Contribute
               icon: docs
             - url: https://backstage.io/plugins
               label: Plugins
               icon: kind:component
             - url: https://github.com/backstage/backstage/issues/new/choose
-              label: Reportar problema
+              label: Report an issue
               icon: github
     - home-page-widget:home/world-clock:
         config:

@@ -87,22 +87,22 @@ metadata:
     backstage.io/techdocs-ref: dir:.
   links:
     - url: https://example.com/user
-      title: Usuário de exemplo
+      title: Example user
       icon: user
     - url: https://example.com/dashboard
       title: Dashboard
       icon: dashboard
     - url: https://example.com/alerts
-      title: Alertas
+      title: Alerts
       icon: alert
     - url: https://example.com/group
-      title: Grupo de exemplo
+      title: Example group
       icon: group
     - url: https://example.com/help
-      title: Suporte
+      title: Support
       icon: help
     - url: https://example.com/custom
-      title: Link com ícone personalizado
+      title: Link with a custom icon
     - url: https://example.com
       title: Website
       icon: web
