@@ -29,9 +29,9 @@ const component: Entity = {
 
 describe('kindPlural', () => {
   it('translates the known kinds', () => {
-    expect(kindPlural('Component')).toBe('Componentes');
+    expect(kindPlural('Component')).toBe('Components');
     expect(kindPlural('API')).toBe('APIs');
-    expect(kindPlural('group')).toBe('Grupos');
+    expect(kindPlural('group')).toBe('Groups');
   });
 
   it('falls back to an "s" for custom kinds', () => {
@@ -88,7 +88,7 @@ describe('hierarchy', () => {
   it('labels the parent by its kind', () => {
     expect(hierarchy(component)).toEqual([
       {
-        label: 'Sistema',
+        label: 'System',
         refs: [
           {
             kind: 'system',
@@ -105,11 +105,7 @@ describe('aboutFields', () => {
   it('lists every field of a component', () => {
     const { primary, secondary } = aboutFields(component);
 
-    expect(primary.map(field => field.id)).toEqual([
-      'owner',
-      'Sistema',
-      'tags',
-    ]);
+    expect(primary.map(field => field.id)).toEqual(['owner', 'System', 'tags']);
     expect(secondary.map(field => field.id)).toEqual([
       'kind',
       'type',
@@ -132,11 +128,11 @@ describe('aboutFields', () => {
 
 describe('linkedCountLabel', () => {
   it('pluralizes', () => {
-    expect(linkedCountLabel(1, 'recurso', 'recursos')).toBe(
-      '1 recurso vinculado',
+    expect(linkedCountLabel(1, 'resource', 'resources')).toBe(
+      '1 resource linked',
     );
-    expect(linkedCountLabel(3, 'recurso', 'recursos')).toBe(
-      '3 recursos vinculados',
+    expect(linkedCountLabel(3, 'resource', 'resources')).toBe(
+      '3 resources linked',
     );
   });
 });

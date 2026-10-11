@@ -115,11 +115,11 @@ export function RelationsCard() {
   return (
     <DpCard
       icon={<CallSplitIcon />}
-      title="Relações"
+      title="Relations"
       actions={
         rows.length > 0 ? (
           <Link className={styles.graphLink} to={graphHref(entity)}>
-            Ver grafo completo
+            View full graph
           </Link>
         ) : undefined
       }
@@ -129,7 +129,7 @@ export function RelationsCard() {
         <div className={styles.empty}>
           <CurrentEntity entity={entity} />
           <p className={styles.emptyMessage}>
-            Nenhuma relação foi encontrada para esta entidade.
+            No relations were found for this entity.
           </p>
         </div>
       ) : (

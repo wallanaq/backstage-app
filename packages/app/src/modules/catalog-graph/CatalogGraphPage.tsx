@@ -92,13 +92,12 @@ export function DevPortalCatalogGraphPage({
     <>
       <header className={styles.header}>
         <div className={styles.headerText}>
-          <h1 className={styles.title}>Grafo do catálogo</h1>
+          <h1 className={styles.title}>Catalog graph</h1>
           <p className={styles.description}>
-            As entidades ao redor de um ponto de partida e as relações entre
-            elas.
+            The entities around a starting point and the relations between them.
           </p>
           {roots.length > 0 && (
-            <div className={styles.chips} aria-label="Ponto de partida">
+            <div className={styles.chips} aria-label="Starting point">
               {roots.map(root => (
                 <RootChip
                   key={`${root.kind}:${root.namespace}/${root.name}`}
@@ -121,7 +120,7 @@ export function DevPortalCatalogGraphPage({
             }
             onPress={() => update({ showFilters: !state.showFilters })}
           >
-            Filtros
+            Filters
           </Button>
           <SupportMenu variant="button" />
         </div>
@@ -130,16 +129,16 @@ export function DevPortalCatalogGraphPage({
       <div className={styles.body}>
         {state.showFilters && <GraphFilters state={state} onChange={update} />}
 
-        <section className={styles.card} aria-label="Grafo">
+        <section className={styles.card} aria-label="Graph">
           {roots.length === 0 ? (
             <div className={styles.empty}>
               <EmptyState icon={<KindIcon kind="component" />}>
-                Escolha uma entidade para ver o grafo. Abra uma entidade do
-                catálogo e use &quot;Ver grafo completo&quot; no card de
-                relações.
+                Choose an entity to see the graph. Open an entity from the
+                catalog and use &quot;View full graph&quot; in the relations
+                card.
               </EmptyState>
               <Link className={styles.emptyLink} to="/catalog">
-                Ir para o catálogo
+                Go to the catalog
               </Link>
             </div>
           ) : (
@@ -162,8 +161,8 @@ export function DevPortalCatalogGraphPage({
                 onNodeClick={onNodeClick}
               />
               <p className={styles.hint}>
-                Role para dar zoom, arraste para mover. Clique em uma entidade
-                para centralizar o grafo nela; Shift+clique abre a entidade.
+                Scroll to zoom, drag to move. Click an entity to center the
+                graph on it; Shift+click opens the entity.
               </p>
             </>
           )}

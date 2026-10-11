@@ -5,12 +5,12 @@ import styles from './ApiTabs.module.css';
 export function ProvidedApisCard() {
   return (
     <RelationTableCard
-      title="APIs fornecidas"
+      title="Provided APIs"
       relationType="providesApi"
       kind="API"
       columns="api"
       noun={['API', 'APIs']}
-      emptyMessage="Este componente não fornece nenhuma API."
+      emptyMessage="This component does not provide any API."
     />
   );
 }
@@ -18,12 +18,12 @@ export function ProvidedApisCard() {
 export function ConsumedApisCard() {
   return (
     <RelationTableCard
-      title="APIs consumidas"
+      title="Consumed APIs"
       relationType="consumesApi"
       kind="API"
       columns="api"
       noun={['API', 'APIs']}
-      emptyMessage="Este componente não consome nenhuma API."
+      emptyMessage="This component does not consume any API."
     />
   );
 }
@@ -31,12 +31,12 @@ export function ConsumedApisCard() {
 export function ProvidingComponentsCard() {
   return (
     <RelationTableCard
-      title="Fornecida por"
+      title="Provided by"
       relationType="apiProvidedBy"
       kind="Component"
       columns="component"
-      noun={['componente', 'componentes']}
-      emptyMessage="Nenhum componente fornece esta API."
+      noun={['component', 'components']}
+      emptyMessage="No component provides this API."
     />
   );
 }
@@ -44,12 +44,12 @@ export function ProvidingComponentsCard() {
 export function ConsumingComponentsCard() {
   return (
     <RelationTableCard
-      title="Consumida por"
+      title="Consumed by"
       relationType="apiConsumedBy"
       kind="Component"
       columns="component"
-      noun={['componente', 'componentes']}
-      emptyMessage="Nenhum componente consome esta API."
+      noun={['component', 'components']}
+      emptyMessage="No component consumes this API."
     />
   );
 }

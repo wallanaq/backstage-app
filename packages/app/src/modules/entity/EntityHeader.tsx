@@ -43,15 +43,15 @@ type Tab = EntityHeaderLayoutProps['tabs'][number];
 
 // Tabs come from the plugins with English titles.
 const TAB_LABELS: Record<string, string> = {
-  Overview: 'Visão geral',
+  Overview: 'Overview',
   TechDocs: 'Docs',
   APIs: 'API',
-  Definition: 'Definição',
-  Dependencies: 'Dependências',
-  Documentation: 'Documentação',
-  Development: 'Desenvolvimento',
-  Deployment: 'Implantação',
-  Observability: 'Observabilidade',
+  Definition: 'Definition',
+  Dependencies: 'Dependencies',
+  Documentation: 'Documentation',
+  Development: 'Development',
+  Deployment: 'Deployment',
+  Observability: 'Observability',
 };
 
 const tabLabel = (label: string) => TAB_LABELS[label] ?? label;
@@ -90,11 +90,11 @@ function Metadata({ entity }: { entity: Entity }) {
     <div className={styles.meta}>
       {typeof lifecycle === 'string' && lifecycle && (
         <div className={styles.metaItem}>
-          <span className={styles.metaLabel}>Ciclo de vida</span>
+          <span className={styles.metaLabel}>Lifecycle</span>
           <Lifecycle value={lifecycle} />
         </div>
       )}
-      {owners.length > 0 && <RefList label="Responsável" refs={owners} />}
+      {owners.length > 0 && <RefList label="Owner" refs={owners} />}
       {hierarchy(entity).map(group => (
         <RefList key={group.label} label={group.label} refs={group.refs} />
       ))}
@@ -118,7 +118,7 @@ function SourceButton({ entity }: { entity: Entity }) {
       target="_blank"
       iconStart={<ScmIntegrationIcon type={source.integrationType} />}
     >
-      Código-fonte
+      Source code
     </ButtonLink>
   );
 }
@@ -135,7 +135,7 @@ function ContextMenu({ entity }: { entity: Entity }) {
         className={styles.menuButton}
         variant="tertiary"
         icon={<MoreVertIcon />}
-        aria-label="Mais ações"
+        aria-label="More actions"
       />
       <Menu placement="bottom end">
         {items.map(item => (
@@ -226,7 +226,7 @@ export function DevPortalEntityHeader({
   );
 
   const crumbs = [
-    { label: 'Catálogo', href: '/catalog' },
+    { label: 'Catalog', href: '/catalog' },
     { label: kindPlural(kind), href: kindListPage(kind) },
     { label: primaryTitle, href: base },
   ];
@@ -267,7 +267,7 @@ export function DevPortalEntityHeader({
       </header>
 
       {tabs.length > 0 && (
-        <nav aria-label="Seções da entidade" className={layout.tabs}>
+        <nav aria-label="Entity sections" className={layout.tabs}>
           {tabs.map(tab =>
             'items' in tab ? (
               <TabGroup

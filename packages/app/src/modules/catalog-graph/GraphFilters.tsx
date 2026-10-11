@@ -21,23 +21,23 @@ import { GraphCurve, GraphDirection, GraphState } from './graphState';
 import styles from './GraphFilters.module.css';
 
 const DEPTHS = [
-  { id: '1', label: '1 nível' },
-  { id: '2', label: '2 níveis' },
-  { id: '3', label: '3 níveis' },
-  { id: '4', label: '4 níveis' },
-  { id: 'all', label: 'Todos os níveis' },
+  { id: '1', label: '1 level' },
+  { id: '2', label: '2 levels' },
+  { id: '3', label: '3 levels' },
+  { id: '4', label: '4 levels' },
+  { id: 'all', label: 'All levels' },
 ];
 
 const DIRECTIONS: { id: GraphDirection; label: string; icon: ReactNode }[] = [
-  { id: 'LR', label: 'Da esquerda para a direita', icon: <ArrowForwardIcon /> },
-  { id: 'RL', label: 'Da direita para a esquerda', icon: <ArrowBackIcon /> },
-  { id: 'TB', label: 'De cima para baixo', icon: <ArrowDownwardIcon /> },
-  { id: 'BT', label: 'De baixo para cima', icon: <ArrowUpwardIcon /> },
+  { id: 'LR', label: 'Left to right', icon: <ArrowForwardIcon /> },
+  { id: 'RL', label: 'Right to left', icon: <ArrowBackIcon /> },
+  { id: 'TB', label: 'Top to bottom', icon: <ArrowDownwardIcon /> },
+  { id: 'BT', label: 'Bottom to top', icon: <ArrowUpwardIcon /> },
 ];
 
 const CURVES: { id: GraphCurve; label: string }[] = [
-  { id: 'curveMonotoneX', label: 'Suave' },
-  { id: 'curveStepBefore', label: 'Em degraus' },
+  { id: 'curveMonotoneX', label: 'Smooth' },
+  { id: 'curveStepBefore', label: 'Stepped' },
 ];
 
 /** The kinds of the catalog (lower case), for the list of kinds. */
@@ -92,10 +92,10 @@ export function GraphFilters({ state, onChange }: GraphFiltersProps) {
     all.every(item => picked.includes(item)) ? undefined : picked;
 
   return (
-    <aside className={styles.column} aria-label="Filtros do grafo">
-      <Field label="Profundidade">
+    <aside className={styles.column} aria-label="Graph filters">
+      <Field label="Depth">
         <Select
-          aria-label="Profundidade"
+          aria-label="Depth"
           size="medium"
           className={styles.select}
           selectionMode="single"
@@ -113,7 +113,7 @@ export function GraphFilters({ state, onChange }: GraphFiltersProps) {
 
       {kinds.length > 0 && (
         <CheckboxGroup
-          label="Tipos de entidade"
+          label="Entity kinds"
           value={selectedKinds}
           onChange={picked =>
             onChange({ selectedKinds: allOrUndefined(picked, kinds) })
@@ -129,16 +129,16 @@ export function GraphFilters({ state, onChange }: GraphFiltersProps) {
 
       <Accordion>
         <AccordionTrigger
-          title="Relações"
+          title="Relations"
           subtitle={
             state.selectedRelations
-              ? `${state.selectedRelations.length} de ${ALL_RELATIONS.length}`
-              : 'Todas'
+              ? `${state.selectedRelations.length} of ${ALL_RELATIONS.length}`
+              : 'All'
           }
         />
         <AccordionPanel>
           <CheckboxGroup
-            aria-label="Relações"
+            aria-label="Relations"
             value={selectedRelations}
             onChange={picked =>
               onChange({
@@ -155,9 +155,9 @@ export function GraphFilters({ state, onChange }: GraphFiltersProps) {
         </AccordionPanel>
       </Accordion>
 
-      <Field label="Direção">
+      <Field label="Direction">
         <ToggleButtonGroup
-          aria-label="Direção"
+          aria-label="Direction"
           selectionMode="single"
           disallowEmptySelection
           selectedKeys={[state.direction]}
@@ -174,9 +174,9 @@ export function GraphFilters({ state, onChange }: GraphFiltersProps) {
         </ToggleButtonGroup>
       </Field>
 
-      <Field label="Linhas">
+      <Field label="Lines">
         <ToggleButtonGroup
-          aria-label="Formato das linhas"
+          aria-label="Line style"
           selectionMode="single"
           disallowEmptySelection
           selectedKeys={[state.curve]}
@@ -194,12 +194,12 @@ export function GraphFilters({ state, onChange }: GraphFiltersProps) {
       </Field>
 
       <Switch
-        label="Simplificar"
+        label="Simplify"
         isSelected={state.unidirectional}
         onChange={unidirectional => onChange({ unidirectional })}
       />
       <Switch
-        label="Mesclar relações"
+        label="Merge relations"
         isSelected={state.mergeRelations}
         onChange={mergeRelations => onChange({ mergeRelations })}
       />

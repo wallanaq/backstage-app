@@ -34,7 +34,7 @@ export function DefinitionCard() {
       : []),
     {
       id: 'raw',
-      label: widget ? 'Código' : type,
+      label: widget ? 'Code' : type,
       render: () => (
         <PlainApiDefinitionWidget definition={definition} language={language} />
       ),
@@ -44,11 +44,11 @@ export function DefinitionCard() {
   const view = views.find(item => item.id === selected) ?? views[0];
 
   return (
-    <DpCard icon={<CodeIcon />} title="Definição" flush>
+    <DpCard icon={<CodeIcon />} title="Definition" flush>
       <div
         className={styles.tabs}
         role="tablist"
-        aria-label="Formato da definição"
+        aria-label="Definition format"
       >
         {views.map(item => (
           <button

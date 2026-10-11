@@ -92,7 +92,7 @@ export function AboutCard() {
     try {
       await catalogApi.refreshEntity(stringifyEntityRef(entity));
       alertApi.post({
-        message: 'Atualização agendada. Pode levar alguns instantes.',
+        message: 'Refresh scheduled. It may take a few moments.',
         severity: 'info',
         display: 'transient',
       });
@@ -106,16 +106,16 @@ export function AboutCard() {
   return (
     <DpCard
       icon={<KindIcon kind={entity.kind} />}
-      title="Sobre"
+      title="About"
       actions={
         <>
           {canRefreshLocation && canRefresh && (
-            <CardAction label="Atualizar entidade" onClick={refresh}>
+            <CardAction label="Refresh entity" onClick={refresh}>
               <CachedIcon />
             </CardAction>
           )}
           {editUrl && (
-            <CardAction label="Editar metadados" href={editUrl}>
+            <CardAction label="Edit metadata" href={editUrl}>
               <EditIcon />
             </CardAction>
           )}
@@ -123,8 +123,8 @@ export function AboutCard() {
       }
     >
       <dl className={styles.about}>
-        <Field label="Descrição">
-          {entity.metadata.description ?? <Muted>Sem descrição</Muted>}
+        <Field label="Description">
+          {entity.metadata.description ?? <Muted>No description</Muted>}
         </Field>
       </dl>
       {primary.length > 0 && <Fields fields={primary} />}

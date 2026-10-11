@@ -21,15 +21,15 @@ import {
 
 /** Plural names of the kinds, as shown in the breadcrumb and the lists. */
 const KIND_PLURALS: Record<string, string> = {
-  component: 'Componentes',
+  component: 'Components',
   api: 'APIs',
-  system: 'Sistemas',
-  domain: 'Domínios',
-  resource: 'Recursos',
-  group: 'Grupos',
-  user: 'Usuários',
+  system: 'Systems',
+  domain: 'Domains',
+  resource: 'Resources',
+  group: 'Groups',
+  user: 'Users',
   template: 'Templates',
-  location: 'Locais',
+  location: 'Locations',
 };
 
 // Where the entities of a kind are listed; the other kinds have no list page.
@@ -126,8 +126,8 @@ export interface HierarchyGroup {
 }
 
 const PARENT_LABELS: Record<string, string> = {
-  system: 'Sistema',
-  domain: 'Domínio',
+  system: 'System',
+  domain: 'Domain',
 };
 
 /** What the entity is part of, labelled by the kind of the parent. */
@@ -136,7 +136,7 @@ export function hierarchy(entity: Entity): HierarchyGroup[] {
 
   for (const ref of relationTargets(entity, RELATION_PART_OF)) {
     const label =
-      PARENT_LABELS[ref.kind.toLocaleLowerCase('en-US')] ?? 'Parte de';
+      PARENT_LABELS[ref.kind.toLocaleLowerCase('en-US')] ?? 'Part of';
     groups.set(label, [...(groups.get(label) ?? []), ref]);
   }
 
@@ -156,7 +156,7 @@ export interface AboutFields {
   secondary: AboutField[];
 }
 
-/** The fields of the "Sobre" card; the ones the entity does not have are left out. */
+/** The fields of the "About" card; the ones the entity does not have are left out. */
 export function aboutFields(entity: Entity): AboutFields {
   const primary: AboutField[] = [];
   const secondary: AboutField[] = [];
@@ -165,7 +165,7 @@ export function aboutFields(entity: Entity): AboutFields {
   if (owners.length > 0) {
     primary.push({
       id: 'owner',
-      label: 'Responsável',
+      label: 'Owner',
       type: 'refs',
       refs: owners,
     });
@@ -194,14 +194,14 @@ export function aboutFields(entity: Entity): AboutFields {
 
   const type = entity.spec?.type;
   if (typeof type === 'string' && type) {
-    secondary.push({ id: 'type', label: 'Tipo', type: 'text', value: type });
+    secondary.push({ id: 'type', label: 'Type', type: 'text', value: type });
   }
 
   const lifecycle = entity.spec?.lifecycle;
   if (typeof lifecycle === 'string' && lifecycle) {
     secondary.push({
       id: 'lifecycle',
-      label: 'Ciclo de vida',
+      label: 'Lifecycle',
       type: 'lifecycle',
       value: lifecycle,
     });
@@ -216,7 +216,5 @@ export function linkedCountLabel(
   singular: string,
   plural: string,
 ): string {
-  return count === 1
-    ? `1 ${singular} vinculado`
-    : `${count} ${plural} vinculados`;
+  return count === 1 ? `1 ${singular} linked` : `${count} ${plural} linked`;
 }

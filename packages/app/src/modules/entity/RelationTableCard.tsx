@@ -13,7 +13,7 @@ import styles from './RelationTableCard.module.css';
 function nameColumn(kind: string): ColumnConfig<EntityRow> {
   return {
     id: 'name',
-    label: 'Nome',
+    label: 'Name',
     isRowHeader: true,
     width: '1.5fr',
     cell: ({ entity }) => (
@@ -29,7 +29,7 @@ function nameColumn(kind: string): ColumnConfig<EntityRow> {
 
 const ownerColumn: ColumnConfig<EntityRow> = {
   id: 'owner',
-  label: 'Responsável',
+  label: 'Owner',
   cell: ({ entity }) => {
     const owners = relationTargets(entity, 'ownedBy');
     return (
@@ -54,7 +54,7 @@ const ownerColumn: ColumnConfig<EntityRow> = {
 
 const typeColumn: ColumnConfig<EntityRow> = {
   id: 'type',
-  label: 'Tipo',
+  label: 'Type',
   cell: ({ entity }) => (
     <Cell>
       {typeof entity.spec?.type === 'string' ? entity.spec.type : <Muted />}
@@ -72,7 +72,7 @@ function ApiType({ entity }: { entity: ApiEntity }) {
 
 const apiTypeColumn: ColumnConfig<EntityRow> = {
   id: 'type',
-  label: 'Tipo',
+  label: 'Type',
   cell: ({ entity }) => (
     <Cell>
       {entity.kind === 'API' ? (
@@ -86,7 +86,7 @@ const apiTypeColumn: ColumnConfig<EntityRow> = {
 
 const lifecycleColumn: ColumnConfig<EntityRow> = {
   id: 'lifecycle',
-  label: 'Ciclo de vida',
+  label: 'Lifecycle',
   cell: ({ entity }) => (
     <Cell>
       <Lifecycle value={entity.spec?.lifecycle} />
@@ -96,7 +96,7 @@ const lifecycleColumn: ColumnConfig<EntityRow> = {
 
 const descriptionColumn: ColumnConfig<EntityRow> = {
   id: 'description',
-  label: 'Descrição',
+  label: 'Description',
   width: '1.5fr',
   cell: ({ entity }) => (
     <Cell>
@@ -141,7 +141,7 @@ export interface RelationTableCardProps {
   /** Kind of the listed entities, used for the icon and to filter the relation. */
   kind: string;
   columns: keyof typeof COLUMNS;
-  /** Singular and plural of what is listed, for the footer ("recurso", "recursos"). */
+  /** Singular and plural of what is listed, for the footer ("resource", "resources"). */
   noun: [singular: string, plural: string];
   emptyMessage: string;
 }
