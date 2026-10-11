@@ -191,7 +191,7 @@ Notes on `app-config.yaml`:
 - `examples/entities.yaml`, `examples/org.yaml`: sample components, API, system, users and groups
 - `examples/template/`: the original example template
 - `examples/templates/`: sample templates for the templates screen, the teams that own them, and
-  **"Gerar notificações de teste"**, a template that sends 6 broadcast notifications
+  **"Generate test notifications"**, a template that sends 6 broadcast notifications
 - `examples/showcase/`: one entity of every kind (domain, system, group, user, resource, API and three
   components, with links, tags and docs) for the entity detail page; `artist-lookup` is the one in the design
 
@@ -242,7 +242,7 @@ rules (tokens, patterns, how to add a plugin or screen, known gotchas) are in
 get the DevPortal shell (menu, top bar, theme tokens) but keep the MUI look inside the page until
 they are restyled.
 
-Not done yet: dark mode for the new screens, translations (texts are in Portuguese, hard-coded),
+Not done yet: dark mode for the new screens, translations (the portal is English only, texts are hard-coded),
 and the "pin sidebar" setting.
 
 ## Roadmap
@@ -251,7 +251,7 @@ and the "pin sidebar" setting.
 - [ ] GitOps with Argo CD: applications and sync status in the catalog
 - [x] Keycloak: OIDC sign-in, users and groups from the realm
 - [ ] Shared UI package so new plugins start with the DevPortal identity
-- [ ] Translations (pt-BR for the official plugins)
+- [ ] Translations (i18n, when Backstage ships a plugin for it)
 
 ## Contributing
 

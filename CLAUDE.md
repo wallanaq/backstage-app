@@ -31,12 +31,12 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   `UserFilters`, `FilterSelects`, `cells`, `SupportMenu`, `PageNote`). Reuse them before writing new ones.
 - `modules/entity/`: the entity detail page (`/catalog/:namespace/:kind/:name`), one page for every
   kind. Header (`EntityHeaderLayoutBlueprint`), 2-column card grid (`EntityContentLayoutBlueprint`),
-  and own cards swapped into the catalog and catalog-graph plugins (`Sobre`, `Links`, `Relações`
+  and own cards swapped into the catalog and catalog-graph plugins (`About`, `Links`, `Relations`
   diagram, relation tables, API definition card and the API tab, wired from `modules/api-docs`).
   Cards of other plugins (org, api-docs, labels) stay original and are
   only restyled by the CSS of the grid (`EntityContentLayout.module.css`; the Ownership tiles of
   `org` are matched by structure because MUI class names are generated). Its extensions are spread into `devPortalCatalogPlugin`.
-- `modules/catalog-graph/`: the catalog graph page (reached from the "Relações" card, not in the menu) and the
+- `modules/catalog-graph/`: the catalog graph page (reached from the "Relations" card, not in the menu) and the
   swapped entity card of that plugin. The state is only the URL (`graphState.ts`, the same query format as the
   plugin's page so its links keep working); nodes and labels are our own SVG renderers (`renderNode`,
   `renderLabel`) and the edges are styled by CSS over the plugin's paths.
@@ -61,9 +61,9 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   `modules/nav/PageLayout.tsx`.
 - **Accessibility:** real buttons/links, labels for icon buttons, `aria-pressed`/`aria-current`
   where state exists, visible `:focus-visible` outline (`--bui-ring`), no text below ~4:1 contrast.
-- **Texts are hard-coded in Portuguese for now.** Do not start i18n unless asked; when it
-  comes, strings move to translation refs and official plugins get pt messages. Dates and
-  numbers use `pt-BR`.
+- **Texts are hard-coded in English; the portal has no other language.** Do not start i18n unless
+  asked (the plan is to wait for a Backstage i18n plugin). Dates and numbers use `en-US`. The Figma
+  texts are in Portuguese: translate them when building a screen.
 
 ## Adding a plugin or screen
 
@@ -71,7 +71,7 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
    (page id, sub pages, inputs, config schema) before writing code.
 2. New page: create `modules/<plugin>/`, override the page loader, add the plugin to `App.tsx`.
 3. Nav label/icon/section: `LABELS` and `WORKSPACE`/`FOOTER`/`HIDDEN` in `modules/nav/Sidebar.tsx`
-   (items not listed fall under "Organização"). Breadcrumb titles: `TITLES` in `PageLayout.tsx`.
+   (items not listed fall under "Organization"). Breadcrumb titles: `TITLES` in `PageLayout.tsx`.
 4. A community plugin that uses MUI keeps the MUI look inside the DevPortal shell. Restyle it
    on request; do not assume it is on-brand.
 5. Do not import from `packages/app` inside a plugin. Shared UI for plugins belongs in a
@@ -133,7 +133,7 @@ context (`orbstack`). `yarn start` needs the cluster Postgres running. Remove te
 
 Dark mode for the new screens (BUI defaults + `--dp-*` fallbacks only), i18n, the "pin sidebar"
 setting (needs a collapsed-sidebar design), MUI theme alignment, shared UI package, and the menu
-items that exist only in the Figma (Backstage AI, Administração, Grupos, Tech Radar). On the entity
+items that exist only in the Figma (Backstage AI, Administration, Groups, Tech Radar). On the entity
 page: the TechDocs reader of the Docs tab, the rendered OpenAPI/AsyncAPI/GraphQL widgets (only fonts
 and spacing are adjusted) and the `...` menu items still look like the plugins and are in English.
 
