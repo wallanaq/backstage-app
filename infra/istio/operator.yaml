@@ -1,0 +1,57 @@
+# Istio in ambient mode, installed with istioctl (make istio):
+#
+#   istioctl install -f infra/istio/operator.yaml
+#
+# The version is the one of the istioctl binary (the Makefile checks that it is ISTIO_VERSION).
+# https://istio.io/latest/docs/setup/additional-setup/config-profiles/
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio
+  namespace: istio-system
+spec:
+  profile: ambient
+  components:
+    pilot:
+      k8s:
+        # One replica is enough for the lab; the default autoscaling (1-5) is not.
+        replicaCount: 1
+        hpaSpec:
+          minReplicas: 1
+          maxReplicas: 1
+        # Istio only serves the experimental Gateway API kinds (TCPRoute) with this flag.
+        env:
+          - name: PILOT_ENABLE_ALPHA_GATEWAY_API
+            value: 'true'
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: '1'
+            memory: 1Gi
+    cni:
+      enabled: true
+      k8s:
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+  values:
+    cni:
+      # OrbStack runs k3s: the CNI config and plugins are not in /etc/cni/net.d and /opt/cni/bin.
+      # With the defaults the agent waits forever for a config file to chain to.
+      cniConfDir: /var/lib/rancher/k3s/agent/etc/cni/net.d
+      cniBinDir: /var/lib/rancher/k3s/data/cni
+    # ztunnel, the per-node proxy of the ambient mode.
+    ztunnel:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: '1'
+          memory: 512Mi

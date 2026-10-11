@@ -7,8 +7,8 @@
 #   2. make postgres   CloudNativePG and the shared Postgres cluster
 #                      (runs "istio" first)
 #
-# Every variable can be overridden: make postgres CNPG_CHART_VERSION=0.29.0
-# Manifests and chart values live in infra/<component>/.
+# Every variable can be overridden: make istio ISTIO_VERSION=1.31.2
+# Manifests and settings live in infra/<component>/. Needs kubectl, istioctl and make.
 
 SHELL := /bin/bash
 .SHELLFLAGS := -eu -o pipefail -c
@@ -16,23 +16,20 @@ SHELL := /bin/bash
 # The cluster is always selected by name so that a different current context is never touched.
 KUBE_CONTEXT ?= orbstack
 KUBECTL ?= kubectl --context $(KUBE_CONTEXT)
-HELM ?= helm --kube-context $(KUBE_CONTEXT)
-HELM_TIMEOUT ?= 5m
 
-# Istio (ambient) and the Kubernetes Gateway API. The experimental bundle is needed for TCPRoute.
-ISTIO_VERSION ?= 1.30.5
-ISTIO_REPO ?= https://istio-release.storage.googleapis.com/charts
+# Istio (ambient), installed with istioctl: the local binary must be this version.
+ISTIO_VERSION ?= 1.31.1
+ISTIOCTL ?= istioctl --context $(KUBE_CONTEXT)
 # The manifests in infra/ (Gateway, TCPRoute) assume istio-system.
 ISTIO_NAMESPACE ?= istio-system
+# The Kubernetes Gateway API. The experimental bundle is needed for TCPRoute.
 GATEWAY_API_VERSION ?= v1.6.3
 GATEWAY_API_URL ?= https://github.com/kubernetes-sigs/gateway-api/releases/download/$(GATEWAY_API_VERSION)/experimental-install.yaml
 
-# CloudNativePG.
-CNPG_CHART_VERSION ?= 0.29.1
-CNPG_REPO ?= https://cloudnative-pg.github.io/charts
+# CloudNativePG: the version is in infra/postgres/operator/kustomization.yaml.
 CNPG_NAMESPACE ?= cnpg-system
 
-HELM_INSTALL = $(HELM) upgrade --install --wait --rollback-on-failure --timeout $(HELM_TIMEOUT)
+ROLLOUT_TIMEOUT ?= 5m
 
 .DEFAULT_GOAL := help
 .PHONY: help istio postgres
@@ -44,9 +41,13 @@ help: ## List the targets and the variables that can be overridden
 	@echo "Variables (current values):"
 	@echo "  KUBE_CONTEXT=$(KUBE_CONTEXT)"
 	@echo "  ISTIO_VERSION=$(ISTIO_VERSION)  GATEWAY_API_VERSION=$(GATEWAY_API_VERSION)"
-	@echo "  CNPG_CHART_VERSION=$(CNPG_CHART_VERSION)  HELM_TIMEOUT=$(HELM_TIMEOUT)"
+	@echo "  ROLLOUT_TIMEOUT=$(ROLLOUT_TIMEOUT)"
 
 istio: ## Install Istio (ambient), the Gateway API CRDs and the Gateway istio-gateway
+	@v="$$(istioctl version --remote=false 2>/dev/null | sed -n 's/^client version: //p')"; \
+	if [ "$$v" != "$(ISTIO_VERSION)" ]; then \
+		echo "istioctl is '$$v' but ISTIO_VERSION is $(ISTIO_VERSION): install that version of istioctl (or set ISTIO_VERSION)" >&2; exit 1; \
+	fi
 	@echo ">> Gateway API $(GATEWAY_API_VERSION) (experimental bundle: HTTPRoute and TCPRoute)"
 	$(KUBECTL) apply --server-side -f $(GATEWAY_API_URL)
 	$(KUBECTL) wait --for=condition=Established --timeout=60s \
@@ -54,16 +55,7 @@ istio: ## Install Istio (ambient), the Gateway API CRDs and the Gateway istio-ga
 		crd/httproutes.gateway.networking.k8s.io \
 		crd/tcproutes.gateway.networking.k8s.io
 	@echo ">> Istio $(ISTIO_VERSION) (ambient)"
-	$(HELM) repo add istio $(ISTIO_REPO) --force-update
-	$(HELM) repo update istio
-	$(HELM_INSTALL) istio-base istio/base --version $(ISTIO_VERSION) \
-		--namespace $(ISTIO_NAMESPACE) --create-namespace
-	$(HELM_INSTALL) istiod istio/istiod --version $(ISTIO_VERSION) \
-		--namespace $(ISTIO_NAMESPACE) -f infra/istio/istiod-values.yaml
-	$(HELM_INSTALL) istio-cni istio/cni --version $(ISTIO_VERSION) \
-		--namespace $(ISTIO_NAMESPACE) -f infra/istio/cni-values.yaml
-	$(HELM_INSTALL) ztunnel istio/ztunnel --version $(ISTIO_VERSION) \
-		--namespace $(ISTIO_NAMESPACE) -f infra/istio/ztunnel-values.yaml
+	$(ISTIOCTL) install -f infra/istio/operator.yaml -y
 	@echo ">> Gateway istio-gateway"
 	$(KUBECTL) apply -f infra/istio/gateway.yaml
 	$(KUBECTL) wait --for=condition=Programmed --timeout=180s \
@@ -71,11 +63,9 @@ istio: ## Install Istio (ambient), the Gateway API CRDs and the Gateway istio-ga
 	$(KUBECTL) get gateway istio-gateway --namespace $(ISTIO_NAMESPACE)
 
 postgres: istio ## Install CloudNativePG and the shared Postgres cluster (exposed by TCPRoute)
-	@echo ">> CloudNativePG chart $(CNPG_CHART_VERSION)"
-	$(HELM) repo add cloudnative-pg $(CNPG_REPO) --force-update
-	$(HELM) repo update cloudnative-pg
-	$(HELM_INSTALL) cnpg cloudnative-pg/cloudnative-pg --version $(CNPG_CHART_VERSION) \
-		--namespace $(CNPG_NAMESPACE) --create-namespace -f infra/postgres/cnpg-values.yaml
+	@echo ">> CloudNativePG operator"
+	$(KUBECTL) apply --server-side --force-conflicts -k infra/postgres/operator
+	$(KUBECTL) rollout status deployment/cnpg-controller-manager --namespace $(CNPG_NAMESPACE) --timeout=$(ROLLOUT_TIMEOUT)
 	@echo ">> Postgres cluster"
 	$(KUBECTL) apply -f infra/postgres/cluster.yaml
 	$(KUBECTL) wait --for=condition=Ready --timeout=300s cluster/postgres --namespace postgres

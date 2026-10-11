@@ -34,8 +34,9 @@ Nothing under "Planned" exists in this repository yet.
 
 - Node.js 22 or 24
 - Yarn 4 (use [Corepack](https://nodejs.org/api/corepack.html): `corepack enable`)
-- [OrbStack](https://orbstack.dev) with Kubernetes enabled, `kubectl`, [Helm](https://helm.sh) 4 and
-  `make` (for the [infrastructure](#infrastructure); the context is `orbstack`)
+- [OrbStack](https://orbstack.dev) with Kubernetes enabled, `kubectl`, `make` and
+  [`istioctl`](https://istio.io/latest/docs/setup/getting-started/#download) 1.31.1 (for the
+  [infrastructure](#infrastructure); the context is `orbstack`; `brew install istioctl` gets the latest)
 - Docker (optional): TechDocs builds docs in a container (`techdocs.generator.runIn: docker`), and
   it is needed to build the backend image
 
@@ -59,10 +60,10 @@ the variables you can override.
 make postgres   # runs "istio" first
 ```
 
-| Target          | What it does                                                                                                                                                                |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `make istio`    | Gateway API CRDs (experimental bundle, for `TCPRoute`), Istio in **ambient mode** (base, istiod, CNI, ztunnel) and the shared Gateway **`istio-gateway`** in `istio-system` |
-| `make postgres` | CloudNativePG operator and the shared `postgres` cluster (1 instance, 5Gi), with the managed role `backstage` (`backstage` / `changeme`)                                    |
+| Target          | What it does                                                                                                                                                                                 |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `make istio`    | Gateway API CRDs (experimental bundle, for `TCPRoute`), Istio in **ambient mode** with `istioctl` (`infra/istio/operator.yaml`) and the shared Gateway **`istio-gateway`** in `istio-system` |
+| `make postgres` | CloudNativePG operator (release manifest through Kustomize) and the shared `postgres` cluster (1 instance, 5Gi), with the managed role `backstage` (`backstage` / `changeme`)                |
 
 Addresses:
 
@@ -75,10 +76,16 @@ Addresses:
 Other tools (Keycloak, ...) should create their own role and database in this Postgres instead of
 running another one. Both targets are safe to run again. Notes:
 
-- OrbStack runs k3s, so `istio-cni` is pointed at `/var/lib/rancher/k3s/...` (`infra/istio/cni-values.yaml`);
-  with the defaults it waits forever for a CNI config.
+- There is no Helm. `make istio` runs `istioctl install -f infra/istio/operator.yaml` and fails when the
+  local `istioctl` is not `ISTIO_VERSION`; `make postgres` applies the release manifest of CloudNativePG
+  with `kubectl apply --server-side -k infra/postgres/operator` (the version is in the URL there).
+- OrbStack runs k3s, so `istio-cni` is pointed at `/var/lib/rancher/k3s/...` (`values.cni` in
+  `infra/istio/operator.yaml`); with the defaults it waits forever for a CNI config.
 - `TCPRoute` is an experimental Gateway API kind: istiod runs with `PILOT_ENABLE_ALPHA_GATEWAY_API`
-  (`infra/istio/istiod-values.yaml`).
+  (`infra/istio/operator.yaml`).
+- If the lab was installed with an older version of this repo (Helm), remove the releases first with
+  `helm uninstall ztunnel istio-cni istiod istio-base -n istio-system` and `helm uninstall cnpg -n cnpg-system`.
+  The CRDs are kept (`helm.sh/resource-policy: keep`), so the Postgres data is not touched.
 - Workloads are not enrolled in the ambient mesh yet (no `istio.io/dataplane-mode` label).
 - Credentials are plain text on purpose (lab only) and there is no TLS.
 
@@ -156,7 +163,7 @@ point at the lab cluster and the `POSTGRES_*` variables override them. See `pack
 
 ```
 Makefile               Infrastructure targets (istio, postgres)
-infra/                 Helm values and manifests, one folder per component
+infra/                 Manifests and settings, one folder per component
 packages/app/          Frontend (new frontend system)
   src/theme/           DevPortal tokens
   src/modules/         One folder per restyled plugin + nav, entities (shared UI), home

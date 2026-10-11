@@ -95,8 +95,10 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
 ## Infrastructure
 
 `Makefile` + `infra/<component>/` (one folder per component, variables with `?=`, explicit CPU and
-memory limits on every workload). `make istio` then `make postgres` (see README). Gotchas: OrbStack
-is k3s (CNI paths in `infra/istio/cni-values.yaml`); `TCPRoute` needs `PILOT_ENABLE_ALPHA_GATEWAY_API`;
+memory limits on every workload). No Helm: Istio is `istioctl install -f infra/istio/operator.yaml` (the
+local `istioctl` must be `ISTIO_VERSION`), CloudNativePG is its release manifest through Kustomize
+(`infra/postgres/operator`). `make istio` then `make postgres` (see README). Gotchas: OrbStack
+is k3s (CNI paths in `infra/istio/operator.yaml`); `TCPRoute` needs `PILOT_ENABLE_ALPHA_GATEWAY_API`;
 CNPG managed roles need their Secret labeled `cnpg.io/reload: "true"`. Always pass the cluster by
 context (`orbstack`). `yarn start` needs the cluster Postgres running. Remove test resources you create.
 
