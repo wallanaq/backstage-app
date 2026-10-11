@@ -88,13 +88,16 @@ one (Keycloak did, see `infra/postgres/cluster.yaml`). The targets are safe to r
 - If the lab was installed with an older version of this repo (Helm), remove the releases first with
   `helm uninstall ztunnel istio-cni istiod istio-base -n istio-system` and `helm uninstall cnpg -n cnpg-system`.
   The CRDs are kept (`helm.sh/resource-policy: keep`), so the Postgres data is not touched.
-- Ambient mesh: only the `keycloak` namespace is enrolled (label `istio.io/dataplane-mode: ambient`, set in
-  `infra/keycloak/keycloak.yaml`); `postgres` and `cnpg-system` are not. The rule: the application
-  ecosystem (apps, identity, databases, Kafka, cache) goes in, and what is structural (istiod, CNI, operators)
-  stays out. Enrolling or leaving needs no restart, but connections that are open at that moment are dropped
-  (Keycloak logs one `This connection has been closed` and reconnects). The gateway reaches an enrolled
-  pod over HBONE by itself, and plain callers outside the mesh are still accepted (permissive; there is no
-  `PeerAuthentication` or `AuthorizationPolicy` yet). To look: `istioctl --context orbstack ztunnel-config workloads`
+- Ambient mesh: the `keycloak` and `postgres` namespaces are enrolled (label `istio.io/dataplane-mode: ambient`, on
+  the Namespace in `infra/keycloak/keycloak.yaml` and `infra/postgres/cluster.yaml`); `cnpg-system` is not. The
+  rule: the application ecosystem (apps, identity, databases, Kafka, cache) goes in, and what is structural
+  (istiod, CNI, operators) stays out. Enrolling or leaving needs no pod restart, but the connections of the
+  pods involved can be dropped at that moment (clients reconnect: Keycloak logs
+  `This connection has been closed` and may fail one request; stop `yarn start` before changing the label of
+  `postgres`). The gateway reaches an enrolled pod over HBONE by itself, Keycloak reaches Postgres over HBONE, and
+  plain callers outside the mesh are still accepted (permissive; there is no `PeerAuthentication` or
+  `AuthorizationPolicy` yet). That is why the operator in `cnpg-system` keeps working without an exception, and why a
+  STRICT policy on `postgres` would need one. To look: `istioctl --context orbstack ztunnel-config workloads`
   (protocol `HBONE` = enrolled) and `ztunnel-config connections`.
 - Credentials are plain text on purpose (lab only) and there is no TLS.
 - Keycloak imports the realm only when it does not exist yet. After changing `realm-backstage.json`,

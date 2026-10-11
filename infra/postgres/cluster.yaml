@@ -3,10 +3,17 @@
 #
 #   in the cluster:  postgres-rw.postgres.svc.cluster.local:5432
 #   from the host:   postgres.k8s.orb.local:5432 (TCPRoute on istio-gateway)
+# In the Istio ambient mesh: ztunnel gives the instance mTLS (HBONE) and L4 telemetry, with no
+# restart. The CloudNativePG operator stays outside the mesh (namespace cnpg-system) and its calls
+# to the instance are still accepted as plain traffic: ztunnel is permissive, and a STRICT
+# PeerAuthentication here would reject the operator. To leave the mesh, remove the label
+# (kubectl label namespace postgres istio.io/dataplane-mode-).
 apiVersion: v1
 kind: Namespace
 metadata:
   name: postgres
+  labels:
+    istio.io/dataplane-mode: ambient
 ---
 # Lab credentials are plain on purpose. The label makes the operator reload the managed
 # role when the Secret changes; without it a role whose Secret did not exist when the
