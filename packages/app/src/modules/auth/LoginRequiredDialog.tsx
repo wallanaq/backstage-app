@@ -32,7 +32,7 @@ function usePendingRequests() {
 /**
  * Shown when a session ended and an auth provider needs the user to sign in
  * again (the stock one is the MUI "Login Required" dialog). One row per
- * provider; "Agora não" rejects the requests, so what needed the session fails
+ * provider; "Not now" rejects the requests, so what needed the session fails
  * instead of waiting.
  */
 export function LoginRequiredDialog() {
@@ -59,12 +59,12 @@ export function LoginRequiredDialog() {
 
   return (
     <Dialog isOpen={requests.length > 0} isKeyboardDismissDisabled width={440}>
-      <DialogHeader>Sua sessão expirou</DialogHeader>
+      <DialogHeader>Your session has expired</DialogHeader>
       <DialogBody>
         <p className={styles.text}>
-          Entre novamente para continuar de onde parou.
+          Sign in again to pick up where you left off.
           {redirects &&
-            ' Você será levado à página de login e voltará para cá em seguida.'}
+            ' You will be taken to the login page and brought back here afterwards.'}
         </p>
         <ul className={styles.list}>
           {requests.map(request => (
@@ -84,14 +84,14 @@ export function LoginRequiredDialog() {
                 isDisabled={busy}
                 onPress={() => signIn(request)}
               >
-                {busy ? 'Aguarde…' : 'Entrar novamente'}
+                {busy ? 'Please wait…' : 'Sign in again'}
               </Button>
             </li>
           ))}
         </ul>
         {error && (
           <p className={styles.error} role="alert">
-            Não foi possível entrar: {error}
+            Could not sign in: {error}
           </p>
         )}
       </DialogBody>
@@ -103,7 +103,7 @@ export function LoginRequiredDialog() {
           isDisabled={busy}
           onPress={rejectAll}
         >
-          Agora não
+          Not now
         </Button>
       </DialogFooter>
     </Dialog>

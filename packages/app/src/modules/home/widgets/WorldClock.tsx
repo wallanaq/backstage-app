@@ -47,14 +47,14 @@ export function WorldClock({
   }, []);
 
   return (
-    <WidgetCard icon={<GlobeIcon />} title="Relógios mundiais">
+    <WidgetCard icon={<GlobeIcon />} title="World clocks">
       <ul className={styles.clocks}>
         {clocks.map(clock => (
           <li key={`${clock.label}-${clock.timeZone}`} className={styles.clock}>
             <span className={styles.clockIcon}>{iconFor(clock, now)}</span>
             <span className={styles.label}>{clock.label}</span>
             <time className={styles.time}>
-              {new Intl.DateTimeFormat('pt-BR', {
+              {new Intl.DateTimeFormat('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: hour12 ?? false,

@@ -24,7 +24,7 @@ const gettingStartedWidget = createExtension({
     homePageWidgetDataRef({
       node,
       name: 'GettingStarted',
-      title: 'Primeiros passos',
+      title: 'Getting started',
       component: <GettingStarted />,
     }),
   ],
@@ -47,7 +47,7 @@ export const devPortalHomePlugin = homePlugin.withOverrides({
         homePageWidgetDataRef({
           node,
           name: 'HomePageStarredEntities',
-          title: 'Suas entidades favoritas',
+          title: 'Your favorite entities',
           component: <FavoriteEntities />,
         }),
       ],
@@ -57,7 +57,7 @@ export const devPortalHomePlugin = homePlugin.withOverrides({
         homePageWidgetDataRef({
           node,
           name: 'HomePageToolkit',
-          title: 'Ferramentas',
+          title: 'Tools',
           component: <Toolkit tools={config.tools} />,
         }),
       ],
@@ -67,7 +67,7 @@ export const devPortalHomePlugin = homePlugin.withOverrides({
         homePageWidgetDataRef({
           node,
           name: 'HomePageRandomJoke',
-          title: 'Piada aleatória',
+          title: 'Random joke',
           component: <RandomJoke />,
         }),
       ],
@@ -77,7 +77,7 @@ export const devPortalHomePlugin = homePlugin.withOverrides({
         homePageWidgetDataRef({
           node,
           name: 'HomePageWorldClock',
-          title: 'Relógios mundiais',
+          title: 'World clocks',
           component: (
             <WorldClock
               clocks={config.clockConfigs}
@@ -92,7 +92,7 @@ export const devPortalHomePlugin = homePlugin.withOverrides({
         homePageWidgetDataRef({
           node,
           name: 'HomePageMostVisited',
-          title: 'Mais visitados',
+          title: 'Most visited',
           component: <MostVisited />,
         }),
       ],
@@ -102,7 +102,7 @@ export const devPortalHomePlugin = homePlugin.withOverrides({
         homePageWidgetDataRef({
           node,
           name: 'HomePageRecentlyVisited',
-          title: 'Visitados recentemente',
+          title: 'Recently visited',
           component: <RecentlyVisited />,
         }),
       ],

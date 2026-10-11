@@ -19,11 +19,11 @@ export const devPortalUserSettingsPlugin = userSettingsPlugin.withOverrides({
     userSettingsPlugin.getExtension('sub-page:user-settings/general').override({
       factory: originalFactory =>
         originalFactory({
-          params: { title: 'Geral', loader: async () => <GeneralTab /> },
+          params: { title: 'General', loader: async () => <GeneralTab /> },
         }),
     }),
-    subPage('profile', 'Perfil', ProfileTab),
-    subPage('identity', 'Identidade do Backstage', IdentityTab),
-    subPage('appearance', 'Aparência', AppearanceTab),
+    subPage('profile', 'Profile', ProfileTab),
+    subPage('identity', 'Backstage identity', IdentityTab),
+    subPage('appearance', 'Appearance', AppearanceTab),
   ],
 });

@@ -34,7 +34,7 @@ function iconFor(pathname: string): ReactNode {
   );
 }
 
-const times = (hits: number) => `${hits} ${hits === 1 ? 'vez' : 'vezes'}`;
+const times = (hits: number) => `${hits} ${hits === 1 ? 'visit' : 'visits'}`;
 
 function useVisits(query: Parameters<VisitsApi['list']>[0]) {
   const visitsApi = useApi(visitsApiRef);
@@ -69,7 +69,7 @@ function VisitList({
   if (visits.length === 0) {
     return (
       <p className={styles.empty}>
-        Nenhuma página visitada ainda. Navegue pelo portal e ela aparece aqui.
+        No pages visited yet. Browse the portal and they will show up here.
       </p>
     );
   }
@@ -100,7 +100,7 @@ export function MostVisited() {
   });
 
   return (
-    <WidgetCard icon={<ChartIcon />} title="Mais visitados">
+    <WidgetCard icon={<ChartIcon />} title="Most visited">
       <VisitList
         visits={expanded ? visits : visits.slice(0, PREVIEW)}
         showHits
@@ -112,7 +112,7 @@ export function MostVisited() {
             className={styles.moreButton}
             onClick={() => setExpanded(value => !value)}
           >
-            {expanded ? 'Ver menos' : 'Ver mais'}
+            {expanded ? 'Show less' : 'Show more'}
           </button>
         </div>
       )}
@@ -127,7 +127,7 @@ export function RecentlyVisited() {
   });
 
   return (
-    <WidgetCard icon={<HistoryIcon />} title="Visitados recentemente">
+    <WidgetCard icon={<HistoryIcon />} title="Recently visited">
       <VisitList visits={visits} showHits={false} />
     </WidgetCard>
   );

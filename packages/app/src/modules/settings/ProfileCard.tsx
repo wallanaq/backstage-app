@@ -38,17 +38,17 @@ export function ProfileCard() {
   return (
     <SettingsCard
       icon={<PersonIcon />}
-      title="Perfil"
+      title="Profile"
       action={
         <MenuTrigger>
           <ButtonIcon
             variant="tertiary"
             size="small"
             icon={<MoreIcon />}
-            aria-label="Mais opções"
+            aria-label="More options"
           />
           <Menu placement="bottom end">
-            <MenuItem onAction={() => identityApi.signOut()}>Sair</MenuItem>
+            <MenuItem onAction={() => identityApi.signOut()}>Sign out</MenuItem>
           </Menu>
         </MenuTrigger>
       }
@@ -64,7 +64,7 @@ export function ProfileCard() {
       </div>
 
       <div className={styles.field}>
-        <span className={styles.label}>Identificador do usuário</span>
+        <span className={styles.label}>User identifier</span>
         <code className={styles.code}>{userRef ?? '—'}</code>
       </div>
     </SettingsCard>

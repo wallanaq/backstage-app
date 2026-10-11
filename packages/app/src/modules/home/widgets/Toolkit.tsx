@@ -16,7 +16,7 @@ export function Toolkit({ tools }: { tools: Tool[] }) {
   const iconsApi = useApi(iconsApiRef);
 
   return (
-    <WidgetCard icon={<BuildIcon />} title="Ferramentas">
+    <WidgetCard icon={<BuildIcon />} title="Tools">
       <ul className={styles.tools}>
         {tools.map(tool => {
           const icon: ReactNode = (tool.icon && iconsApi.icon(tool.icon)) || (

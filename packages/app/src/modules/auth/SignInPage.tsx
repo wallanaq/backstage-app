@@ -101,11 +101,11 @@ export function DevPortalSignInPage({ onSignInSuccess }: SignInPageProps) {
         </div>
 
         <h1 id="sign-in-title" className={styles.title}>
-          Entrar no portal
+          Sign in to the portal
         </h1>
         <p className={styles.description}>
-          Use a sua conta do Keycloak para acessar o catálogo, os templates e a
-          documentação.
+          Use your Keycloak account to access the catalog, the templates and the
+          documentation.
         </p>
 
         <Button
@@ -115,15 +115,15 @@ export function DevPortalSignInPage({ onSignInSuccess }: SignInPageProps) {
           isDisabled={state !== 'idle'}
           onPress={signIn}
         >
-          {state === 'idle' ? 'Entrar com Keycloak' : 'Aguarde…'}
+          {state === 'idle' ? 'Sign in with Keycloak' : 'Please wait…'}
         </Button>
 
         <p className={styles.status} role={failure ? 'alert' : 'status'}>
           {failure !== undefined &&
-            'Não foi possível entrar. Se a conta é nova, aguarde a próxima sincronização do catálogo (até 1 minuto) e tente de novo.'}
+            'Could not sign in. If the account is new, wait for the next catalog sync (up to 1 minute) and try again.'}
           {state === 'restoring' &&
             failure === undefined &&
-            'Verificando a sessão…'}
+            'Checking the session…'}
         </p>
         {failure && <p className={styles.detail}>{failure}</p>}
       </section>

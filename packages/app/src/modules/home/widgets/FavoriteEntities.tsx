@@ -48,7 +48,7 @@ export function FavoriteEntities() {
   return (
     <WidgetCard
       icon={<StarBorderIcon />}
-      title="Suas entidades favoritas"
+      title="Your favorite entities"
       badge={entities.length}
     >
       {entities.length === 0 ? (
@@ -56,11 +56,11 @@ export function FavoriteEntities() {
           <span className={styles.emptyIcon}>
             <StarBorderIcon />
           </span>
-          <p className={styles.emptyTitle}>Você ainda não tem favoritos</p>
+          <p className={styles.emptyTitle}>You have no favorites yet</p>
           <p className={styles.emptyText}>
-            Clique na estrela ao lado de uma entidade
+            Click the star next to an entity
             <br />
-            para adicioná-la a esta lista.
+            to add it to this list.
           </p>
         </div>
       ) : (

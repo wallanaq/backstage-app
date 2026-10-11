@@ -8,12 +8,12 @@ import styles from './GettingStarted.module.css';
 
 const RESOURCES = [
   {
-    label: 'Documentação',
+    label: 'Documentation',
     href: 'https://backstage.io/docs',
     icon: <BookIcon />,
   },
   {
-    label: 'GitHub do Backstage',
+    label: 'Backstage on GitHub',
     href: 'https://github.com/backstage/backstage',
     icon: <GitHubIcon />,
   },
@@ -21,24 +21,24 @@ const RESOURCES = [
 
 export function GettingStarted() {
   return (
-    <WidgetCard icon={<CompassIcon />} title="Primeiros passos">
+    <WidgetCard icon={<CompassIcon />} title="Getting started">
       <div className={styles.content}>
         <section className={styles.intro}>
           <span className={styles.logo}>
             <LayersIcon />
           </span>
-          <h3 className={styles.welcome}>Bem-vindo ao Backstage! 👋</h3>
+          <h3 className={styles.welcome}>Welcome to Backstage! 👋</h3>
           <p className={styles.text}>
-            Um lugar central para gerenciar seus serviços de software, APIs e
-            documentação.
+            A central place to manage your software services, APIs and
+            documentation.
           </p>
         </section>
 
         <section className={styles.about}>
           <p className={styles.text}>
-            O Backstage é uma plataforma aberta para construir portais de
-            desenvolvedores. Reúne ferramentas, padrões e informações para
-            facilitar o seu dia a dia.
+            Backstage is an open platform for building developer portals. It
+            brings tools, standards and information together to make your
+            day-to-day easier.
           </p>
           <ul className={styles.resources}>
             {RESOURCES.map(resource => (
@@ -61,14 +61,14 @@ export function GettingStarted() {
         <hr className={styles.divider} />
 
         <section className={styles.custom}>
-          <h3 className={styles.customTitle}>Seu portal, do seu jeito</h3>
+          <h3 className={styles.customTitle}>Your portal, your way</h3>
           <p className={styles.text}>
-            Esta é uma instalação de demonstração. Explore as funcionalidades e
-            veja como o Backstage pode se adaptar à sua organização.
+            This is a demo installation. Explore the features and see how
+            Backstage can adapt to your organization.
           </p>
           <p className={styles.text}>
-            Você também pode personalizar esta página e os widgets para
-            acompanhar o que é mais importante para você.
+            You can also customize this page and its widgets to follow what
+            matters most to you.
           </p>
         </section>
       </div>

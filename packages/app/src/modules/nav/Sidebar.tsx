@@ -15,13 +15,13 @@ import styles from './Sidebar.module.css';
 // Page extension ids -> label shown in the sidebar (falls back to the
 // title the plugin registered).
 const LABELS: Record<string, string> = {
-  'page:home': 'Início',
-  'page:catalog': 'Catálogo',
+  'page:home': 'Home',
+  'page:catalog': 'Catalog',
   'page:api-docs': 'APIs',
-  'page:techdocs': 'Documentação',
-  'page:scaffolder': 'Criar componente',
-  'page:notifications': 'Notificações',
-  'page:user-settings': 'Configurações',
+  'page:techdocs': 'Documentation',
+  'page:scaffolder': 'Create component',
+  'page:notifications': 'Notifications',
+  'page:user-settings': 'Settings',
 };
 
 const WORKSPACE = [
@@ -108,7 +108,7 @@ function DevPortalNavItem({ node, href, title, icon }: NavContentNavItem) {
 
 function Brand() {
   return (
-    <NavLink to="/" className={styles.brand} aria-label="Início">
+    <NavLink to="/" className={styles.brand} aria-label="Home">
       <span className={styles.brandSymbol} aria-hidden>
         <span style={{ height: 18 }} />
         <span style={{ height: 30 }} />
@@ -154,7 +154,7 @@ function SearchButton({ href }: { href: string }) {
       onClick={open}
     >
       <SearchIcon className={styles.searchIcon} />
-      <span className={styles.searchLabel}>{active ? 'Busca' : 'Buscar'}</span>
+      <span className={styles.searchLabel}>Search</span>
       <kbd className={styles.searchShortcut}>⌘ K</kbd>
     </button>
   );
@@ -202,18 +202,18 @@ export const SidebarContent = NavContentBlueprint.make({
       const settingsHref = bag.take('page:user-settings')?.href;
 
       return (
-        <nav className={styles.root} aria-label="Navegação principal">
+        <nav className={styles.root} aria-label="Main navigation">
           <Brand />
           {searchHref && <SearchButton href={searchHref} />}
 
           <div className={styles.section}>
-            <div className={styles.sectionTitle}>Área de trabalho</div>
+            <div className={styles.sectionTitle}>Workspace</div>
             {workspace}
           </div>
 
           {organization.length > 0 && (
             <div className={styles.section}>
-              <div className={styles.sectionTitle}>Organização</div>
+              <div className={styles.sectionTitle}>Organization</div>
               {organization}
             </div>
           )}

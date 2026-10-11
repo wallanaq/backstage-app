@@ -33,11 +33,11 @@ function HomeHeader() {
       <div className={styles.welcome}>
         <div className={styles.greeting}>
           <h1 className={styles.title}>
-            {profile ? `Olá, ${profile.name}!` : 'Olá!'}
+            {profile ? `Hello, ${profile.name}!` : 'Hello!'}
           </h1>
           <p className={styles.description}>
-            Seu ponto de partida para desenvolver, explorar e encontrar o que
-            precisa no Backstage.
+            Your starting point to build, explore and find what you need in
+            Backstage.
           </p>
         </div>
         <SupportMenu variant="button" />
@@ -49,7 +49,7 @@ function HomeHeader() {
           onClick={() => navigate('/search')}
         >
           <SearchIcon className={styles.searchIcon} />
-          <span className={styles.searchLabel}>Buscar no {organization}</span>
+          <span className={styles.searchLabel}>Search {organization}</span>
           <kbd className={styles.shortcut}>⌘ K</kbd>
         </button>
       </div>

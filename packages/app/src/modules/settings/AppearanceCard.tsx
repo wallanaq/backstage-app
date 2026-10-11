@@ -7,9 +7,9 @@ import styles from './AppearanceCard.module.css';
 type ThemeChoice = 'light' | 'dark' | 'auto';
 
 const OPTIONS: { id: ThemeChoice; label: string }[] = [
-  { id: 'light', label: 'Claro' },
-  { id: 'dark', label: 'Escuro' },
-  { id: 'auto', label: 'Automático' },
+  { id: 'light', label: 'Light' },
+  { id: 'dark', label: 'Dark' },
+  { id: 'auto', label: 'Auto' },
 ];
 
 /** A miniature of the portal in the colors of a theme. */
@@ -64,11 +64,11 @@ export function AppearanceCard() {
   const { selected, choose, available } = useThemeChoice();
 
   return (
-    <SettingsCard icon={<PaletteIcon />} title="Aparência">
+    <SettingsCard icon={<PaletteIcon />} title="Appearance">
       <fieldset className={styles.theme}>
         <legend className={styles.legend}>
-          <span className={styles.heading}>Tema</span>
-          <span className={styles.hint}>Altere o tema do Backstage.</span>
+          <span className={styles.heading}>Theme</span>
+          <span className={styles.hint}>Change the Backstage theme.</span>
         </legend>
 
         <div className={styles.options}>

@@ -15,14 +15,14 @@ import styles from './PageLayout.module.css';
 
 // Plugins register their page titles in English.
 const TITLES: Record<string, string> = {
-  Home: 'Início',
-  Docs: 'Documentação',
-  Catalog: 'Catálogo',
-  'Catalog Graph': 'Grafo do catálogo',
-  Create: 'Criar',
-  Search: 'Busca',
-  Settings: 'Configurações',
-  Notifications: 'Notificações',
+  Home: 'Home',
+  Docs: 'Documentation',
+  Catalog: 'Catalog',
+  'Catalog Graph': 'Catalog graph',
+  Create: 'Create',
+  Search: 'Search',
+  Settings: 'Settings',
+  Notifications: 'Notifications',
 };
 
 const translate = (label: string) => TITLES[label] ?? label;
@@ -41,14 +41,14 @@ const VISIBLE_TABS: Record<string, string[]> = {
 // Pages with a title block between the top bar and the tabs, by route.
 const HEADERS: Record<string, { title: string; description: string }> = {
   '/create': {
-    title: 'Criar um novo componente',
+    title: 'Create a new component',
     description:
-      'Escolha um template para começar com os padrões e boas práticas da organização.',
+      'Choose a template to start with the standards and best practices of the organization.',
   },
   '/settings': {
-    title: 'Configurações',
+    title: 'Settings',
     description:
-      'Consulte seu perfil e sua identidade no Backstage e personalize a aparência do portal.',
+      'Check your profile and your identity in Backstage and customize the look of the portal.',
   },
 };
 
@@ -87,9 +87,7 @@ function NotificationsButton() {
           ? `${styles.iconButton} ${styles.iconButtonActive}`
           : styles.iconButton
       }
-      aria-label={
-        unread ? `Notificações (${unread} não lidas)` : 'Notificações'
-      }
+      aria-label={unread ? `Notifications (${unread} unread)` : 'Notifications'}
     >
       <NotificationsIcon />
       {unread ? <span className={styles.badge} aria-hidden /> : null}
@@ -139,7 +137,7 @@ export function TopBar({
   return (
     <div className={styles.topBar}>
       <nav aria-label="Breadcrumb" className={styles.breadcrumbs}>
-        <NavLink to="/" className={styles.home} aria-label="Início">
+        <NavLink to="/" className={styles.home} aria-label="Home">
           <HomeIcon />
         </NavLink>
         {items.map((item, index) => {
@@ -195,7 +193,7 @@ function DevPortalPageLayout(props: PageLayoutProps) {
         />
       )}
       {resolvedTabs && resolvedTabs.length > 0 && (
-        <nav aria-label="Seções" className={styles.tabs}>
+        <nav aria-label="Sections" className={styles.tabs}>
           {resolvedTabs.map(tab => (
             <NavLink
               key={tab.id}

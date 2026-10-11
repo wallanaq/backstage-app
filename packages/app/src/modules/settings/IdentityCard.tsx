@@ -77,14 +77,14 @@ export function IdentityCard() {
   const refs = useIdentityRefs();
 
   return (
-    <SettingsCard icon={<FingerprintIcon />} title="Identidade do Backstage">
+    <SettingsCard icon={<FingerprintIcon />} title="Backstage identity">
       <div className={styles.section}>
-        <span className={styles.label}>Entidade do usuário</span>
+        <span className={styles.label}>User entity</span>
         {refs && <EntityChip entityRef={toRef(refs.user)} variant="link" />}
       </div>
 
       <div className={`${styles.section} ${styles.separated}`}>
-        <span className={styles.label}>Vínculos de propriedade</span>
+        <span className={styles.label}>Ownership claims</span>
         <div className={styles.chips}>
           {refs?.ownership.map(ref => (
             <EntityChip key={ref} entityRef={toRef(ref)} variant="chip" />
