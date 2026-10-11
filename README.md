@@ -100,18 +100,17 @@ To run only one side: `yarn workspace app start` or `yarn workspace backend star
 
 ## Configuration
 
-| File                         | Use                                                              |
-| ---------------------------- | ---------------------------------------------------------------- |
-| `app-config.yaml`            | Local development                                                |
-| `app-config.production.yaml` | Production overrides (PostgreSQL, same port for app and backend) |
-| `app-config.local.yaml`      | Your own overrides; git ignores `*.local.yaml`                   |
+| File                    | Use                                            |
+| ----------------------- | ---------------------------------------------- |
+| `app-config.yaml`       | Local development                              |
+| `app-config.local.yaml` | Your own overrides; git ignores `*.local.yaml` |
 
 Environment variables:
 
 | Variable                                                               | When                                                                           |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | `GITHUB_TOKEN`                                                         | Only for GitHub-backed features such as the `publish:github` scaffolder action |
-| `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD` | Production config                                                              |
+| `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD` | Database (the defaults point at the lab Postgres)                              |
 
 Notes on `app-config.yaml`:
 
@@ -150,8 +149,8 @@ yarn build:backend
 yarn build-image   # docker build, tag "backstage"
 ```
 
-The image uses `app-config.yaml` plus `app-config.production.yaml`, so it needs the `POSTGRES_*`
-variables. See `packages/backend/Dockerfile`.
+The image uses only `app-config.yaml` (a local lab has no production profile), so the defaults
+point at the lab cluster and the `POSTGRES_*` variables override them. See `packages/backend/Dockerfile`.
 
 ## Project layout
 

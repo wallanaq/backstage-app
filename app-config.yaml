@@ -74,7 +74,6 @@ backend:
     credentials: true
   # The shared Postgres of the lab (make postgres). It is reached through the TCPRoute of
   # istio-gateway; override the host and credentials with the POSTGRES_* variables.
-  # The production database configuration is stored in app-config.production.yaml
   database:
     client: pg
     connection:
