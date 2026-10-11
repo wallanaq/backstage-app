@@ -1,0 +1,65 @@
+.text {
+  margin: 0 0 16px;
+  font-family: var(--bui-font-regular);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--bui-fg-secondary);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--bui-border-1);
+  border-radius: var(--bui-radius-3);
+  background: var(--bui-bg-neutral-2);
+  font-family: var(--bui-font-regular);
+}
+
+.provider {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--bui-fg-primary);
+}
+
+.message {
+  font-size: 12px;
+  color: var(--bui-fg-secondary);
+}
+
+.error {
+  margin: 12px 0 0;
+  font-family: var(--bui-font-regular);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--bui-fg-danger);
+}
+
+/* Same size as the other buttons of the app (13px). */
+.primary {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.secondary {
+  font-size: 13px;
+  font-weight: 500;
+}

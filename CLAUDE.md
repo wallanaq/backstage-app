@@ -106,7 +106,7 @@ Talk to the user in Portuguese (pt-BR); write code, comments, docs and commits i
   big responses. `*.localhost` (extra Gateway listener) avoids all three. Use it for any app the browser
   must open.
 - The OIDC provider needs `auth.session.secret`, otherwise `/oidc/start` fails with "authentication
-  requires session support". The sign-in page is `sign-in-page:app` replaced from `modules/auth`.
+  requires session support". The sign-in page (`sign-in-page:app`) and the "session expired" dialog (`app-root-element:app/oauth-request-dialog`, stock MUI "Login Required") are replaced from `modules/auth`.
 - Secrets are not in `app-config.yaml` (no `:-default` for them): they are in `.env.yarn` (git ignores it),
   which Yarn injects into `yarn start` and `yarn workspace backend start`; `.env.yarn.example` is the template.
   When you add a secret, add it to the template (empty) and keep a default only for non-sensitive values.
