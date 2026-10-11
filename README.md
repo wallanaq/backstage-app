@@ -88,7 +88,14 @@ one (Keycloak did, see `infra/postgres/cluster.yaml`). The targets are safe to r
 - If the lab was installed with an older version of this repo (Helm), remove the releases first with
   `helm uninstall ztunnel istio-cni istiod istio-base -n istio-system` and `helm uninstall cnpg -n cnpg-system`.
   The CRDs are kept (`helm.sh/resource-policy: keep`), so the Postgres data is not touched.
-- Workloads are not enrolled in the ambient mesh yet (no `istio.io/dataplane-mode` label).
+- Ambient mesh: only the `keycloak` namespace is enrolled (label `istio.io/dataplane-mode: ambient`, set in
+  `infra/keycloak/keycloak.yaml`); `postgres` and `cnpg-system` are not. The rule: the application
+  ecosystem (apps, identity, databases, Kafka, cache) goes in, and what is structural (istiod, CNI, operators)
+  stays out. Enrolling or leaving needs no restart, but connections that are open at that moment are dropped
+  (Keycloak logs one `This connection has been closed` and reconnects). The gateway reaches an enrolled
+  pod over HBONE by itself, and plain callers outside the mesh are still accepted (permissive; there is no
+  `PeerAuthentication` or `AuthorizationPolicy` yet). To look: `istioctl --context orbstack ztunnel-config workloads`
+  (protocol `HBONE` = enrolled) and `ztunnel-config connections`.
 - Credentials are plain text on purpose (lab only) and there is no TLS.
 - Keycloak imports the realm only when it does not exist yet. After changing `realm-backstage.json`,
   delete the realm `backstage` in the admin console (or drop the database `keycloak`) and run

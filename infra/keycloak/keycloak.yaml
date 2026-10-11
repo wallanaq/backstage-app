@@ -6,10 +6,15 @@
 # The realm "backstage" comes from the ConfigMap keycloak-realm, which the Makefile builds from
 # realm-backstage.json. The database is the shared Postgres (role and database "keycloak").
 # Lab credentials are plain on purpose and there is no TLS.
+# In the Istio ambient mesh: ztunnel gives the pods mTLS (HBONE) and L4 telemetry, with no
+# restart and no change in how they are reached. To leave the mesh, remove the label
+# (kubectl label namespace keycloak istio.io/dataplane-mode-).
 apiVersion: v1
 kind: Namespace
 metadata:
   name: keycloak
+  labels:
+    istio.io/dataplane-mode: ambient
 ---
 # Credentials of the role "keycloak" of the shared Postgres (the same values as the Secret
 # postgres-keycloak, which lives in another namespace), and of the master realm admin.

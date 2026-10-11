@@ -111,7 +111,9 @@ local `istioctl` must be `ISTIO_VERSION`), CloudNativePG is its release manifest
 (`infra/postgres/operator`), Keycloak is plain manifests. `make istio`, `make postgres`, `make keycloak` (see README). Gotchas: OrbStack
 is k3s (CNI paths in `infra/istio/operator.yaml`); `TCPRoute` needs `PILOT_ENABLE_ALPHA_GATEWAY_API`;
 CNPG managed roles need their Secret labeled `cnpg.io/reload: "true"`; Keycloak imports its realm only
-when it does not exist (`realm-backstage.json` is the only source). Always pass the cluster by
+when it does not exist (`realm-backstage.json` is the only source). The ambient mesh holds the application ecosystem (apps, identity, databases, Kafka, cache), not what is
+structural (istiod, CNI, operators such as `cnpg-system`); today only `keycloak` is enrolled, by the label on
+its Namespace. Always pass the cluster by
 context (`orbstack`). `yarn start` needs the cluster Postgres running. Remove test resources you create.
 
 ## Not done yet
