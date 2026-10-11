@@ -37,16 +37,15 @@ export function MissingDocs() {
   const annotationLine = lines.findIndex(line => line.includes(ANNOTATION));
 
   return (
-    <DpCard icon={<BookIcon />} title="Documentação">
+    <DpCard icon={<BookIcon />} title="Documentation">
       <div className={styles.intro}>
         <EmptyState icon={<BookIcon />}>
-          Esta entidade ainda não tem documentação. Para ativar o TechDocs,
-          adicione a anotação{' '}
-          <code className={styles.inline}>{ANNOTATION}</code> ao YAML da
-          entidade, como no destaque abaixo.
+          This entity has no documentation yet. To enable TechDocs, add the{' '}
+          <code className={styles.inline}>{ANNOTATION}</code> annotation to the
+          entity YAML, as highlighted below.
         </EmptyState>
       </div>
-      <pre className={styles.code} aria-label="Exemplo de YAML da entidade">
+      <pre className={styles.code} aria-label="Entity YAML example">
         {lines.map((line, index) => (
           <span
             key={line}
@@ -69,7 +68,7 @@ export function MissingDocs() {
           size="medium"
           className={styles.button}
         >
-          Saiba mais
+          Learn more
         </ButtonLink>
       </div>
     </DpCard>

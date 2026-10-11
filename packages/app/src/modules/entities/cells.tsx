@@ -167,7 +167,9 @@ export function FavoriteButton({ entity }: { entity: Entity }) {
       type="button"
       className={styles.iconAction}
       aria-pressed={isStarredEntity}
-      aria-label={isStarredEntity ? 'Remover dos favoritos' : 'Favoritar'}
+      aria-label={
+        isStarredEntity ? 'Remove from favorites' : 'Add to favorites'
+      }
       onClick={toggleStarredEntity}
     >
       {isStarredEntity ? (

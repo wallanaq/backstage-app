@@ -60,7 +60,7 @@ export function Field({
 
 const ALL = 'all';
 
-/** Single choice over the `spec.type` of the entities, with "Todos". */
+/** Single choice over the `spec.type` of the entities, with "All". */
 export function TypeSelect({ scope }: { scope: ListScope }) {
   const types = useFacet(scope, 'spec.type');
   const { queryParameters, updateFilters } = useEntityList();
@@ -75,14 +75,14 @@ export function TypeSelect({ scope }: { scope: ListScope }) {
   }, [selected, updateFilters]);
 
   return (
-    <Field label="Tipo">
+    <Field label="Type">
       <Select
-        aria-label="Tipo"
+        aria-label="Type"
         size="medium"
         className={styles.select}
         selectionMode="single"
         options={[
-          { id: ALL, label: 'Todos' },
+          { id: ALL, label: 'All' },
           ...types.map(type => ({ id: type, label: type })),
         ]}
         value={selected}
@@ -129,7 +129,7 @@ function MultiSelect({
         size="medium"
         className={styles.select}
         selectionMode="multiple"
-        placeholder="Todos"
+        placeholder="All"
         options={values.map(value => ({ id: value, label: format(value) }))}
         value={selected}
         onChange={keys => setSelected([...keys].map(String))}
@@ -141,7 +141,7 @@ function MultiSelect({
 export function OwnerSelect({ scope }: { scope: ListScope }) {
   return (
     <MultiSelect
-      label="Responsável"
+      label="Owner"
       scope={scope}
       facet="relations.ownedBy"
       queryKey="owners"
@@ -156,7 +156,7 @@ export function OwnerSelect({ scope }: { scope: ListScope }) {
 export function LifecycleSelect({ scope }: { scope: ListScope }) {
   return (
     <MultiSelect
-      label="Ciclo de vida"
+      label="Lifecycle"
       scope={scope}
       facet="spec.lifecycle"
       queryKey="lifecycles"

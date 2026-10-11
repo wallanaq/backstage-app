@@ -26,13 +26,13 @@ export function SupportMenu({ variant }: { variant: 'icon' | 'button' }) {
           iconStart={<HelpIcon />}
           className={styles.button}
         >
-          Suporte
+          Support
         </Button>
       ) : (
         <ButtonIcon
           variant="tertiary"
           icon={<HelpIcon />}
-          aria-label="Suporte"
+          aria-label="Support"
         />
       )}
       <Menu placement="bottom end">

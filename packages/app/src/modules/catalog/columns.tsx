@@ -22,7 +22,7 @@ export const sortFields = {
 export const columns: ColumnConfig<EntityRow>[] = [
   {
     id: 'name',
-    label: 'Nome',
+    label: 'Name',
     isRowHeader: true,
     isSortable: true,
     width: 230,
@@ -34,7 +34,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'owner',
-    label: 'Responsável',
+    label: 'Owner',
     width: 190,
     cell: ({ entity }) => (
       <Cell>
@@ -44,7 +44,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'lifecycle',
-    label: 'Ciclo de vida',
+    label: 'Lifecycle',
     isSortable: true,
     width: 140,
     cell: ({ entity }) => (
@@ -55,7 +55,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'description',
-    label: 'Descrição',
+    label: 'Description',
     cell: ({ entity }) => (
       <Cell>
         <Description entity={entity} />
@@ -64,14 +64,14 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'actions',
-    label: 'Ações',
+    label: 'Actions',
     width: 100,
     cell: ({ entity }) => {
       const sourceUrl = entity.metadata.annotations?.[ANNOTATION_VIEW_URL];
       return (
         <Cell>
           <Actions>
-            <IconLink href={sourceUrl} label="Abrir repositório">
+            <IconLink href={sourceUrl} label="Open repository">
               {sourceUrl?.includes('github.com') ? (
                 <GitHubIcon />
               ) : (

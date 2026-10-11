@@ -23,11 +23,11 @@ import styles from './CatalogPage.module.css';
 
 // Tabs map to the `spec.type` of components.
 const CATEGORIES = [
-  { type: 'service', label: 'Serviços', plural: 'serviços' },
+  { type: 'service', label: 'Services', plural: 'services' },
   { type: 'website', label: 'Websites', plural: 'websites' },
-  { type: 'library', label: 'Bibliotecas', plural: 'bibliotecas' },
-  { type: 'documentation', label: 'Documentação', plural: 'documentações' },
-  { type: 'other', label: 'Outros', plural: 'outros componentes' },
+  { type: 'library', label: 'Libraries', plural: 'libraries' },
+  { type: 'documentation', label: 'Documentation', plural: 'documentation' },
+  { type: 'other', label: 'Others', plural: 'other components' },
 ];
 
 /** Component type selected on the tabs, kept in sync with the entity list. */
@@ -64,7 +64,7 @@ function CreateButton() {
   }
   return (
     <ButtonLink variant="primary" href={href} iconStart={<AddIcon />}>
-      Criar componente
+      Create component
     </ButtonLink>
   );
 }
@@ -77,14 +77,14 @@ function CatalogPageBody() {
     <BreadcrumbEntry entry={{ label: category.label, href: '' }}>
       <header className={styles.welcome}>
         <h1 className={styles.greeting}>
-          {profile ? `Olá, ${profile.name}!` : 'Olá!'}
+          {profile ? `Hello, ${profile.name}!` : 'Hello!'}
         </h1>
         <p className={styles.greetingText}>
-          Seu ponto de partida para explorar o catálogo de serviços.
+          Your starting point to explore the service catalog.
         </p>
       </header>
 
-      <div className={styles.tabs} role="tablist" aria-label="Categorias">
+      <div className={styles.tabs} role="tablist" aria-label="Categories">
         {CATEGORIES.map(({ type, label }) => (
           <button
             key={type}
@@ -108,7 +108,7 @@ function CatalogPageBody() {
           <div>
             <h2 className={styles.title}>{category.label}</h2>
             <p className={styles.description}>
-              Explore os componentes, seus responsáveis e ciclos de vida.
+              Explore the components, their owners and lifecycles.
             </p>
           </div>
           <div className={styles.actions}>
@@ -120,20 +120,20 @@ function CatalogPageBody() {
         <div className={styles.layout}>
           <UserFilters
             scope={{ kind: 'component', type: category.type }}
-            ownedLabel={`Meus ${category.plural}`}
+            ownedLabel={`My ${category.plural}`}
             allIcon={<LayersIcon />}
           />
           <EntityListCard
-            heading={`Todos os ${category.plural}`}
+            heading={`All ${category.plural}`}
             plural={category.plural}
-            searchPlaceholder={`Buscar ${category.plural}...`}
+            searchPlaceholder={`Search ${category.plural}...`}
             columns={columns}
             sortFields={sortFields}
           />
         </div>
         <PageNote>
-          Os dados de cada serviço são definidos no arquivo catalog-info.yaml do
-          seu repositório.
+          The data of each service is defined in the catalog-info.yaml file of
+          its repository.
         </PageNote>
       </div>
     </BreadcrumbEntry>

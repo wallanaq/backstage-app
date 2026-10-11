@@ -118,9 +118,9 @@ export interface UserFiltersProps {
   scope: ListScope;
   /** "Meus serviços", "Minhas APIs"... */
   ownedLabel: string;
-  /** Title of the section with the "Todos" item. */
+  /** Title of the section with the "All" item. */
   entitiesTitle?: string;
-  /** Icon of the "Todos" item. */
+  /** Icon of the "All" item. */
   allIcon: ReactNode;
   /** Rendered above the personal filters. */
   before?: ReactNode;
@@ -128,11 +128,11 @@ export interface UserFiltersProps {
   after?: ReactNode;
 }
 
-/** The "Pessoal" / "Entidades" filter column of the list pages. */
+/** The "Personal" / "Entities" filter column of the list pages. */
 export function UserFilters({
   scope,
   ownedLabel,
-  entitiesTitle = 'Entidades',
+  entitiesTitle = 'Entities',
   allIcon,
   before,
   after,
@@ -144,7 +144,7 @@ export function UserFilters({
     <FilterColumn>
       {before}
 
-      <FilterSection title="Pessoal">
+      <FilterSection title="Personal">
         <FilterItem
           icon={<PersonIcon />}
           label={ownedLabel}
@@ -154,7 +154,7 @@ export function UserFilters({
         />
         <FilterItem
           icon={<StarIcon />}
-          label="Favoritos"
+          label="Favorites"
           count={counts.starred}
           active={selected === 'starred'}
           onClick={() => setSelected('starred')}
@@ -166,7 +166,7 @@ export function UserFilters({
       <FilterSection title={entitiesTitle}>
         <FilterItem
           icon={allIcon}
-          label="Todos"
+          label="All"
           count={counts.all}
           active={selected === 'all'}
           onClick={() => setSelected('all')}

@@ -20,7 +20,7 @@ export interface EntityRow extends TableItem {
 
 const PAGE_SIZES = [10, 20, 50].map(value => ({
   value,
-  label: `Linhas por página: ${value}`,
+  label: `Rows per page: ${value}`,
 }));
 
 function pageLabel(
@@ -42,7 +42,7 @@ function pageLabel(
     return `0 ${plural}`;
   }
   const to = Math.min(offset + pageSize, totalCount);
-  return `Mostrando ${offset + 1}–${to} de ${totalCount} ${plural}`;
+  return `Showing ${offset + 1}–${to} of ${totalCount} ${plural}`;
 }
 
 function SearchBox({ placeholder }: { placeholder: string }) {
@@ -156,9 +156,7 @@ export function EntityListCard({
         isPending={loading}
         error={error}
         sort={{ descriptor: sort, onSortChange }}
-        emptyState={
-          <div className={styles.empty}>Nenhum resultado encontrado.</div>
-        }
+        emptyState={<div className={styles.empty}>No results found.</div>}
         pagination={
           paginationMode === 'none'
             ? { type: 'none' }

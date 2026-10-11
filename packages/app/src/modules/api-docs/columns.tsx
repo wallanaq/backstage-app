@@ -30,7 +30,7 @@ export const sortFields = {
 export const columns: ColumnConfig<EntityRow>[] = [
   {
     id: 'name',
-    label: 'Nome',
+    label: 'Name',
     isRowHeader: true,
     isSortable: true,
     width: 220,
@@ -42,7 +42,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'system',
-    label: 'Sistema',
+    label: 'System',
     width: 100,
     cell: ({ entity }) => {
       const [system] = getEntityRelations(entity, RELATION_PART_OF, {
@@ -55,7 +55,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'owner',
-    label: 'Responsável',
+    label: 'Owner',
     width: 170,
     cell: ({ entity }) => (
       <Cell>
@@ -65,7 +65,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'type',
-    label: 'Tipo',
+    label: 'Type',
     width: 100,
     cell: ({ entity }) => (
       <Cell>
@@ -75,7 +75,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'lifecycle',
-    label: 'Ciclo de vida',
+    label: 'Lifecycle',
     isSortable: true,
     width: 130,
     cell: ({ entity }) => (
@@ -86,7 +86,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'description',
-    label: 'Descrição',
+    label: 'Description',
     cell: ({ entity }) => (
       <Cell>
         <Description entity={entity} truncate />
@@ -105,20 +105,20 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'actions',
-    label: 'Ações',
+    label: 'Actions',
     width: 100,
     cell: ({ entity }) => (
       <Cell>
         <Actions compact>
           <IconLink
             href={entity.metadata.annotations?.[ANNOTATION_VIEW_URL]}
-            label="Abrir API"
+            label="Open API"
           >
             <OpenInNewIcon />
           </IconLink>
           <IconLink
             href={entity.metadata.annotations?.[ANNOTATION_EDIT_URL]}
-            label="Editar API"
+            label="Edit API"
           >
             <EditIcon />
           </IconLink>

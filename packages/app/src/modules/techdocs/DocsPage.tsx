@@ -39,9 +39,9 @@ function DocsBody() {
     <>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.title}>Documentação</h1>
+          <h1 className={styles.title}>Documentation</h1>
           <p className={styles.description}>
-            Explore a documentação dos componentes e encontre seus responsáveis.
+            Explore the documentation of the components and find their owners.
           </p>
         </div>
         <SupportMenu variant="button" />
@@ -50,8 +50,8 @@ function DocsBody() {
       <div className={styles.body}>
         <UserFilters
           scope={SCOPE}
-          ownedLabel="Meus documentos"
-          entitiesTitle="Documentos"
+          ownedLabel="My documents"
+          entitiesTitle="Documents"
           allIcon={<BookIcon />}
           after={
             <>
@@ -61,9 +61,9 @@ function DocsBody() {
           }
         />
         <EntityListCard
-          heading="Todos os documentos"
-          plural="documentos"
-          searchPlaceholder="Filtrar documentos..."
+          heading="All documents"
+          plural="documents"
+          searchPlaceholder="Filter documents..."
           columns={columns}
           sortFields={{}}
         />

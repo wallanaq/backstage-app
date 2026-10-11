@@ -31,9 +31,9 @@ function ApiExplorerBody() {
     <>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.title}>Explorador de APIs</h1>
+          <h1 className={styles.title}>API explorer</h1>
           <p className={styles.description}>
-            Explore as APIs, seus responsáveis e ciclos de vida.
+            Explore the APIs, their owners and lifecycles.
           </p>
         </div>
         <SupportMenu variant="button" />
@@ -43,7 +43,7 @@ function ApiExplorerBody() {
         <div className={styles.layout}>
           <UserFilters
             scope={{ kind: KIND }}
-            ownedLabel="Minhas APIs"
+            ownedLabel="My APIs"
             allIcon={<AppIcon id="kind:api" />}
             before={<TypeSelect scope={{ kind: KIND }} />}
             after={
@@ -55,17 +55,17 @@ function ApiExplorerBody() {
             }
           />
           <EntityListCard
-            heading="Todas as APIs"
+            heading="All APIs"
             plural="APIs"
-            searchPlaceholder="Filtrar APIs..."
+            searchPlaceholder="Filter APIs..."
             columns={columns}
             sortFields={sortFields}
             density="compact"
           />
         </div>
         <PageNote>
-          Os dados de cada API são definidos no arquivo catalog-info.yaml do seu
-          repositório.
+          The data of each API is defined in the catalog-info.yaml file of its
+          repository.
         </PageNote>
       </div>
     </>

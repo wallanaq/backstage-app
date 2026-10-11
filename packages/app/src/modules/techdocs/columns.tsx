@@ -53,7 +53,7 @@ function Owner({ entity }: { entity: Entity }) {
 export const columns: ColumnConfig<EntityRow>[] = [
   {
     id: 'description',
-    label: 'Descrição',
+    label: 'Description',
     isRowHeader: true,
     cell: ({ entity }) => (
       <Cell>
@@ -71,7 +71,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'owner',
-    label: 'Responsável',
+    label: 'Owner',
     width: 210,
     cell: ({ entity }) => (
       <Cell>
@@ -81,7 +81,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'kind',
-    label: 'Categoria',
+    label: 'Category',
     width: 120,
     cell: ({ entity }) => (
       <Cell>
@@ -91,7 +91,7 @@ export const columns: ColumnConfig<EntityRow>[] = [
   },
   {
     id: 'type',
-    label: 'Tipo',
+    label: 'Type',
     width: 95,
     cell: ({ entity }) => (
       <Cell>
